@@ -22,7 +22,6 @@
 - Fer revisar «Scachs» per un advocat de marques: SCACS S.A. té marca a les classes 35/42 i «escacs» pot ser descriptiu.
 - Escriure a chess.com (legal@chess.com) per l'ús de la seva API pública en una app. Les seves condicions limiten l'accés automatitzat i no parlen de l'API pública.
 - Fer-hi repassar les 30 lliçons per un jugador fort.
-- Reajustar el model de classes (`ExpectedPoints`) amb dades CC0 de Lichess.
 - Mesurar calor i temps d'anàlisi en un iPhone real i en el més antic que admeti iOS 26.
 
 ## Versió

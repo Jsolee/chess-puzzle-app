@@ -4,10 +4,9 @@ struct GamesView: View {
     private var library: GameLibrary { .shared }
     @State private var showAdd = false
     @State private var showAccounts = false
+    @Environment(\.scenePhase) private var scenePhase
     /// Decided once, not from the live text: otherwise the first typed letter swaps out the field being typed in.
     @State private var started = !GameLibrary.shared.chessComUsername.isEmpty || !GameLibrary.shared.lichessUsername.isEmpty
-
-    private var hasAccounts: Bool { !library.chessComUsername.isEmpty || !library.lichessUsername.isEmpty }
 
     var body: some View {
         NavigationStack {
@@ -23,8 +22,11 @@ struct GamesView: View {
                 }
             }
             .sheet(isPresented: $showAdd) { AddGameSheet() }
-            .sheet(isPresented: $showAccounts) { AccountsSheet() }
-            .task { if hasAccounts && library.games.isEmpty { await library.refresh() } }
+            .sheet(isPresented: $showAccounts, onDismiss: { Task { await library.refreshIfStale() } }) { AccountsSheet() }
+            .task { await library.refreshIfStale() }
+            .onChange(of: scenePhase) { _, phase in
+                if phase == .active { Task { await library.refreshIfStale() } }
+            }
             .onChange(of: library.games.isEmpty) { _, empty in if !empty { started = true } }
         }
     }
@@ -39,7 +41,9 @@ struct GamesView: View {
                 Button { started = true; Task { await library.refresh() } } label: {
                     Text("Porta les partides").font(Theme.text(18, .semibold)).foregroundStyle(Theme.ink)
                         .frame(maxWidth: .infinity, minHeight: 50).background(Capsule().fill(Theme.tin))
-                }.padding(.top, 6)
+                }
+                .disabled(!library.hasAccounts).opacity(library.hasAccounts ? 1 : 0.4)
+                .padding(.top, 6)
                 Button { showAdd = true } label: {
                     Text("O enganxa un PGN o un enllaç").font(Theme.text(17, .semibold)).foregroundStyle(Theme.gold).frame(minHeight: 44)
                 }
@@ -53,7 +57,7 @@ struct GamesView: View {
             Text("Partides").font(Theme.display(52)).foregroundStyle(Theme.tin)
                 .listRowBackground(Color.clear).listRowSeparator(.hidden).listRowInsets(.init(top: 0, leading: 20, bottom: 8, trailing: 20))
             ForEach(Array(library.refreshErrors.keys), id: \.self) { source in
-                Text(verbatim: library.refreshErrors[source]?.errorDescription ?? "")
+                Text(verbatim: "\(source == .chessCom ? "chess.com" : "Lichess"): \(library.refreshErrors[source]?.errorDescription ?? "")")
                     .font(Theme.text(15)).foregroundStyle(Color(hex: 0xEF7D6C))
                     .listRowBackground(Color.clear).listRowSeparator(.hidden)
             }
@@ -121,34 +125,59 @@ struct AccountFields: View {
     @Bindable private var library = GameLibrary.shared
     var body: some View {
         VStack(spacing: 0) {
-            field("Usuari de chess.com", text: $library.chessComUsername)
+            field("Usuari de chess.com", text: $library.chessComUsername, source: .chessCom)
             Rectangle().fill(Theme.hairline).frame(height: 0.5)
-            field("Usuari de Lichess", text: $library.lichessUsername)
+            field("Usuari de Lichess", text: $library.lichessUsername, source: .lichess)
         }
     }
-    private func field(_ title: LocalizedStringKey, text: Binding<String>) -> some View {
-        TextField(title, text: text, prompt: Text(title).foregroundStyle(Theme.quiet))
-            .font(Theme.text(18)).foregroundStyle(Theme.tin)
-            .textInputAutocapitalization(.never).autocorrectionDisabled()
-            .submitLabel(.done).padding(.vertical, 14)
+    private func field(_ title: LocalizedStringKey, text: Binding<String>, source: GameSource) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack {
+                TextField(title, text: text, prompt: Text(title).foregroundStyle(Theme.quiet))
+                    .font(Theme.text(18)).foregroundStyle(Theme.tin)
+                    .textInputAutocapitalization(.never).autocorrectionDisabled()
+                    .submitLabel(.done).padding(.vertical, 14)
+                if library.isLinked(source) {
+                    Image(systemName: "checkmark").foregroundStyle(Theme.gold).accessibilityLabel("Vinculat")
+                }
+            }
+            if let error = library.refreshErrors[source]?.errorDescription {
+                Text(verbatim: error).font(Theme.text(15)).foregroundStyle(Color(hex: 0xEF7D6C)).padding(.bottom, 12)
+            }
+        }
     }
 }
 
 struct AccountsSheet: View {
     @Environment(\.dismiss) private var dismiss
+    @State private var checking = false
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Només es fan servir per demanar les teves partides públiques a cada servei.").font(Theme.text(16)).foregroundStyle(Theme.quiet)
+                    Text("Només el nom d'usuari, sense contrasenya. Scachs demana a cada servei les teves partides públiques.").font(Theme.text(16)).foregroundStyle(Theme.quiet)
                     AccountFields()
                 }.padding(20)
             }
             .background(Theme.field.ignoresSafeArea())
             .navigationTitle("Comptes").navigationBarTitleDisplayMode(.inline)
-            .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Fet") { dismiss(); Task { await GameLibrary.shared.refresh() } } } }
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    if checking { ProgressView().tint(Theme.gold) } else { Button("Fet") { confirm() } }
+                }
+            }
         }
         .presentationDetents([.medium])
+    }
+
+    /// Stays open on a name the site doesn't know, so it can be fixed here. Any other failure can wait for the next refresh.
+    private func confirm() {
+        checking = true
+        Task {
+            await GameLibrary.shared.refresh()
+            checking = false
+            if !GameLibrary.shared.refreshErrors.values.contains(.userNotFound) { dismiss() }
+        }
     }
 }
 

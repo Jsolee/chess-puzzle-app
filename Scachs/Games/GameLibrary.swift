@@ -201,6 +201,9 @@ extension ImportedGame {
     @ObservationIgnored private var deleted: Set<String> = []
     /// Motif counts per game, so the recommender does not decode every review file each time.
     @ObservationIgnored private var evidenceCache: [String: [String: Double]] = [:]
+    /// In memory only, so a fresh launch always looks. nil also after a username changes.
+    @ObservationIgnored private var lastRefresh: Date?
+    private static let staleAfter: TimeInterval = 300
 
     init(folder: URL? = nil, defaults: UserDefaults = .standard, chessCom: ChessComClient = ChessComClient(), lichess: LichessClient = LichessClient()) {
         let support = try? FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
@@ -215,11 +218,24 @@ extension ImportedGame {
 
     // MARK: Importing
 
+    var hasAccounts: Bool { !chessComUsername.isBlank || !lichessUsername.isBlank }
+
+    /// The site answered and at least one game came back as that username's own.
+    func isLinked(_ source: GameSource) -> Bool {
+        refreshErrors[source] == nil && games.contains { $0.source == source && $0.mySide != nil }
+    }
+
+    /// Games played since the last look turn up on their own, without asking either site more than every few minutes.
+    func refreshIfStale(now: Date = .now) async {
+        guard hasAccounts, lastRefresh.map({ now.timeIntervalSince($0) >= Self.staleAfter }) ?? true else { return }
+        await refresh()
+    }
+
     /// The latest 20 from each username that is set. One site failing leaves the other's games and an entry in refreshErrors.
     func refresh() async {
         guard !isRefreshing else { return }
         isRefreshing = true
-        defer { isRefreshing = false }
+        defer { isRefreshing = false; lastRefresh = .now }
         var fetched: [ImportedGame] = []
         var errors: [GameSource: ImportError] = [:]
         func attempt(_ source: GameSource, _ fetch: () async throws -> [ImportedGame]) async {
@@ -316,6 +332,8 @@ extension ImportedGame {
     private func usernamesChanged() {
         for i in games.indices { games[i].assignSide(chessCom: chessComUsername, lichess: lichessUsername) }
         evidenceCache = [:]
+        refreshErrors = [:]
+        lastRefresh = nil
         save()
     }
 

@@ -1127,9 +1127,13 @@
   "en": "Not the most accurate: you lose a little ground.",
   "es": "No es la más precisa: pierdes un poco de terreno."
  },
- "Només es fan servir per demanar les teves partides públiques a cada servei.": {
-  "en": "They're only used to request your public games from each service.",
-  "es": "Solo se usan para pedir tus partidas públicas a cada servicio."
+ "Només el nom d'usuari, sense contrasenya. Scachs demana a cada servei les teves partides públiques.": {
+  "en": "Just your username, no password. Scachs asks each service for your public games.",
+  "es": "Solo el nombre de usuario, sin contraseña. Scachs pide a cada servicio tus partidas públicas."
+ },
+ "Vinculat": {
+  "en": "Linked",
+  "es": "Vinculado"
  },
  "Només importem partides d'escacs estàndard": {
   "en": "We only import standard chess games",

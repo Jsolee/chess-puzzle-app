@@ -570,6 +570,28 @@ final class GameLibraryTests: XCTestCase {
         XCTAssertTrue(lib.refreshErrors.isEmpty)
     }
 
+    func testStaleRefreshAsksOnlyAfterFiveMinutesOrANewName() async {
+        let lib = library()
+        StubNetwork.reset(combinedRoute(months: [:], stream: lichessStream))
+        await lib.refreshIfStale()
+        XCTAssertTrue(StubNetwork.urls.isEmpty, "no accounts, nothing to ask")
+
+        lib.lichessUsername = "anna"
+        await lib.refreshIfStale()
+        let asked = StubNetwork.urls.count
+        XCTAssertGreaterThan(asked, 0)
+        XCTAssertTrue(lib.isLinked(.lichess))
+        XCTAssertFalse(lib.isLinked(.chessCom))
+        await lib.refreshIfStale(now: .now + 200)
+        XCTAssertEqual(StubNetwork.urls.count, asked)
+        await lib.refreshIfStale(now: .now + 301)
+        XCTAssertEqual(StubNetwork.urls.count, asked * 2)
+        lib.lichessUsername = "bea"
+        XCTAssertFalse(lib.isLinked(.lichess), "the games are not this name's own")
+        await lib.refreshIfStale()
+        XCTAssertEqual(StubNetwork.urls.count, asked * 3)
+    }
+
     func testOneSiteFailingKeepsTheOther() async {
         let lib = library()
         lib.chessComUsername = "anna"

@@ -4798,19 +4798,19 @@
         }
       }
     },
-    "Només es fan servir per demanar les teves partides públiques a cada servei.": {
+    "Només el nom d'usuari, sense contrasenya. Scachs demana a cada servei les teves partides públiques.": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "They're only used to request your public games from each service."
+            "value": "Just your username, no password. Scachs asks each service for your public games."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Solo se usan para pedir tus partidas públicas a cada servicio."
+            "value": "Solo el nombre de usuario, sin contraseña. Scachs pide a cada servicio tus partidas públicas."
           }
         }
       }
@@ -6460,6 +6460,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vibración"
+          }
+        }
+      }
+    },
+    "Vinculat": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Linked"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vinculado"
           }
         }
       }
