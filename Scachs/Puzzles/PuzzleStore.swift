@@ -202,9 +202,14 @@ final class PuzzleStore {
 
     // MARK: Daily
 
+    /// A day in the device's time zone, as one number: consecutive days are consecutive numbers.
+    static func dayNumber(_ date: Date) -> Int {
+        Calendar(identifier: .gregorian).ordinality(of: .day, in: .era, for: date) ?? 0
+    }
+
     /// Same puzzle all day and on every launch. The prime stride walks the whole pool of Lichess dailies before repeating.
     func daily(for date: Date) -> Puzzle {
-        let day = Calendar(identifier: .gregorian).ordinality(of: .day, in: .era, for: date) ?? 0
+        let day = Self.dayNumber(date)
         guard !dailies.isEmpty else { return puzzle(at: day % count) }
         return puzzle(at: dailies[day * 1151 % dailies.count])
     }

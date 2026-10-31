@@ -32,6 +32,11 @@ struct ProfileView: View {
                 .font(Theme.text(16)).foregroundStyle(Theme.quiet)
             Text("\(solvedCount) puzzles resolts · \(progress.completedLessons.count) lliçons")
                 .font(Theme.text(16)).foregroundStyle(Theme.quiet).padding(.top, 2)
+            let streak = DailyStreak(days: progress.dailyDays, today: PuzzleStore.dayNumber(Date()))
+            if streak.best > 0 {
+                Text("Ratxa del puzzle del dia: \(streak.current). La millor: \(streak.best).")
+                    .font(Theme.text(16)).foregroundStyle(Theme.quiet)
+            }
         }
     }
 

@@ -139,6 +139,56 @@ final class PuzzleTests: XCTestCase {
         XCTAssertGreaterThan(abs(far.rating - 1500), 400)
     }
 
+    func testStreakForgivesOneDayOffAndNotTwo() {
+        XCTAssertEqual(DailyStreak(days: [], today: 100).current, 0)
+        XCTAssertEqual(DailyStreak(days: [100], today: 100).current, 1)
+        XCTAssertEqual(DailyStreak(days: [98, 99], today: 100).current, 2, "today not done yet takes nothing away")
+        XCTAssertEqual(DailyStreak(days: [96, 97, 99], today: 100).current, 3, "one day off inside the run")
+        XCTAssertEqual(DailyStreak(days: [97, 98], today: 100).current, 2, "one day off so far")
+        let lapsed = DailyStreak(days: [90, 91, 92, 93, 97], today: 100)
+        XCTAssertEqual(lapsed.current, 0, "two days off end it")
+        XCTAssertEqual(lapsed.best, 4)
+        XCTAssertEqual(DailyStreak(days: [90, 91, 95, 96, 97], today: 97).current, 3, "a new run starts after a gap")
+        XCTAssertEqual(DailyStreak(days: [99, 105], today: 100).current, 1, "a day from a wrong clock doesn't count")
+    }
+
+    func testConsecutiveDatesAreConsecutiveDayNumbers() {
+        let calendar = Calendar(identifier: .gregorian)
+        let today = calendar.startOfDay(for: Date())
+        for offset in 1...400 {
+            let next = calendar.date(byAdding: .day, value: offset, to: today)!
+            XCTAssertEqual(PuzzleStore.dayNumber(next), PuzzleStore.dayNumber(today) + offset)
+        }
+    }
+
+    func testDailyDaysSurviveAndOldFilesStillLoad() throws {
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent("progress-\(UUID().uuidString).json")
+        defer { try? FileManager.default.removeItem(at: url) }
+        let old = Progress(url: url)
+        old.setInitialRating(1400)
+        // A file from before the daily puzzle: everything but the new key.
+        var json = try XCTUnwrap(JSONSerialization.jsonObject(with: Data(contentsOf: url)) as? [String: Any])
+        json["dailyDays"] = nil
+        try JSONSerialization.data(withJSONObject: json).write(to: url)
+
+        let loaded = Progress(url: url)
+        XCTAssertEqual(loaded.rating, 1400)
+        XCTAssertEqual(loaded.dailyDays, [])
+        loaded.recordDaily()
+        loaded.recordDaily()
+        XCTAssertEqual(Progress(url: url).dailyDays, [PuzzleStore.dayNumber(Date())])
+    }
+
+    func testLogoOutlinesParse() {
+        let square = LogoPath.parse("M 0.0 0.0 L 10.0 0.0 Q 10.0 5.0 10.0 10.0 C 8.0 10.0 2.0 10.0 0.0 10.0 Z")
+        XCTAssertEqual(square.boundingBox, CGRect(x: 0, y: 0, width: 10, height: 10))
+        let initial = LogoPath.parse(LogoOutlines.initial).boundingBox
+        let rest = LogoPath.parse(LogoOutlines.rest).boundingBox
+        XCTAssertGreaterThan(initial.height, 500)
+        XCTAssertGreaterThan(rest.minX, initial.midX, "the other letters follow the S")
+        XCTAssertLessThan(initial.minY, 0, "y runs down from the baseline")
+    }
+
     func testDailyIsStable() {
         let today = Date(timeIntervalSinceReferenceDate: 815_000_000)
         XCTAssertEqual(store.daily(for: today).id, store.daily(for: today).id)

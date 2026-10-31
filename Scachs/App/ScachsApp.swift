@@ -3,13 +3,28 @@ import SwiftUI
 @main
 struct ScachsApp: App {
     @AppStorage("welcomed") private var welcomed = false
+    @State private var launching = true
+    /// Held back until the logo is on screen: building the first screen blocks the main thread, which its animation doesn't need.
+    @State private var mounted = false
+
     var body: some Scene {
         WindowGroup {
-            Group {
-                if welcomed { RootView() } else { WelcomeView { withAnimation(.easeOut(duration: 0.35)) { welcomed = true } } }
+            ZStack {
+                if mounted {
+                    if welcomed { RootView() } else { WelcomeView { withAnimation(.easeOut(duration: 0.35)) { welcomed = true } } }
+                }
+                if launching {
+                    LaunchView { withAnimation(.easeOut(duration: 0.4)) { launching = false } }
+                        .transition(.opacity).zIndex(1)
+                }
             }
+            .background(Theme.field)
             .preferredColorScheme(.dark)
             .tint(Theme.gold)
+            .task {
+                try? await Task.sleep(for: .milliseconds(100))
+                mounted = true
+            }
         }
     }
 }

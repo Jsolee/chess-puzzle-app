@@ -37,6 +37,7 @@ Valors exactes a `tokens.json`.
 ## Llum i moviment
 - La llum surt d'una habitació amb una finestra que es veu reflectida a l'esmalt. Inclinar el telèfon mou l'habitació. L'hora del dia n'escalfa el to.
 - Una jugada: 200 ms, sortida suau, sense rebot. So, hàptica i moviment surten junts.
+- En obrir l'app, la S es traça amb fil daurat, s'omple d'estany i s'encasta a la paraula, amb un sol reflex al final. Un toc ho salta. Amb «Redueix el moviment» la paraula només apareix.
 - Només una ona per solució. Si «Redueix el moviment» és actiu, la llum no segueix el telèfon i l'ona es queda en un flaix suau.
 
 ## Veu

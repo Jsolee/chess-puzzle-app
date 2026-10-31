@@ -6,7 +6,7 @@ register: product
 App d'iOS per a qui estima els escacs i juga poc: puzzles que s'adapten, importar partides de chess.com i Lichess i analitzar-les amb la mateixa notació que Game Review, i lliçons que surten dels teus propis errors.
 
 ## Users
-Un adult amb 5-15 minuts lliures, al sofà o al tren, sovint de nit, que no juga cada dia. Ve per plaer. No vol lligues, ni ratxes, ni notificacions, ni que li recordin el que no ha fet.
+Un adult amb 5-15 minuts lliures, al sofà o al tren, sovint de nit, que no juga cada dia. Ve per plaer. No vol lligues, ni notificacions, ni que li recordin el que no ha fet. La ratxa del puzzle del dia és l'única excepció: és amable i no demana res.
 
 ## Tone
 Tranquil, savi, sense pressa. Català de tu, frases curtes. Sense exclamacions.
@@ -15,7 +15,7 @@ Tranquil, savi, sense pressa. Català de tu, frases curtes. Sense exclamacions.
 - El tauler és el producte: omple la pantalla, i cada fotograma s'ha de poder penjar a una paret.
 - Un sol moment espectacular: l'ona de llum en resoldre. La resta està quieta.
 - So, hàptica i moviment surten junts.
-- Tornar després de setmanes no castiga: cap comptador de deutes, cap ratxa perduda.
+- Tornar després de setmanes no castiga: cap comptador de deutes. Un dia saltat no trenca la ratxa, i si s'acaba no se'n parla.
 - Glass només a la navegació, mai sobre el tauler.
 
 ## Anti-references

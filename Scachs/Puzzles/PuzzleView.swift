@@ -15,6 +15,7 @@ struct PuzzleView: View {
     @State private var streak = 0
     @State private var replyTask: Task<Void, Never>?
     @State private var openLesson: LessonMeta?
+    @State private var showDaily = false
 
     enum Phase { case loading, yourMove, wrong, solved, revealed }
     private var progress: Progress { .shared }
@@ -23,6 +24,7 @@ struct PuzzleView: View {
         GeometryReader { geo in
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
+                    DailyRow { showDaily = true }.padding(.horizontal, 20)
                     Spacer(minLength: 8)
                     header.padding(.horizontal, 20).padding(.bottom, 14)
                     BoardView(board)
@@ -36,6 +38,7 @@ struct PuzzleView: View {
         }
         .background(Theme.field.ignoresSafeArea())
         .sheet(item: $openLesson) { l in LessonRunnerView(meta: l) }
+        .fullScreenCover(isPresented: $showDaily) { DailyPuzzleView() }
         .task { if run == nil && !over { load() } }
     }
 

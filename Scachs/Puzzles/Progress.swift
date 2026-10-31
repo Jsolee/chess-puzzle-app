@@ -24,6 +24,8 @@ struct Attempt: Codable {
         var attempts: [Attempt] = []
         var completedLessons: Set<String> = []
         var dismissedLessons: [String: Date] = [:]
+        /// Optional because files saved before the daily puzzle don't have the key, and a missing key would fail the whole file.
+        var dailyDays: Set<Int>?
     }
 
     private var stored: Stored
@@ -91,6 +93,15 @@ struct Attempt: Codable {
         absorb(attempt)
         save()
         return rating - before
+    }
+
+    // MARK: Daily puzzle
+
+    var dailyDays: Set<Int> { stored.dailyDays ?? [] }
+
+    func recordDaily(on date: Date = Date()) {
+        stored.dailyDays = dailyDays.union([PuzzleStore.dayNumber(date)])
+        save()
     }
 
     // MARK: Lessons

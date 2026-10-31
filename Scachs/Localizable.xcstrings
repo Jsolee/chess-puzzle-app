@@ -3761,6 +3761,23 @@
         }
       }
     },
+    "La teva millor: %lld.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your best: %lld."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tu mejor: %lld."
+          }
+        }
+      }
+    },
     "La valoració cau molt amb aquesta jugada.": {
       "extractionState": "manual",
       "localizations": {
@@ -5427,6 +5444,40 @@
         }
       }
     },
+    "Puzzle del dia": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daily puzzle"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Puzzle del día"
+          }
+        }
+      }
+    },
+    "Puzzle del dia. Ratxa de %lld.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daily puzzle. %lld day streak."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Puzzle del día. Racha de %lld."
+          }
+        }
+      }
+    },
     "Puzzles": {
       "extractionState": "manual",
       "localizations": {
@@ -5457,6 +5508,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Error grave"
+          }
+        }
+      }
+    },
+    "Quan el resolguis, compta per a la ratxa.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Once you solve it, it counts for your streak."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cuando lo resuelvas, cuenta para la racha."
           }
         }
       }
@@ -5508,6 +5576,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cuatro jugadas o más"
+          }
+        }
+      }
+    },
+    "Ratxa del puzzle del dia: %lld. La millor: %lld.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daily puzzle streak: %1$lld. Your best: %2$lld."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Racha del puzzle del día: %1$lld. La mejor: %2$lld."
           }
         }
       }
@@ -5763,6 +5848,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sacrificas %@ y la posición lo compensa."
+          }
+        }
+      }
+    },
+    "Saltar-te un dia no la trenca.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skipping a day doesn't break it."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saltarte un día no la rompe."
           }
         }
       }
@@ -6188,6 +6290,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vuelve a la partida"
+          }
+        }
+      }
+    },
+    "Torna-hi": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try again"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otra vez"
           }
         }
       }
@@ -6987,6 +7106,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "del rey"
+          }
+        }
+      }
+    },
+    "dia de ratxa": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "day streak"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "día de racha"
+          }
+        }
+      }
+    },
+    "dies de ratxa": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "day streak"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "días de racha"
           }
         }
       }

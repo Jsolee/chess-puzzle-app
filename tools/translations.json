@@ -1127,6 +1127,42 @@
   "en": "Not the most accurate: you lose a little ground.",
   "es": "No es la más precisa: pierdes un poco de terreno."
  },
+ "Puzzle del dia": {
+  "en": "Daily puzzle",
+  "es": "Puzzle del día"
+ },
+ "Puzzle del dia. Ratxa de %lld.": {
+  "en": "Daily puzzle. %lld day streak.",
+  "es": "Puzzle del día. Racha de %lld."
+ },
+ "dia de ratxa": {
+  "en": "day streak",
+  "es": "día de racha"
+ },
+ "dies de ratxa": {
+  "en": "day streak",
+  "es": "días de racha"
+ },
+ "Saltar-te un dia no la trenca.": {
+  "en": "Skipping a day doesn't break it.",
+  "es": "Saltarte un día no la rompe."
+ },
+ "La teva millor: %lld.": {
+  "en": "Your best: %lld.",
+  "es": "Tu mejor: %lld."
+ },
+ "Quan el resolguis, compta per a la ratxa.": {
+  "en": "Once you solve it, it counts for your streak.",
+  "es": "Cuando lo resuelvas, cuenta para la racha."
+ },
+ "Torna-hi": {
+  "en": "Try again",
+  "es": "Otra vez"
+ },
+ "Ratxa del puzzle del dia: %lld. La millor: %lld.": {
+  "en": "Daily puzzle streak: %1$lld. Your best: %2$lld.",
+  "es": "Racha del puzzle del día: %1$lld. La mejor: %2$lld."
+ },
  "Només el nom d'usuari, sense contrasenya. Scachs demana a cada servei les teves partides públiques.": {
   "en": "Just your username, no password. Scachs asks each service for your public games.",
   "es": "Solo el nombre de usuario, sin contraseña. Scachs pide a cada servicio tus partidas públicas."
