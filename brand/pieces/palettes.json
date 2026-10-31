@@ -1,0 +1,7 @@
+{
+  "verd":     {"field": "#0f3a33", "tileLight": "#ece6d6", "tileDark": "#2c6f5e", "tin": "#f6f1e6", "ink": "#16121c", "line": "#3b2a18", "metal": "#b5823f", "lineOnInk": "#8a6a36", "metalBright": "#f2cf8c", "tinShade": "#d9cdb6", "inkLift": "#352c3e", "wire": "#a9843f", "accent": "#e7b96c"},
+  "manganes": {"field": "#1a1220", "tileLight": "#eee6d9", "tileDark": "#5a3a6a", "tin": "#f6f1e6", "ink": "#120d16", "line": "#3a2616", "metal": "#b8793d", "lineOnInk": "#8a5f33", "metalBright": "#f0bf83", "tinShade": "#d6c9b8", "inkLift": "#352c3e", "wire": "#b07a42", "accent": "#e09a5b"},
+  "almagra":  {"field": "#4a1510", "tileLight": "#f1e6d2", "tileDark": "#a44f35", "tin": "#f8f2e6", "ink": "#1a100e", "line": "#3b2214", "metal": "#b5823f", "lineOnInk": "#8a6a36", "metalBright": "#f2cf8c", "tinShade": "#dfcfb6", "inkLift": "#40302a", "wire": "#b3873f", "accent": "#e9b96a"},
+  "tinta":    {"field": "#0e1c3a", "tileLight": "#eee8da", "tileDark": "#2f5288", "tin": "#f6f1e6", "ink": "#10121c", "line": "#2c2a30", "metal": "#b98a4a", "lineOnInk": "#8a6a3a", "metalBright": "#f0c98c", "tinShade": "#d6cdbb", "inkLift": "#2c3142", "wire": "#a98545", "accent": "#e6b56a"},
+  "reflex":   {"field": "#141210", "tileLight": "#efe8da", "tileDark": "#9a6636", "metalTiles": true, "tin": "#f7f2e7", "ink": "#100e0d", "line": "#35261a", "metal": "#b5823f", "lineOnInk": "#8a6a36", "metalBright": "#f6d596", "tinShade": "#dacdb7", "inkLift": "#352e28", "wire": "#7f5a2f", "accent": "#e8bb72"}
+}

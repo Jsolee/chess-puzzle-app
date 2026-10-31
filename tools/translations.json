@@ -1,0 +1,1770 @@
+{
+ "%@ captura %@ amb una peça de menys valor.": {
+  "en": "%@ takes %@ with a less valuable piece.",
+  "es": "%@ captura %@ con una pieza de menos valor."
+ },
+ "%@ captura %@, que està sense defensa.": {
+  "en": "%@ takes %@, which is undefended.",
+  "es": "%@ captura %@, que está sin defensa."
+ },
+ "%@ captura %@, que no té prou defensa.": {
+  "en": "%@ takes %@, which isn't defended enough.",
+  "es": "%@ captura %@, que no tiene suficiente defensa."
+ },
+ "%@ capturava %@ amb una peça de menys valor.": {
+  "en": "%@ would take %@ with a less valuable piece.",
+  "es": "%@ capturaba %@ con una pieza de menos valor."
+ },
+ "%@ capturava %@, que estava sense defensa.": {
+  "en": "%@ would take %@, which was undefended.",
+  "es": "%@ capturaba %@, que estaba sin defensa."
+ },
+ "%@ capturava %@, que no tenia prou defensa.": {
+  "en": "%@ would take %@, which wasn't defended enough.",
+  "es": "%@ capturaba %@, que no tenía suficiente defensa."
+ },
+ "%@ clava %@ contra %@.": {
+  "en": "%@ pins %@ to %@.",
+  "es": "%@ clava %@ contra %@."
+ },
+ "%@ clavava %@ contra %@.": {
+  "en": "%@ would pin %@ to %@.",
+  "es": "%@ clavaba %@ contra %@."
+ },
+ "%@ crea una clavada: %@ no es pot moure sense exposar %@.": {
+  "en": "%@ creates a pin: %@ can't move without exposing %@.",
+  "es": "%@ crea una clavada: %@ no se puede mover sin exponer %@."
+ },
+ "%@ creava una clavada: %@ no es podia moure sense exposar %@.": {
+  "en": "%@ would create a pin: %@ couldn't move without exposing %@.",
+  "es": "%@ creaba una clavada: %@ no se podía mover sin exponer %@."
+ },
+ "%@ era mat.": {
+  "en": "%@ was mate.",
+  "es": "%@ era mate."
+ },
+ "%@ era un atac a la descoberta: %@ atacava %@.": {
+  "en": "%@ was a discovered attack: %@ would attack %@.",
+  "es": "%@ era un ataque a la descubierta: %@ atacaba %@."
+ },
+ "%@ era una enfilada: %@ havia d'apartar-se i quedava %@ a l'abast.": {
+  "en": "%@ was a skewer: %@ would have to move, leaving %@ in reach.",
+  "es": "%@ era una enfilada: %@ tenía que apartarse y quedaba %@ al alcance."
+ },
+ "%@ era una forquilla sobre %@ i %@.": {
+  "en": "%@ was a fork on %@ and %@.",
+  "es": "%@ era una horquilla sobre %@ y %@."
+ },
+ "%@ es queda sense escapatòria.": {
+  "en": "%@ is left with no way out.",
+  "es": "%@ se queda sin escapatoria."
+ },
+ "%@ estava a l'abast %@, i ho aprofites.": {
+  "en": "%@ was within reach of %@, and you take advantage.",
+  "es": "%@ estaba al alcance %@, y lo aprovechas."
+ },
+ "%@ estava a l'abast %@: %@.": {
+  "en": "%@ was within reach of %@: %@.",
+  "es": "%@ estaba al alcance %@: %@."
+ },
+ "%@ està a l'abast %@: %@.": {
+  "en": "%@ is within reach of %@: %@.",
+  "es": "%@ está al alcance %@: %@."
+ },
+ "%@ fa una enfilada: darrere %@ hi ha %@.": {
+  "en": "%@ is a skewer: behind %@ is %@.",
+  "es": "%@ hace una enfilada: detrás %@ está %@."
+ },
+ "%@ fa una forquilla: ataca %@ i %@ alhora.": {
+  "en": "%@ is a fork: it attacks %@ and %@ at once.",
+  "es": "%@ hace una horquilla: ataca %@ y %@ a la vez."
+ },
+ "%@ feia una enfilada: darrere %@ hi havia %@.": {
+  "en": "%@ was a skewer: behind %@ was %@.",
+  "es": "%@ hacía una enfilada: detrás %@ estaba %@."
+ },
+ "%@ no tenia cap casella segura.": {
+  "en": "%@ had no safe square.",
+  "es": "%@ no tenía ninguna casilla segura."
+ },
+ "%@ no tenia defensa: %@.": {
+  "en": "%@ was undefended: %@.",
+  "es": "%@ no tenía defensa: %@."
+ },
+ "%@ no tenia escapatòria.": {
+  "en": "%@ had no way out.",
+  "es": "%@ no tenía escapatoria."
+ },
+ "%@ no tenia prou defensa: %@.": {
+  "en": "%@ wasn't defended enough: %@.",
+  "es": "%@ no tenía suficiente defensa: %@."
+ },
+ "%@ no té cap casella segura.": {
+  "en": "%@ has no safe square.",
+  "es": "%@ no tiene ninguna casilla segura."
+ },
+ "%@ no té defensa: %@.": {
+  "en": "%@ is undefended: %@.",
+  "es": "%@ no tiene defensa: %@."
+ },
+ "%@ no té escapatòria.": {
+  "en": "%@ has no way out.",
+  "es": "%@ no tiene escapatoria."
+ },
+ "%@ no té prou defensa: %@.": {
+  "en": "%@ isn't defended enough: %@.",
+  "es": "%@ no tiene suficiente defensa: %@."
+ },
+ "%@ obre la línia %@ cap %@.": {
+  "en": "%@ opens the line of %@ towards %@.",
+  "es": "%@ abre la línea %@ hacia %@."
+ },
+ "%@ obria la línia %@ cap %@.": {
+  "en": "%@ would open the line of %@ towards %@.",
+  "es": "%@ abría la línea %@ hacia %@."
+ },
+ "%@ és un atac a la descoberta: %@ ataca %@.": {
+  "en": "%@ is a discovered attack: %@ attacks %@.",
+  "es": "%@ es un ataque a la descubierta: %@ ataca %@."
+ },
+ "%@ és una enfilada: %@ ha d'apartar-se i queda %@ a l'abast.": {
+  "en": "%@ is a skewer: %@ has to move, leaving %@ in reach.",
+  "es": "%@ es una enfilada: %@ tiene que apartarse y queda %@ al alcance."
+ },
+ "%@ és una forquilla sobre %@ i %@.": {
+  "en": "%@ is a fork on %@ and %@.",
+  "es": "%@ es una horquilla sobre %@ y %@."
+ },
+ "%@%@": {
+  "en": "%@%@",
+  "es": "%@%@"
+ },
+ "%@, %@ blanc": {
+  "en": "%1$@, white %2$@",
+  "es": "%1$@, %2$@ blanco"
+ },
+ "%@, %@ negre": {
+  "en": "%1$@, black %2$@",
+  "es": "%1$@, %2$@ negro"
+ },
+ "%lld": {
+  "en": "%lld",
+  "es": "%lld"
+ },
+ "%lld de %lld": {
+  "en": "%lld of %lld",
+  "es": "%lld de %lld"
+ },
+ "%lld de %lld. Ho tens. Ho tornaràs a veure d'aquí a uns dies.": {
+  "en": "%lld of %lld. You've got it. You'll see it again in a few days.",
+  "es": "%lld de %lld. Lo tienes. Lo volverás a ver dentro de unos días."
+ },
+ "%lld de %lld. Ho tornaràs a veure d'aquí a uns dies, sense pressa.": {
+  "en": "%lld of %lld. You'll see it again in a few days, no rush.",
+  "es": "%lld de %lld. Lo volverás a ver dentro de unos días, sin prisa."
+ },
+ "%lld min": {
+  "en": "%lld min",
+  "es": "%lld min"
+ },
+ "%lld minuts": {
+  "en": "%lld minutes",
+  "es": "%lld minutos"
+ },
+ "%lld peons": {
+  "en": "%lld pawns",
+  "es": "%lld peones"
+ },
+ "%lld puzzles resolts · %lld lliçons": {
+  "en": "%lld puzzles solved · %lld lessons",
+  "es": "%lld puzzles resueltos · %lld lecciones"
+ },
+ "2 puzzles": {
+  "en": "2 puzzles",
+  "es": "2 puzzles"
+ },
+ "Acaba": {
+  "en": "Finish",
+  "es": "Termina"
+ },
+ "Afegeix": {
+  "en": "Add",
+  "es": "Añade"
+ },
+ "Afegeix una partida": {
+  "en": "Add a game",
+  "es": "Añade una partida"
+ },
+ "Així evites %@.": {
+  "en": "That way you avoid %@.",
+  "es": "Así evitas %@."
+ },
+ "Així evites el mat amb %@.": {
+  "en": "That way you avoid mate with %@.",
+  "es": "Así evitas el mate con %@."
+ },
+ "Això mateix.": {
+  "en": "That's it.",
+  "es": "Eso es."
+ },
+ "Ajustos": {
+  "en": "Settings",
+  "es": "Ajustes"
+ },
+ "Alliberament de línia": {
+  "en": "Clearance",
+  "es": "Despeje de línea"
+ },
+ "Amaga": {
+  "en": "Hide",
+  "es": "Oculta"
+ },
+ "Amb %@ guanyaves %@.": {
+  "en": "With %@ you would win %@.",
+  "es": "Con %@ ganabas %@."
+ },
+ "Amb %@, %@ ataca alhora %@ i %@.": {
+  "en": "With %@, %@ attacks %@ and %@ at once.",
+  "es": "Con %@, %@ ataca a la vez %@ y %@."
+ },
+ "Amb %@, %@ atacava alhora %@ i %@.": {
+  "en": "With %@, %@ would attack %@ and %@ at once.",
+  "es": "Con %@, %@ atacaba a la vez %@ y %@."
+ },
+ "Amb %@, %@ captura %@, que no té prou defensa.": {
+  "en": "With %@, %@ takes %@, which isn't defended enough.",
+  "es": "Con %@, %@ captura %@, que no tiene suficiente defensa."
+ },
+ "Amb %@, %@ captura %@.": {
+  "en": "With %@, %@ takes %@.",
+  "es": "Con %@, %@ captura %@."
+ },
+ "Amb %@, %@ capturava %@.": {
+  "en": "With %@, %@ would take %@.",
+  "es": "Con %@, %@ capturaba %@."
+ },
+ "Amb %@, %@ clava %@ contra %@.": {
+  "en": "With %@, %@ pins %@ to %@.",
+  "es": "Con %@, %@ clava %@ contra %@."
+ },
+ "Amb %@, %@ clavava %@ contra %@.": {
+  "en": "With %@, %@ would pin %@ to %@.",
+  "es": "Con %@, %@ clavaba %@ contra %@."
+ },
+ "Amb %@, %@ fa una enfilada sobre %@ i %@.": {
+  "en": "With %@, %@ skewers %@ and %@.",
+  "es": "Con %@, %@ hace una enfilada sobre %@ y %@."
+ },
+ "Amb %@, %@ feia una enfilada sobre %@ i %@.": {
+  "en": "With %@, %@ would skewer %@ and %@.",
+  "es": "Con %@, %@ hacía una enfilada sobre %@ y %@."
+ },
+ "Amb %@, el rival captura %@, que no té defensa.": {
+  "en": "With %@, your opponent takes %@, which is undefended.",
+  "es": "Con %@, el rival captura %@, que no tiene defensa."
+ },
+ "Amb %@, el rival et guanya %@.": {
+  "en": "With %@, your opponent wins %@.",
+  "es": "Con %@, el rival te gana %@."
+ },
+ "Amb això, %@ és mat.": {
+  "en": "After this, %@ is mate.",
+  "es": "Con esto, %@ es mate."
+ },
+ "Amb aquesta jugada surts d'una posició perduda.": {
+  "en": "With this move you get out of a lost position.",
+  "es": "Con esta jugada sales de una posición perdida."
+ },
+ "Amb aquesta jugada treus avantatge d'una posició igualada.": {
+  "en": "With this move you gain an edge from an equal position.",
+  "es": "Con esta jugada sacas ventaja de una posición igualada."
+ },
+ "Amb aquesta jugada, el mat en %lld és inevitable.": {
+  "en": "With this move, mate in %lld is inevitable.",
+  "es": "Con esta jugada, el mate en %lld es inevitable."
+ },
+ "Amb aquesta jugada, la posició passa %@ %@.": {
+  "en": "With this move, the position goes %@ %@.",
+  "es": "Con esta jugada, la posición pasa %@ %@."
+ },
+ "Analitzant": {
+  "en": "Analyzing",
+  "es": "Analizando"
+ },
+ "Anònim": {
+  "en": "Anonymous",
+  "es": "Anónimo"
+ },
+ "Aprofites el moment i passes a una posició guanyadora.": {
+  "en": "You seize the moment and reach a winning position.",
+  "es": "Aprovechas el momento y pasas a una posición ganadora."
+ },
+ "Aprofites que %@ no té defensa.": {
+  "en": "You take advantage: %@ is undefended.",
+  "es": "Aprovechas que %@ no tiene defensa."
+ },
+ "Aprofites que %@ no té prou defensa.": {
+  "en": "You take advantage: %@ isn't defended enough.",
+  "es": "Aprovechas que %@ no tiene suficiente defensa."
+ },
+ "Aquest enllaç no és d'una partida": {
+  "en": "This link isn't from a game",
+  "es": "Este enlace no es de una partida"
+ },
+ "Aquesta jugada empitjora clarament la posició.": {
+  "en": "This move clearly worsens the position.",
+  "es": "Esta jugada empeora claramente la posición."
+ },
+ "Aquesta jugada et costa %@: %@.": {
+  "en": "This move costs you %@: %@.",
+  "es": "Esta jugada te cuesta %@: %@."
+ },
+ "Aquesta jugada fa molt de mal a la posició.": {
+  "en": "This move really hurts the position.",
+  "es": "Esta jugada hace mucho daño a la posición."
+ },
+ "Aquesta jugada guanya %@.": {
+  "en": "This move wins %@.",
+  "es": "Esta jugada gana %@."
+ },
+ "Aquesta jugada permet mat immediat amb %@.": {
+  "en": "This move allows immediate mate with %@.",
+  "es": "Esta jugada permite mate inmediato con %@."
+ },
+ "Aquesta jugada permet un mat en %lld, que comença amb %@.": {
+  "en": "This move allows mate in %lld, starting with %@.",
+  "es": "Esta jugada permite un mate en %lld, que empieza con %@."
+ },
+ "Aquesta no": {
+  "en": "Not this one",
+  "es": "Esta no"
+ },
+ "Aquesta no. Mira-ho un altre cop.": {
+  "en": "Not this one. Take another look.",
+  "es": "Esta no. Míralo otra vez."
+ },
+ "Aquesta no. Torna-hi.": {
+  "en": "Not this one. Try again.",
+  "es": "Esta no. Prueba otra vez."
+ },
+ "Aquesta partida no es pot llegir.": {
+  "en": "This game can't be read.",
+  "es": "Esta partida no se puede leer."
+ },
+ "Aquí la posició passa %@ %@.": {
+  "en": "Here the position goes %@ %@.",
+  "es": "Aquí la posición pasa %@ %@."
+ },
+ "Aquí se t'escapen": {
+  "en": "These slip past you",
+  "es": "Aquí se te escapan"
+ },
+ "Ara el rival té mat en %lld a partir de %@.": {
+  "en": "Now your opponent has mate in %lld, starting with %@.",
+  "es": "Ahora el rival tiene mate en %lld a partir de %@."
+ },
+ "Ara ja la saps": {
+  "en": "Now you know it",
+  "es": "Ahora ya la sabes"
+ },
+ "Atac a f2 o f7": {
+  "en": "Attack on f2 or f7",
+  "es": "Ataque a f2 o f7"
+ },
+ "Atac a la descoberta": {
+  "en": "Discovered attack",
+  "es": "Ataque a la descubierta"
+ },
+ "Atac al flanc de dama": {
+  "en": "Queenside attack",
+  "es": "Ataque al flanco de dama"
+ },
+ "Atac al flanc de rei": {
+  "en": "Kingside attack",
+  "es": "Ataque al flanco de rey"
+ },
+ "Atac de raigs X": {
+  "en": "X-ray attack",
+  "es": "Ataque de rayos X"
+ },
+ "Atracció": {
+  "en": "Attraction",
+  "es": "Atracción"
+ },
+ "Atures l'amenaça %@.": {
+  "en": "You stop the threat of %@.",
+  "es": "Detienes la amenaza %@."
+ },
+ "Atures l'amenaça de mat amb %@.": {
+  "en": "You stop the threat of mate with %@.",
+  "es": "Detienes la amenaza de mate con %@."
+ },
+ "Avaluació %@": {
+  "en": "Evaluation %@",
+  "es": "Evaluación %@"
+ },
+ "Avantatge": {
+  "en": "Advantage",
+  "es": "Ventaja"
+ },
+ "Avantatge decisiu": {
+  "en": "Decisive advantage",
+  "es": "Ventaja decisiva"
+ },
+ "Ben trobat": {
+  "en": "Well found",
+  "es": "Bien visto"
+ },
+ "Bona": {
+  "en": "Good",
+  "es": "Buena"
+ },
+ "Brillant": {
+  "en": "Brilliant",
+  "es": "Brillante"
+ },
+ "Cancel·la": {
+  "en": "Cancel",
+  "es": "Cancelar"
+ },
+ "Cap altra jugada és millor que aquesta.": {
+  "en": "No other move is better than this one.",
+  "es": "Ninguna otra jugada es mejor que esta."
+ },
+ "Captura al pas": {
+  "en": "En passant",
+  "es": "Captura al paso"
+ },
+ "Captures %@ amb una peça de menys valor.": {
+  "en": "You take %@ with a less valuable piece.",
+  "es": "Capturas %@ con una pieza de menos valor."
+ },
+ "Captures %@, que no té defensa.": {
+  "en": "You take %@, which is undefended.",
+  "es": "Capturas %@, que no tiene defensa."
+ },
+ "Captures %@, que no té prou defensa.": {
+  "en": "You take %@, which isn't defended enough.",
+  "es": "Capturas %@, que no tiene suficiente defensa."
+ },
+ "Clavada": {
+  "en": "Pin",
+  "es": "Clavada"
+ },
+ "Codi font": {
+  "en": "Source code",
+  "es": "Código fuente"
+ },
+ "Comença": {
+  "en": "Start",
+  "es": "Empieza"
+ },
+ "Començo": {
+  "en": "I'm starting out",
+  "es": "Empiezo"
+ },
+ "Competeixo": {
+  "en": "I compete",
+  "es": "Compito"
+ },
+ "Comptes": {
+  "en": "Accounts",
+  "es": "Cuentas"
+ },
+ "Continua": {
+  "en": "Continue",
+  "es": "Continúa"
+ },
+ "Crèdits": {
+  "en": "Credits",
+  "es": "Créditos"
+ },
+ "Després d'això, el rival fa mat amb %@.": {
+  "en": "After this, your opponent mates with %@.",
+  "es": "Después de esto, el rival da mate con %@."
+ },
+ "Desviació": {
+  "en": "Deflection",
+  "es": "Desviación"
+ },
+ "Deu més": {
+  "en": "Ten more",
+  "es": "Diez más"
+ },
+ "Dificultat dels puzzles": {
+  "en": "Puzzle difficulty",
+  "es": "Dificultad de los puzzles"
+ },
+ "Dues jugades": {
+  "en": "Two moves",
+  "es": "Dos jugadas"
+ },
+ "El motor la valora igual que la seva primera opció.": {
+  "en": "The engine rates it the same as its first choice.",
+  "es": "El motor la valora igual que su primera opción."
+ },
+ "El motor pensa": {
+  "en": "The engine is thinking",
+  "es": "El motor piensa"
+ },
+ "El motor preferia %@.": {
+  "en": "The engine preferred %@.",
+  "es": "El motor prefería %@."
+ },
+ "El motor preveu %@.": {
+  "en": "The engine expects %@.",
+  "es": "El motor prevé %@."
+ },
+ "El motor tria aquesta mateixa jugada.": {
+  "en": "The engine picks this same move.",
+  "es": "El motor elige esta misma jugada."
+ },
+ "El peó arriba a %@ i corona.": {
+  "en": "The pawn reaches %@ and promotes.",
+  "es": "El peón llega a %@ y corona."
+ },
+ "El peó arribava a %@ i coronava.": {
+  "en": "The pawn would reach %@ and promote.",
+  "es": "El peón llegaba a %@ y coronaba."
+ },
+ "El rei queda tancat a l'última fila per les seves pròpies peces.": {
+  "en": "The king is shut in on the back rank by its own pieces.",
+  "es": "El rey queda encerrado en la última fila por sus propias piezas."
+ },
+ "El rei quedava tancat a l'última fila per les seves pròpies peces.": {
+  "en": "The king was shut in on the back rank by its own pieces.",
+  "es": "El rey quedaba encerrado en la última fila por sus propias piezas."
+ },
+ "El rival amenaçava mat amb %@, i no l'has aturat.": {
+  "en": "Your opponent threatened mate with %@, and you didn't stop it.",
+  "es": "El rival amenazaba mate con %@, y no lo has detenido."
+ },
+ "El rival havia fallat i no n'has tret profit.": {
+  "en": "Your opponent slipped and you didn't make use of it.",
+  "es": "El rival había fallado y no lo has aprovechado."
+ },
+ "Eliminació del defensor": {
+  "en": "Removing the defender",
+  "es": "Eliminación del defensor"
+ },
+ "En aquesta línia, el peó corona a %@.": {
+  "en": "In this line, the pawn promotes on %@.",
+  "es": "En esta línea, el peón corona en %@."
+ },
+ "En aquesta línia, el peó coronava a %@.": {
+  "en": "In this line, the pawn would promote on %@.",
+  "es": "En esta línea, el peón coronaba en %@."
+ },
+ "En moure %@, %@ ataca %@.": {
+  "en": "When %@ moves, %@ attacks %@.",
+  "es": "Al mover %@, %@ ataca %@."
+ },
+ "En moure %@, %@ atacava %@.": {
+  "en": "If %@ moved, %@ would attack %@.",
+  "es": "Al mover %@, %@ atacaba %@."
+ },
+ "Encara et conec poc": {
+  "en": "I don't know you well yet",
+  "es": "Aún te conozco poco"
+ },
+ "Encara ets dins la teoria.": {
+  "en": "You're still in theory.",
+  "es": "Aún estás dentro de la teoría."
+ },
+ "Encara ets dins la teoria: %@.": {
+  "en": "You're still in theory: %@.",
+  "es": "Aún estás dentro de la teoría: %@."
+ },
+ "Encara no hi ha partides. Afegeix-ne amb el botó de dalt.": {
+  "en": "No games yet. Add some with the button above.",
+  "es": "Aún no hay partidas. Añade alguna con el botón de arriba."
+ },
+ "Enfilada": {
+  "en": "Skewer",
+  "es": "Enfilada"
+ },
+ "Enganxa del porta-retalls": {
+  "en": "Paste from clipboard",
+  "es": "Pega del portapapeles"
+ },
+ "Enganxa un PGN o l'enllaç d'una partida.": {
+  "en": "Paste a PGN or a game link.",
+  "es": "Pega un PGN o el enlace de una partida."
+ },
+ "Enroc": {
+  "en": "Castling",
+  "es": "Enroque"
+ },
+ "Era l'única jugada bona.": {
+  "en": "It was the only good move.",
+  "es": "Era la única jugada buena."
+ },
+ "Era l'única jugada legal.": {
+  "en": "It was the only legal move.",
+  "es": "Era la única jugada legal."
+ },
+ "Era millor %@.": {
+  "en": "%@ was better.",
+  "es": "Era mejor %@."
+ },
+ "Era un mat de passadís: el rei no podia sortir de l'última fila.": {
+  "en": "It was a back-rank mate: the king couldn't leave its back rank.",
+  "es": "Era un mate del pasillo: el rey no podía salir de la última fila."
+ },
+ "Errada": {
+  "en": "Mistake",
+  "es": "Error"
+ },
+ "Esborra": {
+  "en": "Delete",
+  "es": "Borra"
+ },
+ "Escac a la descoberta": {
+  "en": "Discovered check",
+  "es": "Jaque a la descubierta"
+ },
+ "Escac doble": {
+  "en": "Double check",
+  "es": "Doble jaque"
+ },
+ "Escac i mat.": {
+  "en": "Checkmate.",
+  "es": "Jaque mate."
+ },
+ "Estaves perdent i aquesta jugada et torna a la igualtat.": {
+  "en": "You were losing and this move brings you back to equal.",
+  "es": "Estabas perdiendo y esta jugada te devuelve la igualdad."
+ },
+ "Et quedes amb %@.": {
+  "en": "You pick up %@.",
+  "es": "Te quedas con %@."
+ },
+ "Etiquetes i precisió calculades per aquesta app amb %@. Poden no coincidir amb les d'altres serveis.": {
+  "en": "Labels and accuracy worked out by this app with %@. They may not match those of other services.",
+  "es": "Etiquetas y precisión calculadas por esta app con %@. Pueden no coincidir con las de otros servicios."
+ },
+ "Evolució de la puntuació": {
+  "en": "Rating over time",
+  "es": "Evolución de la puntuación"
+ },
+ "Excel·lent": {
+  "en": "Excellent",
+  "es": "Excelente"
+ },
+ "Fas mat a la jugada següent.": {
+  "en": "You mate on the next move.",
+  "es": "Das mate en la jugada siguiente."
+ },
+ "Fet": {
+  "en": "Done",
+  "es": "Hecho"
+ },
+ "Feta": {
+  "en": "Done",
+  "es": "Hecha"
+ },
+ "Final": {
+  "en": "Endgame",
+  "es": "Final"
+ },
+ "Final d'alfils": {
+  "en": "Bishop endgame",
+  "es": "Final de alfiles"
+ },
+ "Final de cavalls": {
+  "en": "Knight endgame",
+  "es": "Final de caballos"
+ },
+ "Final de dama i torre": {
+  "en": "Queen and rook endgame",
+  "es": "Final de dama y torre"
+ },
+ "Final de dames": {
+  "en": "Queen endgame",
+  "es": "Final de damas"
+ },
+ "Final de peons": {
+  "en": "Pawn endgame",
+  "es": "Final de peones"
+ },
+ "Final de torres": {
+  "en": "Rook endgame",
+  "es": "Final de torres"
+ },
+ "Forquilla": {
+  "en": "Fork",
+  "es": "Horquilla"
+ },
+ "Forçada": {
+  "en": "Forced",
+  "es": "Forzada"
+ },
+ "Gairebé tan bona com la millor.": {
+  "en": "Almost as good as the best.",
+  "es": "Casi tan buena como la mejor."
+ },
+ "Genial": {
+  "en": "Great",
+  "es": "Genial"
+ },
+ "Gràfic d'avaluació": {
+  "en": "Evaluation chart",
+  "es": "Gráfico de evaluación"
+ },
+ "Guanyada": {
+  "en": "Won",
+  "es": "Ganada"
+ },
+ "Guanyes %@.": {
+  "en": "You win %@.",
+  "es": "Ganas %@."
+ },
+ "Has deixat passar l'amenaça %@.": {
+  "en": "You let the threat of %@ pass.",
+  "es": "Has dejado pasar la amenaza %@."
+ },
+ "Has trobat l'única jugada que mantenia la posició.": {
+  "en": "You found the only move that held the position.",
+  "es": "Has encontrado la única jugada que mantenía la posición."
+ },
+ "Hi ha una coronació a %@ en aquesta línia.": {
+  "en": "There's a promotion on %@ in this line.",
+  "es": "Hay una coronación en %@ en esta línea."
+ },
+ "Hi havia %@ per guanyar amb %@.": {
+  "en": "You stood to win %@ with %@.",
+  "es": "Se podía ganar %@ con %@."
+ },
+ "Hi havia opcions molt millors.": {
+  "en": "There were much better options.",
+  "es": "Había opciones mucho mejores."
+ },
+ "Hi havia un mat forçat en %lld a partir de %@.": {
+  "en": "There was a forced mate in %lld, starting with %@.",
+  "es": "Había un mate forzado en %lld a partir de %@."
+ },
+ "Hi havia una amenaça de mat amb %@ i no l'has atesa.": {
+  "en": "There was a threat of mate with %@ and you didn't deal with it.",
+  "es": "Había una amenaza de mate con %@ y no la has atendido."
+ },
+ "Hi havia una coronació a %@ en aquesta línia.": {
+  "en": "There was a promotion on %@ in this line.",
+  "es": "Había una coronación en %@ en esta línea."
+ },
+ "Hi havia una forquilla amb %@: atacava %@ i %@ alhora.": {
+  "en": "There was a fork with %@: it would attack %@ and %@ at once.",
+  "es": "Había una horquilla con %@: atacaba %@ y %@ a la vez."
+ },
+ "Hi havia una opció més precisa.": {
+  "en": "There was a more accurate option.",
+  "es": "Había una opción más precisa."
+ },
+ "IA nivell %lld": {
+  "en": "AI level %lld",
+  "es": "IA nivel %lld"
+ },
+ "Igualtat": {
+  "en": "Equality",
+  "es": "Igualdad"
+ },
+ "Imprecisió": {
+  "en": "Inaccuracy",
+  "es": "Imprecisión"
+ },
+ "Interferència": {
+  "en": "Interference",
+  "es": "Interferencia"
+ },
+ "Ja ho sé: vés a la prova": {
+  "en": "I know this: go to the test",
+  "es": "Ya lo sé: ve a la prueba"
+ },
+ "Ja només queda fer mat.": {
+  "en": "All that's left is mate.",
+  "es": "Ya solo queda dar mate."
+ },
+ "Jugada anterior": {
+  "en": "Previous move",
+  "es": "Jugada anterior"
+ },
+ "Jugada col·lineal": {
+  "en": "Collinear move",
+  "es": "Jugada colineal"
+ },
+ "Jugada de llibre.": {
+  "en": "Book move.",
+  "es": "Jugada de libro."
+ },
+ "Jugada de llibre: %@.": {
+  "en": "Book move: %@.",
+  "es": "Jugada de libro: %@."
+ },
+ "Jugada defensiva": {
+  "en": "Defensive move",
+  "es": "Jugada defensiva"
+ },
+ "Jugada intermèdia": {
+  "en": "Intermezzo",
+  "es": "Jugada intermedia"
+ },
+ "Jugada obligada: no tenies cap alternativa.": {
+  "en": "Forced move: you had no alternative.",
+  "es": "Jugada obligada: no tenías ninguna alternativa."
+ },
+ "Jugada següent": {
+  "en": "Next move",
+  "es": "Jugada siguiente"
+ },
+ "Jugada tranquil·la": {
+  "en": "Quiet move",
+  "es": "Jugada tranquila"
+ },
+ "Jugo sovint": {
+  "en": "I play often",
+  "es": "Juego a menudo"
+ },
+ "Juguen les blanques": {
+  "en": "White to play",
+  "es": "Juegan las blancas"
+ },
+ "Juguen les blanques. Troba el mat.": {
+  "en": "White to play. Find the mate.",
+  "es": "Juegan las blancas. Encuentra el mate."
+ },
+ "Juguen les negres": {
+  "en": "Black to play",
+  "es": "Juegan las negras"
+ },
+ "L'amenaça era %@, i no l'has aturada.": {
+  "en": "The threat was %@, and you didn't stop it.",
+  "es": "La amenaza era %@, y no la has detenido."
+ },
+ "L'anàlisi s'ha aturat. Torna-ho a provar.": {
+  "en": "The analysis stopped. Try again.",
+  "es": "El análisis se ha detenido. Vuelve a intentarlo."
+ },
+ "La fallada del rival et donava una oportunitat que no has aprofitat.": {
+  "en": "Your opponent's slip gave you a chance you didn't take.",
+  "es": "El fallo del rival te daba una ocasión que no has aprovechado."
+ },
+ "La jugada següent és mat.": {
+  "en": "The next move is mate.",
+  "es": "La jugada siguiente es mate."
+ },
+ "La línia principal continua amb %@.": {
+  "en": "The main line continues with %@.",
+  "es": "La línea principal continúa con %@."
+ },
+ "La millor": {
+  "en": "Best",
+  "es": "La mejor"
+ },
+ "La millor jugada era %@.": {
+  "en": "The best move was %@.",
+  "es": "La mejor jugada era %@."
+ },
+ "La partida estava igualada i ara tens una posició guanyadora.": {
+  "en": "The game was equal and now you have a winning position.",
+  "es": "La partida estaba igualada y ahora tienes una posición ganadora."
+ },
+ "La posició empitjora una mica: hi havia alguna cosa millor.": {
+  "en": "The position gets a little worse: there was something better.",
+  "es": "La posición empeora un poco: había algo mejor."
+ },
+ "La posició passa %@ %@.": {
+  "en": "The position goes %@ %@.",
+  "es": "La posición pasa %@ %@."
+ },
+ "La puntuació surt després d'uns quants puzzles.": {
+  "en": "Your rating appears after a few puzzles.",
+  "es": "La puntuación aparece después de unos cuantos puzzles."
+ },
+ "La seqüència més probable és %@.": {
+  "en": "The most likely sequence is %@.",
+  "es": "La secuencia más probable es %@."
+ },
+ "La valoració cau molt amb aquesta jugada.": {
+  "en": "The evaluation drops sharply with this move.",
+  "es": "La valoración cae mucho con esta jugada."
+ },
+ "Les partides contra l'ordinador de chess.com no es poden importar amb l'enllaç": {
+  "en": "Games against the chess.com computer can't be imported from a link",
+  "es": "Las partidas contra el ordenador de chess.com no se pueden importar con el enlace"
+ },
+ "Lichess demana iniciar sessió per a aquesta partida": {
+  "en": "Lichess asks you to sign in for this game",
+  "es": "Lichess pide iniciar sesión para esta partida"
+ },
+ "Llegeix la llicència": {
+  "en": "Read the license",
+  "es": "Lee la licencia"
+ },
+ "Llibre": {
+  "en": "Book",
+  "es": "Libro"
+ },
+ "Lliçons": {
+  "en": "Lessons",
+  "es": "Lecciones"
+ },
+ "Mantens un mat forçat en %lld.": {
+  "en": "You keep a forced mate in %lld.",
+  "es": "Mantienes un mate forzado en %lld."
+ },
+ "Massa peticions: torna-hi d'aquí a un minut": {
+  "en": "Too many requests: try again in a minute",
+  "es": "Demasiadas peticiones: vuelve a intentarlo en un minuto"
+ },
+ "Mat": {
+  "en": "Mate",
+  "es": "Mate"
+ },
+ "Mat d'Anastàsia": {
+  "en": "Anastasia's mate",
+  "es": "Mate de Anastasia"
+ },
+ "Mat de Boden": {
+  "en": "Boden's mate",
+  "es": "Mate de Boden"
+ },
+ "Mat de Morphy": {
+  "en": "Morphy's mate",
+  "es": "Mate de Morphy"
+ },
+ "Mat de Pillsbury": {
+  "en": "Pillsbury's mate",
+  "es": "Mate de Pillsbury"
+ },
+ "Mat de Vuković": {
+  "en": "Vuković's mate",
+  "es": "Mate de Vuković"
+ },
+ "Mat de dama a casa de l'altra dama.": {
+  "en": "Queen mate on the other queen's home square.",
+  "es": "Mate de dama en casa de la otra dama."
+ },
+ "Mat de l'òpera": {
+  "en": "Opera mate",
+  "es": "Mate de la ópera"
+ },
+ "Mat de la ballesta": {
+  "en": "Balestra mate",
+  "es": "Mate de la ballesta"
+ },
+ "Mat de la caixa": {
+  "en": "Kill box mate",
+  "es": "Mate de la caja"
+ },
+ "Mat de la coça": {
+  "en": "Smothered mate",
+  "es": "Mate de la coz"
+ },
+ "Mat de la cua d'oreneta": {
+  "en": "Swallow's tail mate",
+  "es": "Mate de la cola de golondrina"
+ },
+ "Mat de la cua de milà": {
+  "en": "Dovetail mate",
+  "es": "Mate de la cola de milano"
+ },
+ "Mat de les xarreteres": {
+  "en": "Epaulette mate",
+  "es": "Mate de las charreteras"
+ },
+ "Mat de passadís: les mateixes peces del rei li tancaven la sortida.": {
+  "en": "Back-rank mate: the king's own pieces blocked its way out.",
+  "es": "Mate del pasillo: las propias piezas del rey le cerraban la salida."
+ },
+ "Mat de passadís: les mateixes peces del rei li tanquen la sortida.": {
+  "en": "Back-rank mate: the king's own pieces block its way out.",
+  "es": "Mate del pasillo: las propias piezas del rey le cierran la salida."
+ },
+ "Mat del ganxo": {
+  "en": "Hook mate",
+  "es": "Mate del gancho"
+ },
+ "Mat del passadís": {
+  "en": "Back-rank mate",
+  "es": "Mate del pasillo"
+ },
+ "Mat del racó": {
+  "en": "Corner mate",
+  "es": "Mate del rincón"
+ },
+ "Mat del triangle": {
+  "en": "Triangle mate",
+  "es": "Mate del triángulo"
+ },
+ "Mat dels dos alfils": {
+  "en": "Double bishop mate",
+  "es": "Mate de los dos alfiles"
+ },
+ "Mat dels porcs cecs": {
+  "en": "Blind swine mate",
+  "es": "Mate de los cerdos ciegos"
+ },
+ "Mat en 1": {
+  "en": "Mate in 1",
+  "es": "Mate en 1"
+ },
+ "Mat en 2": {
+  "en": "Mate in 2",
+  "es": "Mate en 2"
+ },
+ "Mat en 3": {
+  "en": "Mate in 3",
+  "es": "Mate en 3"
+ },
+ "Mat en 4": {
+  "en": "Mate in 4",
+  "es": "Mate en 4"
+ },
+ "Mat en 5 o més": {
+  "en": "Mate in 5 or more",
+  "es": "Mate en 5 o más"
+ },
+ "Mat àrab": {
+  "en": "Arabian mate",
+  "es": "Mate árabe"
+ },
+ "Mat. No hi ha res més a jugar.": {
+  "en": "Mate. There's nothing more to play.",
+  "es": "Mate. No hay nada más que jugar."
+ },
+ "Mestre contra mestre": {
+  "en": "Master vs master",
+  "es": "Maestro contra maestro"
+ },
+ "Mig joc": {
+  "en": "Middlegame",
+  "es": "Medio juego"
+ },
+ "Mirant-ho": {
+  "en": "Looking at it",
+  "es": "Mirándolo"
+ },
+ "Mostra el mat": {
+  "en": "Show the mate",
+  "es": "Muestra el mate"
+ },
+ "Mostra la forquilla": {
+  "en": "Show the fork",
+  "es": "Muestra la horquilla"
+ },
+ "Mostra la idea": {
+  "en": "Show the idea",
+  "es": "Muestra la idea"
+ },
+ "Mostra la millor": {
+  "en": "Show the best move",
+  "es": "Muestra la mejor"
+ },
+ "Mostra la peça perduda": {
+  "en": "Show the lost piece",
+  "es": "Muestra la pieza perdida"
+ },
+ "Motor": {
+  "en": "Engine",
+  "es": "Motor"
+ },
+ "Motor: Stockfish 19 i els seus autors (GPLv3), xarxa nn-1a298aa575a0 (CC0). Puzzles i noms d'obertures: Lichess (CC0). Lletres: Grenze Gotisch i Ysabeau Office (SIL OFL). Peces, tauler, logotip i lliçons: Scachs.": {
+  "en": "Engine: Stockfish 19 and its authors (GPLv3), network nn-1a298aa575a0 (CC0). Puzzles and opening names: Lichess (CC0). Typefaces: Grenze Gotisch and Ysabeau Office (SIL OFL). Pieces, board, logo and lessons: Scachs.",
+  "es": "Motor: Stockfish 19 y sus autores (GPLv3), red nn-1a298aa575a0 (CC0). Puzzles y nombres de aperturas: Lichess (CC0). Tipografías: Grenze Gotisch e Ysabeau Office (SIL OFL). Piezas, tablero, logotipo y lecciones: Scachs."
+ },
+ "Més difícil": {
+  "en": "Harder",
+  "es": "Más difícil"
+ },
+ "Més fàcil": {
+  "en": "Easier",
+  "es": "Más fácil"
+ },
+ "Neutralitzes l'amenaça %@.": {
+  "en": "You neutralize the threat of %@.",
+  "es": "Neutralizas la amenaza %@."
+ },
+ "Neutralitzes l'amenaça de mat: %@.": {
+  "en": "You neutralize the threat of mate: %@.",
+  "es": "Neutralizas la amenaza de mate: %@."
+ },
+ "Nivell d'aquesta partida: %lld": {
+  "en": "This game's level: %lld",
+  "es": "Nivel de esta partida: %lld"
+ },
+ "No has atès l'amenaça %@.": {
+  "en": "You didn't deal with the threat of %@.",
+  "es": "No has atendido la amenaza %@."
+ },
+ "No has atès l'amenaça de mat: %@.": {
+  "en": "You didn't deal with the threat of mate: %@.",
+  "es": "No has atendido la amenaza de mate: %@."
+ },
+ "No hem trobat aquesta partida": {
+  "en": "We couldn't find this game",
+  "es": "No hemos encontrado esta partida"
+ },
+ "No hi havia cap altra jugada possible.": {
+  "en": "There was no other possible move.",
+  "es": "No había ninguna otra jugada posible."
+ },
+ "No hi hem trobat cap partida": {
+  "en": "We found no games there",
+  "es": "No hemos encontrado ninguna partida ahí"
+ },
+ "No perds res respecte de la millor opció.": {
+  "en": "You lose nothing compared with the best option.",
+  "es": "No pierdes nada respecto a la mejor opción."
+ },
+ "No s'ha pogut llegir.": {
+  "en": "Couldn't read it.",
+  "es": "No se ha podido leer."
+ },
+ "No és aquesta": {
+  "en": "That's not it",
+  "es": "No es esta"
+ },
+ "No és la més precisa: perds una mica de terreny.": {
+  "en": "Not the most accurate: you lose a little ground.",
+  "es": "No es la más precisa: pierdes un poco de terreno."
+ },
+ "Només es fan servir per demanar les teves partides públiques a cada servei.": {
+  "en": "They're only used to request your public games from each service.",
+  "es": "Solo se usan para pedir tus partidas públicas a cada servicio."
+ },
+ "Només importem partides d'escacs estàndard": {
+  "en": "We only import standard chess games",
+  "es": "Solo importamos partidas de ajedrez estándar"
+ },
+ "Normal": {
+  "en": "Normal",
+  "es": "Normal"
+ },
+ "O enganxa un PGN o un enllaç": {
+  "en": "Or paste a PGN or a link",
+  "es": "O pega un PGN o un enlace"
+ },
+ "Obertura": {
+  "en": "Opening",
+  "es": "Apertura"
+ },
+ "Obertura coneguda: %@.": {
+  "en": "Known opening: %@.",
+  "es": "Apertura conocida: %@."
+ },
+ "Ofereixes %@, i el rival no en treu cap profit.": {
+  "en": "You offer %@, and your opponent gets nothing from it.",
+  "es": "Ofreces %@, y el rival no le saca ningún provecho."
+ },
+ "Oportunitat perduda": {
+  "en": "Miss",
+  "es": "Ocasión perdida"
+ },
+ "Partida de mestre": {
+  "en": "Master game",
+  "es": "Partida de maestro"
+ },
+ "Partida de superGM": {
+  "en": "Super GM game",
+  "es": "Partida de superGM"
+ },
+ "Partides": {
+  "en": "Games",
+  "es": "Partidas"
+ },
+ "Per Dama pres Bellea.": {
+  "en": "As her queen she took Beauty.",
+  "es": "Por Dama tomó a Belleza."
+ },
+ "Per recordar-ho": {
+  "en": "To remember",
+  "es": "Para recordarlo"
+ },
+ "Per trobar aquesta partida cal el teu usuari de chess.com": {
+  "en": "To find this game we need your chess.com username",
+  "es": "Para encontrar esta partida hace falta tu usuario de chess.com"
+ },
+ "Perds %@ després de %@.": {
+  "en": "You lose %@ after %@.",
+  "es": "Pierdes %@ después de %@."
+ },
+ "Perds molt poc respecte de la millor opció.": {
+  "en": "You lose very little compared with the best option.",
+  "es": "Pierdes muy poco respecto a la mejor opción."
+ },
+ "Perduda": {
+  "en": "Lost",
+  "es": "Perdida"
+ },
+ "Permets un mat forçat en %lld jugades, començant per %@.": {
+  "en": "You allow a forced mate in %lld moves, starting with %@.",
+  "es": "Permites un mate forzado en %lld jugadas, empezando por %@."
+ },
+ "Peça atrapada": {
+  "en": "Trapped piece",
+  "es": "Pieza atrapada"
+ },
+ "Peça penjada": {
+  "en": "Hanging piece",
+  "es": "Pieza colgada"
+ },
+ "Peó avançat": {
+  "en": "Advanced pawn",
+  "es": "Peón avanzado"
+ },
+ "Pista": {
+  "en": "Hint",
+  "es": "Pista"
+ },
+ "Podies atrapar %@: no tenia cap casella segura.": {
+  "en": "You could trap %@: it had no safe square.",
+  "es": "Podías atrapar %@: no tenía ninguna casilla segura."
+ },
+ "Podies capturar %@, que no tenia defensa, amb %@.": {
+  "en": "You could take %@, which was undefended, with %@.",
+  "es": "Podías capturar %@, que no tenía defensa, con %@."
+ },
+ "Podies capturar %@, que no tenia prou defensa, amb %@.": {
+  "en": "You could take %@, which wasn't defended enough, with %@.",
+  "es": "Podías capturar %@, que no tenía suficiente defensa, con %@."
+ },
+ "Podies guanyar %@ amb %@.": {
+  "en": "You could win %@ with %@.",
+  "es": "Podías ganar %@ con %@."
+ },
+ "Porta aquí les teves partides de chess.com o de Lichess. Stockfish les analitza al teu iPhone, sense connexió.": {
+  "en": "Bring your chess.com or Lichess games here. Stockfish analyzes them on your iPhone, offline.",
+  "es": "Trae aquí tus partidas de chess.com o de Lichess. Stockfish las analiza en tu iPhone, sin conexión."
+ },
+ "Porta les partides": {
+  "en": "Bring your games",
+  "es": "Trae tus partidas"
+ },
+ "Posició inicial": {
+  "en": "Starting position",
+  "es": "Posición inicial"
+ },
+ "Programari lliure": {
+  "en": "Free software",
+  "es": "Software libre"
+ },
+ "Promoció": {
+  "en": "Promotion",
+  "es": "Promoción"
+ },
+ "Prova": {
+  "en": "Test",
+  "es": "Prueba"
+ },
+ "Puntuació": {
+  "en": "Rating",
+  "es": "Puntuación"
+ },
+ "Puntuació %lld": {
+  "en": "Rating %lld",
+  "es": "Puntuación %lld"
+ },
+ "Puntuació de puzzles. No és la teva puntuació en partides.": {
+  "en": "Puzzle rating. It isn't your game rating.",
+  "es": "Puntuación de puzzles. No es tu puntuación en partidas."
+ },
+ "Puzzle": {
+  "en": "Puzzle",
+  "es": "Puzzle"
+ },
+ "Puzzle %lld de %lld": {
+  "en": "Puzzle %lld of %lld",
+  "es": "Puzzle %lld de %lld"
+ },
+ "Puzzles": {
+  "en": "Puzzles",
+  "es": "Puzzles"
+ },
+ "Pífia": {
+  "en": "Blunder",
+  "es": "Error grave"
+ },
+ "Quan hagis resolt més puzzles, aquí veuràs on et va millor i on se t'escapen.": {
+  "en": "Once you've solved more puzzles, you'll see here where you do best and what slips past you.",
+  "es": "Cuando hayas resuelto más puzzles, aquí verás dónde te va mejor y dónde se te escapan."
+ },
+ "Quant jugues?": {
+  "en": "How much do you play?",
+  "es": "¿Cuánto juegas?"
+ },
+ "Quatre jugades o més": {
+  "en": "Four moves or more",
+  "es": "Cuatro jugadas o más"
+ },
+ "Recaptures %@.": {
+  "en": "You recapture %@.",
+  "es": "Recapturas %@."
+ },
+ "Recuperes el material amb %@.": {
+  "en": "You win the material back with %@.",
+  "es": "Recuperas el material con %@."
+ },
+ "Recuperes la igualtat en una posició que anava malament.": {
+  "en": "You restore equality in a position that was going badly.",
+  "es": "Recuperas la igualdad en una posición que iba mal."
+ },
+ "Rei exposat": {
+  "en": "Exposed king",
+  "es": "Rey expuesto"
+ },
+ "Reintenta": {
+  "en": "Retry",
+  "es": "Reintenta"
+ },
+ "Resolt amb pista. No compta per a la puntuació.": {
+  "en": "Solved with a hint. It doesn't count toward your rating.",
+  "es": "Resuelto con pista. No cuenta para la puntuación."
+ },
+ "Resolt.": {
+  "en": "Solved.",
+  "es": "Resuelto."
+ },
+ "Resolt. +%lld": {
+  "en": "Solved. +%lld",
+  "es": "Resuelto. +%lld"
+ },
+ "Respons a la captura amb %@.": {
+  "en": "You answer the capture with %@.",
+  "es": "Respondes a la captura con %@."
+ },
+ "Resposta inesperada del servidor": {
+  "en": "Unexpected server response",
+  "es": "Respuesta inesperada del servidor"
+ },
+ "Resum": {
+  "en": "Summary",
+  "es": "Resumen"
+ },
+ "Revisa la partida": {
+  "en": "Review the game",
+  "es": "Revisa la partida"
+ },
+ "Revisió": {
+  "en": "Review",
+  "es": "Revisión"
+ },
+ "Sacrifici": {
+  "en": "Sacrifice",
+  "es": "Sacrificio"
+ },
+ "Sacrifiques %@ i la posició ho compensa.": {
+  "en": "You sacrifice %@ and the position makes up for it.",
+  "es": "Sacrificas %@ y la posición lo compensa."
+ },
+ "Scachs": {
+  "en": "Scachs",
+  "es": "Scachs"
+ },
+ "Scachs es distribueix sota la llicència GNU GPL versió 3 o posterior, sense cap garantia. Pots veure'n el text aquí i obtenir el codi font complet d'aquesta versió.": {
+  "en": "Scachs is distributed under the GNU GPL license, version 3 or later, with no warranty. You can read its text here and get the complete source code of this version.",
+  "es": "Scachs se distribuye bajo la licencia GNU GPL versión 3 o posterior, sin ninguna garantía. Puedes ver su texto aquí y obtener el código fuente completo de esta versión."
+ },
+ "Scachs no està afiliada a chess.com ni a Lichess. Les etiquetes de les jugades les calcula aquesta app amb un model propi i poden no coincidir amb les d'altres serveis.": {
+  "en": "Scachs is not affiliated with chess.com or Lichess. This app works out the move labels with its own model, and they may not match those of other services.",
+  "es": "Scachs no está afiliada a chess.com ni a Lichess. Las etiquetas de las jugadas las calcula esta app con un modelo propio y pueden no coincidir con las de otros servicios."
+ },
+ "Se t'ha escapat el mat amb %@.": {
+  "en": "You missed mate with %@.",
+  "es": "Se te ha escapado el mate con %@."
+ },
+ "Se t'ha escapat un mat en %lld: la clau era %@.": {
+  "en": "You missed a mate in %lld: the key was %@.",
+  "es": "Se te ha escapado un mate en %lld: la clave era %@."
+ },
+ "Següent": {
+  "en": "Next",
+  "es": "Siguiente"
+ },
+ "Següent al teu camí": {
+  "en": "Next on your path",
+  "es": "Siguiente en tu camino"
+ },
+ "Següent clau": {
+  "en": "Next key move",
+  "es": "Siguiente clave"
+ },
+ "Sense acabar": {
+  "en": "Unfinished",
+  "es": "Sin acabar"
+ },
+ "Sense connexió": {
+  "en": "Offline",
+  "es": "Sin conexión"
+ },
+ "Serveix, encara que no és la més precisa.": {
+  "en": "It works, though it's not the most accurate.",
+  "es": "Sirve, aunque no es la más precisa."
+ },
+ "So": {
+  "en": "Sound",
+  "es": "Sonido"
+ },
+ "Sobre Scachs": {
+  "en": "About Scachs",
+  "es": "Sobre Scachs"
+ },
+ "Solució": {
+  "en": "Solution",
+  "es": "Solución"
+ },
+ "Stockfish corre al teu iPhone. Pots sortir: seguirà on ho ha deixat.": {
+  "en": "Stockfish runs on your iPhone. You can leave: it picks up where it left off.",
+  "es": "Stockfish funciona en tu iPhone. Puedes salir: seguirá donde lo ha dejado."
+ },
+ "Subpromoció": {
+  "en": "Underpromotion",
+  "es": "Subpromoción"
+ },
+ "Tan bona com la primera opció del motor.": {
+  "en": "As good as the engine's first choice.",
+  "es": "Tan buena como la primera opción del motor."
+ },
+ "Tanca": {
+  "en": "Close",
+  "es": "Cierra"
+ },
+ "Taules": {
+  "en": "Draw",
+  "es": "Tablas"
+ },
+ "Temes": {
+  "en": "Themes",
+  "es": "Temas"
+ },
+ "Tenies mat en %lld començant per %@.": {
+  "en": "You had mate in %lld, starting with %@.",
+  "es": "Tenías mate en %lld empezando por %@."
+ },
+ "Tenies mat immediat amb %@.": {
+  "en": "You had immediate mate with %@.",
+  "es": "Tenías mate inmediato con %@."
+ },
+ "Tenies una oportunitat clara i se t'ha escapat.": {
+  "en": "You had a clear chance and it slipped away.",
+  "es": "Tenías una ocasión clara y se te ha escapado."
+ },
+ "Tens mat forçat en %lld.": {
+  "en": "You have forced mate in %lld.",
+  "es": "Tienes mate forzado en %lld."
+ },
+ "Torna a la partida": {
+  "en": "Back to the game",
+  "es": "Vuelve a la partida"
+ },
+ "Torna-hi, o mira la solució.": {
+  "en": "Try again, or see the solution.",
+  "es": "Prueba otra vez, o mira la solución."
+ },
+ "Torna-ho a provar": {
+  "en": "Try again",
+  "es": "Vuelve a intentarlo"
+ },
+ "Totes les altres opcions eren clarament pitjors.": {
+  "en": "All the other options were clearly worse.",
+  "es": "Todas las demás opciones eran claramente peores."
+ },
+ "Tres jugades": {
+  "en": "Three moves",
+  "es": "Tres jugadas"
+ },
+ "Troba una jugada millor": {
+  "en": "Find a better move",
+  "es": "Encuentra una jugada mejor"
+ },
+ "Tu": {
+  "en": "You",
+  "es": "Tú"
+ },
+ "Un bon sacrifici: %@ queda a l'abast, però la valoració es manté.": {
+  "en": "A good sacrifice: %@ is left in reach, but the evaluation holds.",
+  "es": "Un buen sacrificio: %@ queda al alcance, pero la valoración se mantiene."
+ },
+ "Una jugada": {
+  "en": "One move",
+  "es": "Una jugada"
+ },
+ "Una jugada correcta, tot i que n'hi havia de millors.": {
+  "en": "A sound move, though there were better ones.",
+  "es": "Una jugada correcta, aunque las había mejores."
+ },
+ "Una jugada sòlida, molt a prop de la millor.": {
+  "en": "A solid move, very close to the best.",
+  "es": "Una jugada sólida, muy cerca de la mejor."
+ },
+ "Usuari de Lichess": {
+  "en": "Lichess username",
+  "es": "Usuario de Lichess"
+ },
+ "Usuari de chess.com": {
+  "en": "chess.com username",
+  "es": "Usuario de chess.com"
+ },
+ "Usuari no trobat": {
+  "en": "User not found",
+  "es": "Usuario no encontrado"
+ },
+ "València, c.1475. El registre més antic que es coneix de la dama moderna acaba amb aquesta jugada.": {
+  "en": "Valencia, c.1475. The oldest known record of the modern queen ends with this move.",
+  "es": "Valencia, c.1475. El registro más antiguo que se conoce de la dama moderna termina con esta jugada."
+ },
+ "Variant": {
+  "en": "Variation",
+  "es": "Variante"
+ },
+ "Vibració": {
+  "en": "Vibration",
+  "es": "Vibración"
+ },
+ "Zugzwang": {
+  "en": "Zugzwang",
+  "es": "Zugzwang"
+ },
+ "a guanyadora": {
+  "en": "to winning",
+  "es": "a ganadora"
+ },
+ "a igualada": {
+  "en": "to equal",
+  "es": "a igualada"
+ },
+ "a l'alfil": {
+  "en": "the bishop",
+  "es": "el alfil"
+ },
+ "a la dama": {
+  "en": "the queen",
+  "es": "la dama"
+ },
+ "a la torre": {
+  "en": "the rook",
+  "es": "la torre"
+ },
+ "a perduda": {
+  "en": "to losing",
+  "es": "a perdida"
+ },
+ "al cavall": {
+  "en": "the knight",
+  "es": "el caballo"
+ },
+ "al peó": {
+  "en": "the pawn",
+  "es": "el peón"
+ },
+ "al rei": {
+  "en": "the king",
+  "es": "el rey"
+ },
+ "al teu nivell": {
+  "en": "at your level",
+  "es": "a tu nivel"
+ },
+ "alfil": {
+  "en": "bishop",
+  "es": "alfil"
+ },
+ "bala": {
+  "en": "bullet",
+  "es": "bala"
+ },
+ "blitz": {
+  "en": "blitz",
+  "es": "blitz"
+ },
+ "cavall": {
+  "en": "knight",
+  "es": "caballo"
+ },
+ "chess.com ja no ofereix aquestes dades": {
+  "en": "chess.com no longer offers this data",
+  "es": "chess.com ya no ofrece estos datos"
+ },
+ "chess.com no ha acceptat la petició": {
+  "en": "chess.com didn't accept the request",
+  "es": "chess.com no ha aceptado la petición"
+ },
+ "clàssica": {
+  "en": "classical",
+  "es": "clásica"
+ },
+ "d'%@": {
+  "en": "on %@",
+  "es": "de %@"
+ },
+ "d'igualada": {
+  "en": "from equal",
+  "es": "de igualada"
+ },
+ "dama": {
+  "en": "queen",
+  "es": "dama"
+ },
+ "de %@": {
+  "en": "on %@",
+  "es": "de %@"
+ },
+ "de guanyadora": {
+  "en": "from winning",
+  "es": "de ganadora"
+ },
+ "de l'alfil": {
+  "en": "the bishop",
+  "es": "del alfil"
+ },
+ "de la dama": {
+  "en": "the queen",
+  "es": "de la dama"
+ },
+ "de la torre": {
+  "en": "the rook",
+  "es": "de la torre"
+ },
+ "de perduda": {
+  "en": "from losing",
+  "es": "de perdida"
+ },
+ "del cavall": {
+  "en": "the knight",
+  "es": "del caballo"
+ },
+ "del peó": {
+  "en": "the pawn",
+  "es": "del peón"
+ },
+ "del rei": {
+  "en": "the king",
+  "es": "del rey"
+ },
+ "dos peons": {
+  "en": "two pawns",
+  "es": "dos peones"
+ },
+ "el cavall": {
+  "en": "the knight",
+  "es": "el caballo"
+ },
+ "el peó": {
+  "en": "the pawn",
+  "es": "el peón"
+ },
+ "el rei": {
+  "en": "the king",
+  "es": "el rey"
+ },
+ "l'alfil": {
+  "en": "the bishop",
+  "es": "el alfil"
+ },
+ "la dama": {
+  "en": "the queen",
+  "es": "la dama"
+ },
+ "la qualitat": {
+  "en": "the exchange",
+  "es": "la calidad"
+ },
+ "la torre": {
+  "en": "the rook",
+  "es": "la torre"
+ },
+ "material": {
+  "en": "material",
+  "es": "material"
+ },
+ "millor del previst": {
+  "en": "better than expected",
+  "es": "mejor de lo previsto"
+ },
+ "partida": {
+  "en": "game",
+  "es": "partida"
+ },
+ "per correspondència": {
+  "en": "correspondence",
+  "es": "por correspondencia"
+ },
+ "peó": {
+  "en": "pawn",
+  "es": "peón"
+ },
+ "rei": {
+  "en": "king",
+  "es": "rey"
+ },
+ "ràpida": {
+  "en": "rapid",
+  "es": "rápida"
+ },
+ "se t'escapa": {
+  "en": "slips past you",
+  "es": "se te escapa"
+ },
+ "torre": {
+  "en": "rook",
+  "es": "torre"
+ },
+ "tres peons": {
+  "en": "three pawns",
+  "es": "tres peones"
+ },
+ "ultrabala": {
+  "en": "ultrabullet",
+  "es": "ultrabala"
+ },
+ "un alfil": {
+  "en": "a bishop",
+  "es": "un alfil"
+ },
+ "un cavall": {
+  "en": "a knight",
+  "es": "un caballo"
+ },
+ "un peó": {
+  "en": "a pawn",
+  "es": "un peón"
+ },
+ "una peça": {
+  "en": "a piece",
+  "es": "una pieza"
+ },
+ "una torre": {
+  "en": "a rook",
+  "es": "una torre"
+ },
+ "«Scachs» és la paraula del poema *Scachs d'amor* (València, c.1475), el registre més antic que es coneix de la dama i l'alfil moderns. Es pronuncia «skaks». El manuscrit conegut era una còpia, i avui se'n desconeix el parador.": {
+  "en": "“Scachs” is the word from the poem *Scachs d'amor* (Valencia, c.1475), the oldest known record of the modern queen and bishop. It's pronounced “skaks”. The known manuscript was a copy, and its whereabouts are unknown today.",
+  "es": "«Scachs» es la palabra del poema *Scachs d'amor* (Valencia, c.1475), el registro más antiguo que se conoce de la dama y el alfil modernos. Se pronuncia «skaks». El manuscrito conocido era una copia, y hoy se desconoce su paradero."
+ },
+ "És acceptable, però hi havia una opció més forta.": {
+  "en": "It's acceptable, but there was a stronger option.",
+  "es": "Es aceptable, pero había una opción más fuerte."
+ },
+ "És la millor jugada de la posició.": {
+  "en": "It's the best move in the position.",
+  "es": "Es la mejor jugada de la posición."
+ },
+ "És mat: la partida s'acaba aquí.": {
+  "en": "It's mate: the game ends here.",
+  "es": "Es mate: la partida termina aquí."
+ },
+ "És un mat de passadís: el rei no pot sortir de l'última fila.": {
+  "en": "It's a back-rank mate: the king can't leave its back rank.",
+  "es": "Es un mate del pasillo: el rey no puede salir de la última fila."
+ },
+ "És una errada: la posició queda força pitjor.": {
+  "en": "It's a mistake: the position is left much worse.",
+  "es": "Es un error: la posición queda bastante peor."
+ },
+ "És una jugada coneguda de l'obertura.": {
+  "en": "It's a known opening move.",
+  "es": "Es una jugada conocida de la apertura."
+ },
+ "És una pífia: la posició empitjora molt.": {
+  "en": "It's a blunder: the position gets much worse.",
+  "es": "Es un error grave: la posición empeora mucho."
+ }
+}

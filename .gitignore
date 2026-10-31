@@ -21,3 +21,15 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# native build
+.cache/
+brand/pieces/baked/*.npz
+.playwright-mcp/
+.claude/
+DerivedData/
+build/
+*.xcuserstate
+xcuserdata/
+Scachs.xcodeproj/
+Scachs/Resources/nn-*.nnue
