@@ -7,18 +7,19 @@
 - Textos de la fitxa en tres idiomes a `metadata.md`. Política de privacitat a `privacy.md`.
 - Bundle `com.jsolee.scachs`, equip `MUY564KAW3`, iOS 26+, només iPhone.
 - `scripts/testflight.sh`: arxiva en Release i puja. El número de build és la data i l'hora.
+- App creada a App Store Connect: «Scachs: Chess Puzzles & Review», SKU `scachs`, idioma català. Primera build interna pujada el 2026-10-31.
 
 ## T'ho cal fer a tu
-1. **Crear l'app a App Store Connect** (Apps > + > Nova app): plataforma iOS, nom «Scachs: Chess Puzzles & Review», idioma principal català, bundle `com.jsolee.scachs`, SKU `scachs`. El bundle s'hauria de registrar sol amb el primer arxivat; si no surt a la llista, executa abans `scripts/testflight.sh --no-upload`.
-2. **Pujar:** `scripts/testflight.sh`. Signa amb el compte de Xcode (Ajustes > Comptes), el mateix de Niwa.
-3. **Grup intern:** crea'l a TestFlight («Scachs intern») amb distribució automàtica i afegeix-t'hi.
-4. **Abans de provadors externs (GPL):**
+1. **Pujar una build nova:** `scripts/testflight.sh`. Signa amb el compte de Xcode (Ajustes > Comptes). L'app ja existeix (6829113197) i el grup intern «Scachs intern» la rep sol, amb distribució automàtica.
+2. **Si la pujada falla amb «No Accounts» o «Failed to Use Accounts»:** torna a iniciar sessió a Xcode i mira si Apple demana acceptar un contracte nou a developer.apple.com/account.
+3. **Abans de provadors externs (GPL):**
    - Puja el codi: el repo ha de ser públic amb l'etiqueta exacta de la build. Substitueix `[URL DEL REPO]` a `metadata.md`.
    - Consulta amb un advocat el conflicte GPL i App Store si mai passa a l'App Store públic. Lichess Mobile hi és amb GPL, però el conflicte no s'ha resolt mai.
-5. **Política de privacitat** en una URL pública amb un correu de contacte, i etiqueta de privacitat: «No es recullen dades».
-6. Per a **provadors externs** cal la revisió beta, amb el text de «Què cal provar» de `metadata.md`.
+4. **Política de privacitat** en una URL pública amb un correu de contacte, i etiqueta de privacitat: «No es recullen dades».
+5. Per a **provadors externs** cal la revisió beta, amb el text de «Què cal provar» de `metadata.md`.
 
 ## Abans d'anar a l'App Store (no fa falta per a TestFlight intern)
+- Indicar la condició de comerciant (Reglament de Serveis Digitals de la UE) a App Store Connect.
 - Fer revisar «Scachs» per un advocat de marques: SCACS S.A. té marca a les classes 35/42 i «escacs» pot ser descriptiu.
 - Escriure a chess.com (legal@chess.com) per l'ús de la seva API pública en una app. Les seves condicions limiten l'accés automatitzat i no parlen de l'API pública.
 - Fer-hi repassar les 30 lliçons per un jugador fort.
