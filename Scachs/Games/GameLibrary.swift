@@ -98,6 +98,8 @@ struct ImportedGame: Identifiable, Hashable, Codable, Sendable {
     var blackAccuracy: Double?
     var lichessEvals: [PlyEval]?
     var reviewed = false
+    /// Your accuracy from this app's own review.
+    var myAccuracy: Double?
 
     /// chess.com Daily %clk is not a remaining clock, so nothing downstream gets to read it as one.
     static func strippingClocks(_ pgn: String) -> String {
@@ -182,6 +184,7 @@ extension ImportedGame {
     private(set) var games: [ImportedGame] = []
     private(set) var isRefreshing = false
     private(set) var refreshErrors: [GameSource: ImportError] = [:]
+    private(set) var reachedOldest = false
 
     var chessComUsername: String {
         didSet { defaults.set(chessComUsername, forKey: Self.chessComKey); usernamesChanged() }
@@ -250,6 +253,29 @@ extension ImportedGame {
         merge(fetched.filter { !deleted.contains($0.id) && !deleted.contains($0.url ?? "") }, fromSite: true)
     }
 
+    /// Twenty more from each site, older than what's here. When none are new there is nothing further back.
+    func loadOlder() async {
+        guard !isRefreshing else { return }
+        isRefreshing = true
+        defer { isRefreshing = false }
+        var fetched: [ImportedGame] = []
+        var errors: [GameSource: ImportError] = [:]
+        func oldest(_ source: GameSource) -> Date? { games.filter { $0.source == source }.map(\.date).min() }
+        func attempt(_ source: GameSource, _ fetch: () async throws -> [ImportedGame]) async {
+            do { fetched += try await fetch() }
+            catch is CancellationError {}
+            catch { errors[source] = error as? ImportError ?? .unexpectedResponse }
+        }
+        let chessName = chessComUsername, lichessName = lichessUsername
+        if !chessName.isBlank { await attempt(.chessCom) { try await chessCom.recentGames(username: chessName, before: oldest(.chessCom)) } }
+        if !lichessName.isBlank { await attempt(.lichess) { try await lichess.recentGames(username: lichessName, before: oldest(.lichess)) } }
+        refreshErrors = errors
+        let known = Set(games.map(\.id))
+        let new = fetched.filter { !known.contains($0.id) && !deleted.contains($0.id) && !deleted.contains($0.url ?? "") }
+        if errors.isEmpty && new.isEmpty { reachedOldest = true }
+        merge(new, fromSite: true)
+    }
+
     /// Pasted text of either kind.
     @discardableResult
     func add(pasted text: String) async throws -> [ImportedGame] {
@@ -316,6 +342,7 @@ extension ImportedGame {
                 if fromSite {
                     game.id = games[i].id
                     game.reviewed = games[i].reviewed
+                    game.myAccuracy = games[i].myAccuracy
                     games[i] = game
                 }
                 stored.append(games[i])
@@ -334,6 +361,7 @@ extension ImportedGame {
         evidenceCache = [:]
         refreshErrors = [:]
         lastRefresh = nil
+        reachedOldest = false
         save()
     }
 
@@ -343,10 +371,27 @@ extension ImportedGame {
         try FileManager.default.createDirectory(at: reviewsFolder, withIntermediateDirectories: true)
         try JSONEncoder().encode(review).write(to: reviewURL(id), options: .atomic)
         evidenceCache[id] = nil
-        if let i = games.firstIndex(where: { $0.id == id }), !games[i].reviewed {
-            games[i].reviewed = true
-            save()
+        guard let i = games.firstIndex(where: { $0.id == id }) else { return }
+        games[i].reviewed = true
+        note(review, at: i)
+        save()
+        WidgetSnapshot.write()
+    }
+
+    private func note(_ review: GameReview, at i: Int) {
+        if let side = games[i].mySide { games[i].myAccuracy = (side == .white ? review.white : review.black).accuracy }
+        Progress.shared.harvest(review, game: games[i])
+    }
+
+    /// Reviews finished before mistakes were kept, or before a username was linked.
+    func harvestOldReviews() {
+        var changed = false
+        for i in games.indices where games[i].reviewed && games[i].mySide != nil && games[i].myAccuracy == nil {
+            guard let review = review(for: games[i].id), review.isComplete else { continue }
+            note(review, at: i)
+            changed = true
         }
+        if changed { save() }
     }
 
     /// A corrupt file counts as no review: it goes away and the game can be analysed again.

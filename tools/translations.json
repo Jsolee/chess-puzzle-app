@@ -1806,5 +1806,353 @@
  "És una pífia: la posició empitjora molt.": {
   "en": "It's a blunder: the position gets much worse.",
   "es": "Es un error grave: la posición empeora mucho."
+ },
+ "%@ – %@": {
+  "en": "%@ – %@",
+  "es": "%@ – %@"
+ },
+ "%@, mat.": {
+  "en": "%@, mate.",
+  "es": "%@, mate."
+ },
+ "A cegues": {
+  "en": "Blindfold",
+  "es": "A ciegas"
+ },
+ "A cegues, amb auriculars": {
+  "en": "Blindfold, with earphones",
+  "es": "A ciegas, con auriculares"
+ },
+ "A la partida vas jugar %@.": {
+  "en": "In the game you played %@.",
+  "es": "En la partida jugaste %@."
+ },
+ "A la partida vas jugar %@. Troba'n una de millor.": {
+  "en": "In the game you played %@. Find a better one.",
+  "es": "En la partida jugaste %@. Encuentra una mejor."
+ },
+ "Afegit a Scachs. Obre l'app per veure-ho.": {
+  "en": "Added to Scachs. Open the app to see it.",
+  "es": "Añadido a Scachs. Abre la app para verlo."
+ },
+ "Això és tot per avui.": {
+  "en": "That's all for today.",
+  "es": "Eso es todo por hoy."
+ },
+ "Analitza": {
+  "en": "Analyse",
+  "es": "Analizar"
+ },
+ "Analitzada. Precisió %@": {
+  "en": "Analysed. Accuracy %@",
+  "es": "Analizada. Precisión %@"
+ },
+ "Analitzant contra %@": {
+  "en": "Analysing against %@",
+  "es": "Analizando contra %@"
+ },
+ "Analitzant la partida contra %@. %lld %%": {
+  "en": "Analysing the game against %1$@. %2$lld %%",
+  "es": "Analizando la partida contra %1$@. %2$lld %%"
+ },
+ "Aquesta no.": {
+  "en": "Not that one.",
+  "es": "Esa no."
+ },
+ "Aquesta vegada no": {
+  "en": "Not this time",
+  "es": "Esta vez no"
+ },
+ "Aquí encara no hi has estat.": {
+  "en": "You haven't been here yet.",
+  "es": "Aquí aún no has estado."
+ },
+ "Aquí hi ha dracs.": {
+  "en": "Here be dragons.",
+  "es": "Aquí hay dragones."
+ },
+ "Aquí hi havia més": {
+  "en": "There was more here",
+  "es": "Aquí había más"
+ },
+ "Aquí la tens, per si la vols veure.": {
+  "en": "Here it is, if you'd like to see it.",
+  "es": "Aquí la tienes, por si quieres verla."
+ },
+ "Avui": {
+  "en": "Today",
+  "es": "Hoy"
+ },
+ "Ben vist.": {
+  "en": "Well seen.",
+  "es": "Bien visto."
+ },
+ "Blanques": {
+  "en": "White",
+  "es": "Blancas"
+ },
+ "Blanques: %@. Negres: %@. %@": {
+  "en": "White: %1$@. Black: %2$@. %3$@",
+  "es": "Blancas: %1$@. Negras: %2$@. %3$@"
+ },
+ "Calcula. Quan ho tinguis, prem els auriculars o el botó.": {
+  "en": "Calculate. When you have it, press your earphones or the button.",
+  "es": "Calcula. Cuando lo tengas, pulsa los auriculares o el botón."
+ },
+ "Carrega'n més": {
+  "en": "Load more",
+  "es": "Cargar más"
+ },
+ "Casella": {
+  "en": "Square",
+  "es": "Casilla"
+ },
+ "Col·loca les peces a mà": {
+  "en": "Place the pieces by hand",
+  "es": "Coloca las piezas a mano"
+ },
+ "Comparteix el PGN": {
+  "en": "Share the PGN",
+  "es": "Compartir el PGN"
+ },
+ "Comprova-la. Toca una peça de sota i després la casella per corregir-la.": {
+  "en": "Check it. Tap a piece below, then the square, to correct it.",
+  "es": "Compruébala. Toca una pieza de abajo y luego la casilla para corregirla."
+ },
+ "Contra %@": {
+  "en": "Against %@",
+  "es": "Contra %@"
+ },
+ "Contra %@, amb el seu nivell (%lld).": {
+  "en": "Against %1$@, at their level (%2$lld).",
+  "es": "Contra %1$@, con su nivel (%2$lld)."
+ },
+ "Daurat on et va bé, vermell on et costa. Toca una terra per veure-la.": {
+  "en": "Gold where it goes well, red where it's hard. Tap a land to see it.",
+  "es": "Dorado donde te va bien, rojo donde te cuesta. Toca una tierra para verla."
+ },
+ "Era aquesta": {
+  "en": "It was this one",
+  "es": "Era esta"
+ },
+ "Es va jugar això.": {
+  "en": "This was played.",
+  "es": "Se jugó esto."
+ },
+ "Escolta la posició.": {
+  "en": "Listen to the position.",
+  "es": "Escucha la posición."
+ },
+ "Et toca": {
+  "en": "Your move",
+  "es": "Te toca"
+ },
+ "Falta un rei a cada bàndol": {
+  "en": "Each side needs a king",
+  "es": "Falta un rey en cada bando"
+ },
+ "Fins aquí.": {
+  "en": "That's all.",
+  "es": "Hasta aquí."
+ },
+ "Gira el tauler": {
+  "en": "Flip the board",
+  "es": "Girar el tablero"
+ },
+ "Juguen les blanques.": {
+  "en": "White to play.",
+  "es": "Juegan las blancas."
+ },
+ "Juguen les negres.": {
+  "en": "Black to play.",
+  "es": "Juegan las negras."
+ },
+ "L'Atles": {
+  "en": "The Atlas",
+  "es": "El Atlas"
+ },
+ "L'Atles de les teves obertures": {
+  "en": "The Atlas of your openings",
+  "es": "El Atlas de tus aperturas"
+ },
+ "L'has guanyada": {
+  "en": "You won it",
+  "es": "La has ganado"
+ },
+ "La partida del diumenge": {
+  "en": "The Sunday game",
+  "es": "La partida del domingo"
+ },
+ "La teva ratxa i els últims set dies.": {
+  "en": "Your streak and the last seven days.",
+  "es": "Tu racha y los últimos siete días."
+ },
+ "Llegint el tauler": {
+  "en": "Reading the board",
+  "es": "Leyendo el tablero"
+ },
+ "Lliçó": {
+  "en": "Lesson",
+  "es": "Lección"
+ },
+ "Mat en 1.": {
+  "en": "Mate in 1.",
+  "es": "Mate en 1."
+ },
+ "Mat en 2.": {
+  "en": "Mate in 2.",
+  "es": "Mate en 2."
+ },
+ "Mat. Ben trobat.": {
+  "en": "Mate. Well found.",
+  "es": "Mate. Bien encontrado."
+ },
+ "Mira què va passar": {
+  "en": "See what happened",
+  "es": "Mira qué pasó"
+ },
+ "Mira.": {
+  "en": "Watch.",
+  "es": "Mira."
+ },
+ "Mostra la ratxa": {
+  "en": "Show the streak",
+  "es": "Mostrar la racha"
+ },
+ "Negres": {
+  "en": "Black",
+  "es": "Negras"
+ },
+ "No hi he trobat cap tauler": {
+  "en": "I couldn't find a board",
+  "es": "No he encontrado ningún tablero"
+ },
+ "No la veig": {
+  "en": "I don't see it",
+  "es": "No la veo"
+ },
+ "O tria una captura d'un tauler": {
+  "en": "Or choose a screenshot of a board",
+  "es": "O elige una captura de un tablero"
+ },
+ "Obre Scachs per veure el mat d'avui.": {
+  "en": "Open Scachs to see today's mate.",
+  "es": "Abre Scachs para ver el mate de hoy."
+ },
+ "Passa": {
+  "en": "Skip",
+  "es": "Pasar"
+ },
+ "Pensa": {
+  "en": "Thinking",
+  "es": "Piensa"
+ },
+ "Pensa en això: %@.": {
+  "en": "Think about this: %@.",
+  "es": "Piensa en esto: %@."
+ },
+ "Posició %lld de %lld": {
+  "en": "Position %1$lld of %2$lld",
+  "es": "Posición %1$lld de %2$lld"
+ },
+ "Precisió %@": {
+  "en": "Accuracy %@",
+  "es": "Precisión %@"
+ },
+ "Prova amb una captura on el tauler es vegi sencer, o col·loca les peces a mà.": {
+  "en": "Try a screenshot that shows the whole board, or place the pieces by hand.",
+  "es": "Prueba con una captura donde se vea el tablero entero, o coloca las piezas a mano."
+ },
+ "Quan tinguis partides amb aquest color, sortiran aquí.": {
+  "en": "Once you have games with this colour, they'll appear here.",
+  "es": "Cuando tengas partidas con este color, saldrán aquí."
+ },
+ "Què jugaries amb blanques?": {
+  "en": "What would you play as White?",
+  "es": "¿Qué jugarías con blancas?"
+ },
+ "Què jugaries amb negres?": {
+  "en": "What would you play as Black?",
+  "es": "¿Qué jugarías con negras?"
+ },
+ "Repeteix": {
+  "en": "Repeat",
+  "es": "Repetir"
+ },
+ "Toca el tauler per començar.": {
+  "en": "Tap the board to start.",
+  "es": "Toca el tablero para empezar."
+ },
+ "Toca una casella": {
+  "en": "Tap a square",
+  "es": "Toca una casilla"
+ },
+ "Torna a començar des d'aquí": {
+  "en": "Start again from here",
+  "es": "Empezar de nuevo desde aquí"
+ },
+ "Torna a la posició": {
+  "en": "Back to the position",
+  "es": "Volver a la posición"
+ },
+ "Torna-la a jugar": {
+  "en": "Play it again",
+  "es": "Volver a jugarla"
+ },
+ "Tres més": {
+  "en": "Three more",
+  "es": "Tres más"
+ },
+ "Tres puzzles": {
+  "en": "Three puzzles",
+  "es": "Tres puzzles"
+ },
+ "Una pista": {
+  "en": "A hint",
+  "es": "Una pista"
+ },
+ "Un mat cada dia, per resoldre sense obrir l'app.": {
+  "en": "A mate every day, to solve without opening the app.",
+  "es": "Un mate cada día, para resolver sin abrir la app."
+ },
+ "Vincula el teu compte i aquí sortiran els moments de les teves partides.": {
+  "en": "Link your account and the moments from your games will appear here.",
+  "es": "Vincula tu cuenta y aquí saldrán los momentos de tus partidas."
+ },
+ "És aquesta?": {
+  "en": "Is this it?",
+  "es": "¿Es esta?"
+ },
+ "blanc": {
+  "en": "white",
+  "es": "blanco"
+ },
+ "negre": {
+  "en": "black",
+  "es": "negro"
+ },
+ "Posició d'escacs": {
+  "en": "Chess position",
+  "es": "Posición de ajedrez"
+ },
+ "Analitza a Scachs": {
+  "en": "Analyse in Scachs",
+  "es": "Analizar en Scachs"
+ },
+ "Obre la posició": {
+  "en": "Open the position",
+  "es": "Abrir la posición"
+ },
+ "Posició": {
+  "en": "Position",
+  "es": "Posición"
+ },
+ "%lld partides. Guanyades: %lld. Taules: %lld. Perdudes: %lld.": {
+  "en": "%1$lld games. Won: %2$lld. Drawn: %3$lld. Lost: %4$lld.",
+  "es": "%1$lld partidas. Ganadas: %2$lld. Tablas: %3$lld. Perdidas: %4$lld."
+ },
+ "Aquí hi ha dracs": {
+  "en": "Here be dragons",
+  "es": "Aquí hay dragones"
  }
 }

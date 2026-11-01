@@ -67,6 +67,13 @@ struct GamesView: View {
                     .listRowSeparatorTint(Theme.hairline)
                     .swipeActions { Button("Esborra", role: .destructive) { library.delete(game) } }
             }
+            if library.hasAccounts && !library.games.isEmpty && !library.reachedOldest {
+                Button { Task { await library.loadOlder() } } label: {
+                    Text("Carrega'n més").font(Theme.text(16, .semibold)).foregroundStyle(Theme.gold).frame(maxWidth: .infinity, minHeight: 44)
+                }
+                .disabled(library.isRefreshing)
+                .listRowBackground(Color.clear).listRowSeparator(.hidden)
+            }
         }
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
@@ -94,7 +101,7 @@ struct GameRow: View {
         default: return ("Perduda", Color(hex: 0xEF7D6C))
         }
     }
-    private var accuracy: Double? { side == .white ? game.whiteAccuracy : game.blackAccuracy }
+    private var siteAccuracy: Double? { side == .white ? game.whiteAccuracy : game.blackAccuracy }
 
     var body: some View {
         HStack(alignment: .firstTextBaseline, spacing: 12) {
@@ -113,8 +120,11 @@ struct GameRow: View {
                 .font(Theme.text(14))
             }
             Spacer()
-            if let accuracy {
-                Text(verbatim: accuracy.formatted(.number.precision(.fractionLength(1)))).font(Theme.text(17, .medium)).foregroundStyle(Theme.tin)
+            // Bright once this app has read the game; the site's own figure, if any, stays quiet until then.
+            if let accuracy = game.myAccuracy ?? siteAccuracy {
+                Text(verbatim: accuracy.formatted(.number.precision(.fractionLength(1)))).font(Theme.text(17, .medium))
+                    .foregroundStyle(game.reviewed ? Theme.gold : Theme.quiet)
+                    .accessibilityLabel(game.reviewed ? "Analitzada. Precisió \(accuracy.formatted(.number.precision(.fractionLength(1))))" : "Precisió \(accuracy.formatted(.number.precision(.fractionLength(1))))")
             }
         }
         .padding(.vertical, 6)
@@ -203,6 +213,7 @@ struct AddGameSheet: View {
                 .disabled(text.isEmpty || busy)
                 Button("Enganxa del porta-retalls") { text = UIPasteboard.general.string ?? "" }
                     .font(Theme.text(17, .semibold)).frame(minHeight: 44)
+                CapturePicker()
                 Spacer()
             }
             .padding(20)

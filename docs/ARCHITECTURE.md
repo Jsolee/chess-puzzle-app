@@ -75,6 +75,15 @@ actor Engine {
 }
 ```
 
+### Scachs/Today
+`TodayView` is the home screen: a moment from your own game (`MistakeCard`, on the same 1, 3, 7, 21, 60 day ladder as puzzle retries, at most three a day), then the daily puzzle, a lesson, three focused puzzles and the rest. Also `AtlasView` (openings as a portolan chart), `SundayGameView` (`Resources/SundayGames.json`), `ReplayGameView` (play on from your error against `HumanishMove`, a weighted pick over Stockfish's top lines, not a model of human play).
+
+### Scachs/Capture
+`BoardReader` reads a position from a screenshot with no model and no network: finds the checker pattern, then matches each square's silhouette against pieces from iOS fonts and our own. Its result always goes through `PositionEditor`. Reaches it through the share extension, the photo picker and Visual Intelligence.
+
+### Extensions and shared data
+`ScachsWidgets` (mate in one on the Home Screen, streak, Live Activity) and `ScachsShare` talk to the app through the App Group `group.com.jsolee.scachs`, with types in `Shared/`. `AutoReview` analyses new games by itself: one at a time in the foreground, recent ones only, stepping aside for any open review; overnight with `BGProcessingTask` while on power.
+
 ### Scachs/Review
 `MoveClass` (brilliant great best excellent good book inaccuracy mistake miss blunder forced), `Classifier`, `Accuracy`, `Openings`, `ReviewEngine` (two-pass), `Coach` (rule-based text), `GameReview` Codable model, `ReviewView`.
 

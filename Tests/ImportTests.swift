@@ -570,6 +570,21 @@ final class GameLibraryTests: XCTestCase {
         XCTAssertTrue(lib.refreshErrors.isEmpty)
     }
 
+    func testLoadingOlderAsksForEarlierGamesAndStopsWhenThereAreNone() async {
+        let lib = library()
+        lib.chessComUsername = "anna"
+        lib.lichessUsername = "anna"
+        StubNetwork.reset(combinedRoute(months: ["2026/10": [chessComGame(1, end: 1_792_000_000), chessComGame(2, end: 1_790_000_000)], "2026/09": [chessComGame(3, end: 1_788_000_000)]], stream: lichessStream))
+        await lib.refresh()
+        let before = lib.games.count
+        XCTAssertGreaterThan(before, 0)
+        StubNetwork.reset(combinedRoute(months: ["2026/10": [chessComGame(1, end: 1_792_000_000)], "2026/09": []], stream: lichessStream))
+        await lib.loadOlder()
+        XCTAssertEqual(lib.games.count, before, "the same games again are nothing new")
+        XCTAssertTrue(lib.reachedOldest)
+        XCTAssertTrue(StubNetwork.urls.contains { $0.contains("until=") }, "Lichess is asked for earlier ones")
+    }
+
     func testStaleRefreshAsksOnlyAfterFiveMinutesOrANewName() async {
         let lib = library()
         StubNetwork.reset(combinedRoute(months: [:], stream: lichessStream))

@@ -2,11 +2,12 @@ import Foundation
 
 /// Ten puzzles: warm-up, core, one stretch, and up to two due retries that otherwise become core puzzles.
 final class PuzzleSession {
-    private enum Slot { case warmUp, core, stretch, retry(Int) }
+    private enum Slot { case warmUp, core, stretch, retry(Int), focused }
 
     private let progress: Progress
     private let store: PuzzleStore
     private let slots: [Slot]
+    private let focus: Set<String>?
     private(set) var results: [Bool?]
     var harderBias = 0
 
@@ -17,11 +18,17 @@ final class PuzzleSession {
 
     private static let biasPoints = 100
 
-    init(progress: Progress, store: PuzzleStore) {
+    /// With `focus`, a short set on those themes instead of the mixed ten.
+    init(progress: Progress, store: PuzzleStore, focus: Set<String>? = nil) {
         self.progress = progress
         self.store = store
-        var due = progress.dueRetries(limit: 2).compactMap(store.index(ofID:)).map(Slot.retry)[...]
-        slots = [.warmUp, .core, .core, due.popFirst() ?? .core, .core, .core, due.popFirst() ?? .core, .stretch, .core, .core]
+        self.focus = focus
+        if focus != nil {
+            slots = [.focused, .focused, .focused]
+        } else {
+            var due = progress.dueRetries(limit: 2).compactMap(store.index(ofID:)).map(Slot.retry)[...]
+            slots = [.warmUp, .core, .core, due.popFirst() ?? .core, .core, .core, due.popFirst() ?? .core, .stretch, .core, .core]
+        }
         results = Array(repeating: nil, count: slots.count)
     }
 
@@ -37,6 +44,7 @@ final class PuzzleSession {
         case .core: picked = (pick(success: Double.random(in: 0.70...0.75)), .blind)
         case .stretch: picked = (pick(success: 0.50), .blind)
         case .retry(let i): picked = (store.puzzle(at: i), .retry)
+        case .focused: picked = (pick(success: 0.75, themes: focus), .themed)
         }
         if picked.0.solverSide == .white { whites += 1 } else { blacks += 1 }
         recentMotifs.append(ThemeNames.primaryTag(of: picked.0.themes))
@@ -51,12 +59,12 @@ final class PuzzleSession {
         serving = nil
     }
 
-    private func pick(success p: Double) -> Puzzle {
+    private func pick(success p: Double, themes: Set<String>? = nil) -> Puzzle {
         let target = Int((progress.rating - Glicko2.gap(forSuccess: p)).rounded()) + harderBias * Self.biasPoints
         let side: Side? = whites > blacks ? .black : blacks > whites ? .white : nil
         let last = recentMotifs.suffix(2)
         let tired = last.count == 2 && last.first == last.last ? last.first : nil
-        let found = store.find(target: target, anyOf: nil) { i in
+        let found = store.find(target: target, anyOf: themes) { i in
             if progress.played(i) { return true }
             if let side, store.solverSide(at: i) != side { return true }
             if let tired, ThemeNames.primaryTag(of: store.themes(at: i)) == tired { return true }
@@ -155,6 +163,12 @@ enum ThemeNames {
 
         default: return tag
         }
+    }
+
+    /// What a first hint says: the idea, never the move. Nil when the tags only give the phase or the length.
+    static func idea(of themes: [String]) -> String? {
+        let tag = primaryTag(of: themes)
+        return isMotif(tag) || tag.hasPrefix("mateIn") ? name(tag) : nil
     }
 
     /// The name to title a puzzle with once it is solved.

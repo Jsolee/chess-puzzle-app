@@ -51,8 +51,15 @@ targets:
     platform: iOS
     sources:
       - path: Scachs
+      - path: Shared
     dependencies:
       - target: Stockfish
+      - target: ScachsWidgets
+      - target: ScachsShare
+    entitlements:
+      path: Scachs/App/Scachs.entitlements
+      properties:
+        com.apple.security.application-groups: [group.com.jsolee.scachs]
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.jsolee.scachs
@@ -76,6 +83,73 @@ targets:
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
         UIAppFonts: [GrenzeGotisch-Medium.ttf, YsabeauOffice-Regular.ttf, YsabeauOffice-Medium.ttf, YsabeauOffice-SemiBold.ttf]
         UTExportedTypeDeclarations: []
+        NSSupportsLiveActivities: true
+        BGTaskSchedulerPermittedIdentifiers: [com.jsolee.scachs.review]
+        UIBackgroundModes: [processing, audio]
+  ScachsWidgets:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: ScachsWidgets
+      - path: Shared
+      - path: Scachs/Localizable.xcstrings
+      - path: Scachs/Resources/Pieces
+        type: folder
+        buildPhase: resources
+      - path: Scachs/Resources/Fonts/GrenzeGotisch-Medium.ttf
+        buildPhase: resources
+      - path: Scachs/Resources/Fonts/YsabeauOffice-SemiBold.ttf
+        buildPhase: resources
+      - path: Scachs/Resources/Fonts/YsabeauOffice-Medium.ttf
+        buildPhase: resources
+    entitlements:
+      path: ScachsWidgets/ScachsWidgets.entitlements
+      properties:
+        com.apple.security.application-groups: [group.com.jsolee.scachs]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.jsolee.scachs.widgets
+        TARGETED_DEVICE_FAMILY: "1"
+        LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks"
+    info:
+      path: ScachsWidgets/Info.plist
+      properties:
+        CFBundleDisplayName: Scachs
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        UIAppFonts: [GrenzeGotisch-Medium.ttf, YsabeauOffice-SemiBold.ttf, YsabeauOffice-Medium.ttf]
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+  ScachsShare:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: ScachsShare
+      - path: Shared
+      - path: Scachs/Localizable.xcstrings
+    entitlements:
+      path: ScachsShare/ScachsShare.entitlements
+      properties:
+        com.apple.security.application-groups: [group.com.jsolee.scachs]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.jsolee.scachs.share
+        TARGETED_DEVICE_FAMILY: "1"
+        LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks"
+    info:
+      path: ScachsShare/Info.plist
+      properties:
+        CFBundleDisplayName: Scachs
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.share-services
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).ShareViewController
+          NSExtensionAttributes:
+            NSExtensionActivationRule:
+              NSExtensionActivationSupportsWebURLWithMaxCount: 1
+              NSExtensionActivationSupportsText: true
+              NSExtensionActivationSupportsImageWithMaxCount: 1
   ScachsTests:
     type: bundle.unit-test
     platform: iOS

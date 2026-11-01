@@ -579,6 +579,23 @@
         }
       }
     },
+    "%@ – %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ – %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ – %@"
+          }
+        }
+      }
+    },
     "%@%@": {
       "extractionState": "manual",
       "localizations": {
@@ -629,6 +646,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "%1$@, %2$@ negro"
+          }
+        }
+      }
+    },
+    "%@, mat.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, mate."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, mate."
           }
         }
       }
@@ -735,6 +769,23 @@
         }
       }
     },
+    "%lld partides. Guanyades: %lld. Taules: %lld. Perdudes: %lld.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld games. Won: %2$lld. Drawn: %3$lld. Lost: %4$lld."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld partidas. Ganadas: %2$lld. Tablas: %3$lld. Perdidas: %4$lld."
+          }
+        }
+      }
+    },
     "%lld peons": {
       "extractionState": "manual",
       "localizations": {
@@ -782,6 +833,74 @@
           "stringUnit": {
             "state": "translated",
             "value": "2 puzzles"
+          }
+        }
+      }
+    },
+    "A cegues": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blindfold"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A ciegas"
+          }
+        }
+      }
+    },
+    "A cegues, amb auriculars": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blindfold, with earphones"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A ciegas, con auriculares"
+          }
+        }
+      }
+    },
+    "A la partida vas jugar %@.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In the game you played %@."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En la partida jugaste %@."
+          }
+        }
+      }
+    },
+    "A la partida vas jugar %@. Troba'n una de millor.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In the game you played %@. Find a better one."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En la partida jugaste %@. Encuentra una mejor."
           }
         }
       }
@@ -837,6 +956,23 @@
         }
       }
     },
+    "Afegit a Scachs. Obre l'app per veure-ho.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Added to Scachs. Open the app to see it."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Añadido a Scachs. Abre la app para verlo."
+          }
+        }
+      }
+    },
     "Així evites %@.": {
       "extractionState": "manual",
       "localizations": {
@@ -884,6 +1020,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Eso es."
+          }
+        }
+      }
+    },
+    "Això és tot per avui.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "That's all for today."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eso es todo por hoy."
           }
         }
       }
@@ -1228,6 +1381,57 @@
         }
       }
     },
+    "Analitza": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analyse"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analizar"
+          }
+        }
+      }
+    },
+    "Analitza a Scachs": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analyse in Scachs"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analizar en Scachs"
+          }
+        }
+      }
+    },
+    "Analitzada. Precisió %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analysed. Accuracy %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analizada. Precisión %@"
+          }
+        }
+      }
+    },
     "Analitzant": {
       "extractionState": "manual",
       "localizations": {
@@ -1241,6 +1445,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "Analizando"
+          }
+        }
+      }
+    },
+    "Analitzant contra %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analysing against %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analizando contra %@"
+          }
+        }
+      }
+    },
+    "Analitzant la partida contra %@. %lld %%": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analysing the game against %1$@. %2$lld %%"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analizando la partida contra %1$@. %2$lld %%"
           }
         }
       }
@@ -1449,6 +1687,23 @@
         }
       }
     },
+    "Aquesta no.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not that one."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esa no."
+          }
+        }
+      }
+    },
     "Aquesta no. Mira-ho un altre cop.": {
       "extractionState": "manual",
       "localizations": {
@@ -1500,6 +1755,91 @@
         }
       }
     },
+    "Aquesta vegada no": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not this time"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esta vez no"
+          }
+        }
+      }
+    },
+    "Aquí encara no hi has estat.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You haven't been here yet."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aquí aún no has estado."
+          }
+        }
+      }
+    },
+    "Aquí hi ha dracs": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Here be dragons"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aquí hay dragones"
+          }
+        }
+      }
+    },
+    "Aquí hi ha dracs.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Here be dragons."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aquí hay dragones."
+          }
+        }
+      }
+    },
+    "Aquí hi havia més": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "There was more here"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aquí había más"
+          }
+        }
+      }
+    },
     "Aquí la posició passa %@ %@.": {
       "extractionState": "manual",
       "localizations": {
@@ -1513,6 +1853,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aquí la posición pasa %@ %@."
+          }
+        }
+      }
+    },
+    "Aquí la tens, per si la vols veure.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Here it is, if you'd like to see it."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aquí la tienes, por si quieres verla."
           }
         }
       }
@@ -1755,6 +2112,23 @@
         }
       }
     },
+    "Avui": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Today"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hoy"
+          }
+        }
+      }
+    },
     "Ben trobat": {
       "extractionState": "manual",
       "localizations": {
@@ -1768,6 +2142,57 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bien visto"
+          }
+        }
+      }
+    },
+    "Ben vist.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Well seen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bien visto."
+          }
+        }
+      }
+    },
+    "Blanques": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "White"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blancas"
+          }
+        }
+      }
+    },
+    "Blanques: %@. Negres: %@. %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "White: %1$@. Black: %2$@. %3$@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blancas: %1$@. Negras: %2$@. %3$@"
           }
         }
       }
@@ -1802,6 +2227,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Brillante"
+          }
+        }
+      }
+    },
+    "Calcula. Quan ho tinguis, prem els auriculars o el botó.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Calculate. When you have it, press your earphones or the button."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Calcula. Cuando lo tengas, pulsa los auriculares o el botón."
           }
         }
       }
@@ -1908,6 +2350,40 @@
         }
       }
     },
+    "Carrega'n més": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Load more"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cargar más"
+          }
+        }
+      }
+    },
+    "Casella": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Square"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Casilla"
+          }
+        }
+      }
+    },
     "Clavada": {
       "extractionState": "manual",
       "localizations": {
@@ -1938,6 +2414,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Código fuente"
+          }
+        }
+      }
+    },
+    "Col·loca les peces a mà": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Place the pieces by hand"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coloca las piezas a mano"
           }
         }
       }
@@ -1976,6 +2469,23 @@
         }
       }
     },
+    "Comparteix el PGN": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Share the PGN"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compartir el PGN"
+          }
+        }
+      }
+    },
     "Competeixo": {
       "extractionState": "manual",
       "localizations": {
@@ -1989,6 +2499,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Compito"
+          }
+        }
+      }
+    },
+    "Comprova-la. Toca una peça de sota i després la casella per corregir-la.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check it. Tap a piece below, then the square, to correct it."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compruébala. Toca una pieza de abajo y luego la casilla para corregirla."
           }
         }
       }
@@ -2027,6 +2554,40 @@
         }
       }
     },
+    "Contra %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Against %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contra %@"
+          }
+        }
+      }
+    },
+    "Contra %@, amb el seu nivell (%lld).": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Against %1$@, at their level (%2$lld)."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contra %1$@, con su nivel (%2$lld)."
+          }
+        }
+      }
+    },
     "Crèdits": {
       "extractionState": "manual",
       "localizations": {
@@ -2040,6 +2601,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Créditos"
+          }
+        }
+      }
+    },
+    "Daurat on et va bé, vermell on et costa. Toca una terra per veure-la.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gold where it goes well, red where it's hard. Tap a land to see it."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dorado donde te va bien, rojo donde te cuesta. Toca una tierra para verla."
           }
         }
       }
@@ -2537,6 +3115,23 @@
         }
       }
     },
+    "Era aquesta": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "It was this one"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Era esta"
+          }
+        }
+      }
+    },
     "Era l'única jugada bona.": {
       "extractionState": "manual",
       "localizations": {
@@ -2622,6 +3217,23 @@
         }
       }
     },
+    "Es va jugar això.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This was played."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se jugó esto."
+          }
+        }
+      }
+    },
     "Esborra": {
       "extractionState": "manual",
       "localizations": {
@@ -2690,6 +3302,23 @@
         }
       }
     },
+    "Escolta la posició.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Listen to the position."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escucha la posición."
+          }
+        }
+      }
+    },
     "Estaves perdent i aquesta jugada et torna a la igualtat.": {
       "extractionState": "manual",
       "localizations": {
@@ -2720,6 +3349,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Te quedas con %@."
+          }
+        }
+      }
+    },
+    "Et toca": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your move"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Te toca"
           }
         }
       }
@@ -2771,6 +3417,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Excelente"
+          }
+        }
+      }
+    },
+    "Falta un rei a cada bàndol": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Each side needs a king"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Falta un rey en cada bando"
           }
         }
       }
@@ -2945,6 +3608,23 @@
         }
       }
     },
+    "Fins aquí.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "That's all."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hasta aquí."
+          }
+        }
+      }
+    },
     "Forquilla": {
       "extractionState": "manual",
       "localizations": {
@@ -3009,6 +3689,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Genial"
+          }
+        }
+      }
+    },
+    "Gira el tauler": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Flip the board"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Girar el tablero"
           }
         }
       }
@@ -3523,6 +4220,23 @@
         }
       }
     },
+    "Juguen les blanques.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "White to play."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Juegan las blancas."
+          }
+        }
+      }
+    },
     "Juguen les blanques. Troba el mat.": {
       "extractionState": "manual",
       "localizations": {
@@ -3557,6 +4271,57 @@
         }
       }
     },
+    "Juguen les negres.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Black to play."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Juegan las negras."
+          }
+        }
+      }
+    },
+    "L'Atles": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Atlas"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El Atlas"
+          }
+        }
+      }
+    },
+    "L'Atles de les teves obertures": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Atlas of your openings"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El Atlas de tus aperturas"
+          }
+        }
+      }
+    },
     "L'amenaça era %@, i no l'has aturada.": {
       "extractionState": "manual",
       "localizations": {
@@ -3587,6 +4352,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "El análisis se ha detenido. Vuelve a intentarlo."
+          }
+        }
+      }
+    },
+    "L'has guanyada": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You won it"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La has ganado"
           }
         }
       }
@@ -3672,6 +4454,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "La mejor jugada era %@."
+          }
+        }
+      }
+    },
+    "La partida del diumenge": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Sunday game"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La partida del domingo"
           }
         }
       }
@@ -3778,6 +4577,23 @@
         }
       }
     },
+    "La teva ratxa i els últims set dies.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your streak and the last seven days."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tu racha y los últimos siete días."
+          }
+        }
+      }
+    },
     "La valoració cau molt amb aquesta jugada.": {
       "extractionState": "manual",
       "localizations": {
@@ -3846,6 +4662,23 @@
         }
       }
     },
+    "Llegint el tauler": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reading the board"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leyendo el tablero"
+          }
+        }
+      }
+    },
     "Llibre": {
       "extractionState": "manual",
       "localizations": {
@@ -3876,6 +4709,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Lecciones"
+          }
+        }
+      }
+    },
+    "Lliçó": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lesson"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lección"
           }
         }
       }
@@ -4305,6 +5155,23 @@
         }
       }
     },
+    "Mat en 1.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mate in 1."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mate en 1."
+          }
+        }
+      }
+    },
     "Mat en 2": {
       "extractionState": "manual",
       "localizations": {
@@ -4318,6 +5185,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mate en 2"
+          }
+        }
+      }
+    },
+    "Mat en 2.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mate in 2."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mate en 2."
           }
         }
       }
@@ -4390,6 +5274,23 @@
         }
       }
     },
+    "Mat. Ben trobat.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mate. Well found."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mate. Bien encontrado."
+          }
+        }
+      }
+    },
     "Mat. No hi ha res més a jugar.": {
       "extractionState": "manual",
       "localizations": {
@@ -4437,6 +5338,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "Medio juego"
+          }
+        }
+      }
+    },
+    "Mira què va passar": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "See what happened"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mira qué pasó"
+          }
+        }
+      }
+    },
+    "Mira.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Watch."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mira."
           }
         }
       }
@@ -4543,6 +5478,23 @@
         }
       }
     },
+    "Mostra la ratxa": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show the streak"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar la racha"
+          }
+        }
+      }
+    },
     "Motor": {
       "extractionState": "manual",
       "localizations": {
@@ -4607,6 +5559,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Más fácil"
+          }
+        }
+      }
+    },
+    "Negres": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Black"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Negras"
           }
         }
       }
@@ -4730,6 +5699,23 @@
         }
       }
     },
+    "No hi he trobat cap tauler": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I couldn't find a board"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No he encontrado ningún tablero"
+          }
+        }
+      }
+    },
     "No hi hem trobat cap partida": {
       "extractionState": "manual",
       "localizations": {
@@ -4743,6 +5729,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "No hemos encontrado ninguna partida ahí"
+          }
+        }
+      }
+    },
+    "No la veig": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I don't see it"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No la veo"
           }
         }
       }
@@ -4883,6 +5886,23 @@
         }
       }
     },
+    "O tria una captura d'un tauler": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Or choose a screenshot of a board"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O elige una captura de un tablero"
+          }
+        }
+      }
+    },
     "Obertura": {
       "extractionState": "manual",
       "localizations": {
@@ -4913,6 +5933,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "Apertura conocida: %@."
+          }
+        }
+      }
+    },
+    "Obre Scachs per veure el mat d'avui.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Scachs to see today's mate."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abre Scachs para ver el mate de hoy."
+          }
+        }
+      }
+    },
+    "Obre la posició": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open the position"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir la posición"
           }
         }
       }
@@ -4998,6 +6052,57 @@
           "stringUnit": {
             "state": "translated",
             "value": "Partidas"
+          }
+        }
+      }
+    },
+    "Passa": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skip"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pasar"
+          }
+        }
+      }
+    },
+    "Pensa": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thinking"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Piensa"
+          }
+        }
+      }
+    },
+    "Pensa en això: %@.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Think about this: %@."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Piensa en esto: %@."
           }
         }
       }
@@ -5291,6 +6396,57 @@
         }
       }
     },
+    "Posició": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Position"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Posición"
+          }
+        }
+      }
+    },
+    "Posició %lld de %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Position %1$lld of %2$lld"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Posición %1$lld de %2$lld"
+          }
+        }
+      }
+    },
+    "Posició d'escacs": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chess position"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Posición de ajedrez"
+          }
+        }
+      }
+    },
     "Posició inicial": {
       "extractionState": "manual",
       "localizations": {
@@ -5304,6 +6460,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Posición inicial"
+          }
+        }
+      }
+    },
+    "Precisió %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accuracy %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Precisión %@"
           }
         }
       }
@@ -5355,6 +6528,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Prueba"
+          }
+        }
+      }
+    },
+    "Prova amb una captura on el tauler es vegi sencer, o col·loca les peces a mà.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try a screenshot that shows the whole board, or place the pieces by hand."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prueba con una captura donde se vea el tablero entero, o coloca las piezas a mano."
           }
         }
       }
@@ -5546,6 +6736,23 @@
         }
       }
     },
+    "Quan tinguis partides amb aquest color, sortiran aquí.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Once you have games with this colour, they'll appear here."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cuando tengas partidas con este color, saldrán aquí."
+          }
+        }
+      }
+    },
     "Quant jugues?": {
       "extractionState": "manual",
       "localizations": {
@@ -5576,6 +6783,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cuatro jugadas o más"
+          }
+        }
+      }
+    },
+    "Què jugaries amb blanques?": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What would you play as White?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Qué jugarías con blancas?"
+          }
+        }
+      }
+    },
+    "Què jugaries amb negres?": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What would you play as Black?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Qué jugarías con negras?"
           }
         }
       }
@@ -5678,6 +6919,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Reintenta"
+          }
+        }
+      }
+    },
+    "Repeteix": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Repeat"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Repetir"
           }
         }
       }
@@ -6277,6 +7535,57 @@
         }
       }
     },
+    "Toca el tauler per començar.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap the board to start."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toca el tablero para empezar."
+          }
+        }
+      }
+    },
+    "Toca una casella": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap a square"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toca una casilla"
+          }
+        }
+      }
+    },
+    "Torna a començar des d'aquí": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start again from here"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Empezar de nuevo desde aquí"
+          }
+        }
+      }
+    },
     "Torna a la partida": {
       "extractionState": "manual",
       "localizations": {
@@ -6290,6 +7599,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vuelve a la partida"
+          }
+        }
+      }
+    },
+    "Torna a la posició": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Back to the position"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Volver a la posición"
           }
         }
       }
@@ -6345,6 +7671,23 @@
         }
       }
     },
+    "Torna-la a jugar": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Play it again"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Volver a jugarla"
+          }
+        }
+      }
+    },
     "Totes les altres opcions eren clarament pitjors.": {
       "extractionState": "manual",
       "localizations": {
@@ -6375,6 +7718,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tres jugadas"
+          }
+        }
+      }
+    },
+    "Tres més": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Three more"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tres más"
+          }
+        }
+      }
+    },
+    "Tres puzzles": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Three puzzles"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tres puzzles"
           }
         }
       }
@@ -6430,6 +7807,23 @@
         }
       }
     },
+    "Un mat cada dia, per resoldre sense obrir l'app.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A mate every day, to solve without opening the app."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un mate cada día, para resolver sin abrir la app."
+          }
+        }
+      }
+    },
     "Una jugada": {
       "extractionState": "manual",
       "localizations": {
@@ -6477,6 +7871,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Una jugada sólida, muy cerca de la mejor."
+          }
+        }
+      }
+    },
+    "Una pista": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A hint"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Una pista"
           }
         }
       }
@@ -6579,6 +7990,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vibración"
+          }
+        }
+      }
+    },
+    "Vincula el teu compte i aquí sortiran els moments de les teves partides.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Link your account and the moments from your games will appear here."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vincula tu cuenta y aquí saldrán los momentos de tus partidas."
           }
         }
       }
@@ -6817,6 +8245,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "bala"
+          }
+        }
+      }
+    },
+    "blanc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "white"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "blanco"
           }
         }
       }
@@ -7314,6 +8759,23 @@
         }
       }
     },
+    "negre": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "black"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "negro"
+          }
+        }
+      }
+    },
     "partida": {
       "extractionState": "manual",
       "localizations": {
@@ -7582,6 +9044,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Es aceptable, pero había una opción más fuerte."
+          }
+        }
+      }
+    },
+    "És aquesta?": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Is this it?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Es esta?"
           }
         }
       }

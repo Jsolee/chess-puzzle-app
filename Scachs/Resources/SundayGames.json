@@ -1,0 +1,386 @@
+[
+ {
+  "id": "scachs",
+  "title": {
+   "ca": "Scachs d'amor",
+   "es": "Scachs d'amor",
+   "en": "Scachs d'amor"
+  },
+  "players": "Castellví – Vinyoles",
+  "place": "València, c.1475",
+  "side": "w",
+  "moves": "1. e4 d5 2. exd5 Qxd5 3. Nc3 Qd8 4. Bc4 Nf6 5. Nf3 Bg4 6. h3 Bxf3 7. Qxf3 e6 8. Qxb7 Nbd7 9. Nb5 Rc8 10. Nxa7 Nb6 11. Nxc8 Nxc8 12. d4 Nd6 13. Bb5+ Nxb5 14. Qxb5+ Nd7 15. d5 exd5 16. Be3 Bd6 17. Rd1 Qf6 18. Rxd5 Qg6 19. Bf4 Bxf4 20. Qxd7+ Kf8 21. Qd8# 1-0",
+  "intro": {
+   "ca": "La partida més antiga que es coneix amb la dama i l'alfil moderns, escrita en vers a València. Mira com de lluny arriba una dama que acabava de néixer.",
+   "es": "La partida más antigua que se conoce con la dama y el alfil modernos, escrita en verso en Valencia. Mira hasta dónde llega una dama recién nacida.",
+   "en": "The oldest known game with the modern queen and bishop, written in verse in Valencia. Watch how far a newborn queen can reach."
+  },
+  "outro": {
+   "ca": "Mat a la casella de l'altra dama, amb la peça que acabava de canviar el joc.",
+   "es": "Mate en la casilla de la otra dama, con la pieza que acababa de cambiar el juego.",
+   "en": "Mate on the other queen's square, by the piece that had just changed the game."
+  },
+  "moments": [
+   {
+    "move": 8,
+    "side": "w",
+    "san": "Qxb7",
+    "text": {
+     "ca": "La dama se'n va a buscar el peó de b7. En el joc antic, una peça així no podia fer aquest viatge.",
+     "es": "La dama va a por el peón de b7. En el juego antiguo, una pieza así no podía hacer este viaje.",
+     "en": "The queen goes after the b7 pawn. In the old game, no such piece could make that trip."
+    }
+   },
+   {
+    "move": 10,
+    "side": "w",
+    "san": "Nxa7",
+    "text": {
+     "ca": "El cavall es menja a7 i ataca la torre de c8.",
+     "es": "El caballo come en a7 y ataca la torre de c8.",
+     "en": "The knight takes on a7 and hits the rook on c8."
+    }
+   },
+   {
+    "move": 18,
+    "side": "w",
+    "san": "Rxd5",
+    "text": {
+     "ca": "La torre captura al centre. Les negres no han enrocat, i el rei es queda al mig de tot.",
+     "es": "La torre captura en el centro. Las negras no han enrocado, y el rey se queda en medio de todo.",
+     "en": "The rook captures in the centre. Black hasn't castled, and the king is left in the middle of it all."
+    }
+   },
+   {
+    "move": 21,
+    "side": "w",
+    "san": "Qd8#",
+    "text": {
+     "ca": "Qd8 és mat: la dama fa el camí sencer, i la torre de d5 li guarda l'esquena.",
+     "es": "Qd8 es mate: la dama hace todo el camino, y la torre de d5 le guarda la espalda.",
+     "en": "Qd8 is mate: the queen goes all the way, with the rook on d5 at her back."
+    }
+   }
+  ]
+ },
+ {
+  "id": "opera",
+  "title": {
+   "ca": "La partida de l'òpera",
+   "es": "La partida de la ópera",
+   "en": "The Opera Game"
+  },
+  "players": "Morphy – Brunswick, Isouard",
+  "place": "París, 1858",
+  "side": "w",
+  "moves": "1. e4 e5 2. Nf3 d6 3. d4 Bg4 4. dxe5 Bxf3 5. Qxf3 dxe5 6. Bc4 Nf6 7. Qb3 Qe7 8. Nc3 c6 9. Bg5 b5 10. Nxb5 cxb5 11. Bxb5+ Nbd7 12. O-O-O Rd8 13. Rxd7 Rxd7 14. Rd1 Qe6 15. Bxd7+ Nxd7 16. Qb8+ Nxb8 17. Rd8# 1-0",
+  "intro": {
+   "ca": "Morphy juga en una llotja de l'òpera de París, contra dos aristòcrates que parlen entre ells. Totes les seves peces entren en joc abans que les de l'altre bàndol es moguin.",
+   "es": "Morphy juega en un palco de la ópera de París, contra dos aristócratas que hablan entre ellos. Todas sus piezas entran en juego antes de que las del otro bando se muevan.",
+   "en": "Morphy plays in a box at the Paris opera, against two aristocrats who talk between themselves. All his pieces join in before the other side's have moved."
+  },
+  "outro": {
+   "ca": "Disset jugades, i encara es juga per ensenyar per què cal desenvolupar les peces.",
+   "es": "Diecisiete jugadas, y todavía se juega para enseñar por qué hay que desarrollar las piezas.",
+   "en": "Seventeen moves, and it's still shown to teach why pieces must be developed."
+  },
+  "moments": [
+   {
+    "move": 10,
+    "side": "w",
+    "san": "Nxb5",
+    "text": {
+     "ca": "Un cavall pel peó de b5. No és un error: obre les línies mentre el rei negre és al centre.",
+     "es": "Un caballo por el peón de b5. No es un error: abre las líneas mientras el rey negro está en el centro.",
+     "en": "A knight for the b5 pawn. It's no mistake: it opens lines while the black king is in the centre."
+    }
+   },
+   {
+    "move": 13,
+    "side": "w",
+    "san": "Rxd7",
+    "text": {
+     "ca": "La torre es dóna per guanyar temps. Cada defensor que cau obre més la columna d.",
+     "es": "La torre se entrega para ganar tiempo. Cada defensor que cae abre más la columna d.",
+     "en": "The rook gives itself up to gain time. Each defender that falls opens the d-file further."
+    }
+   },
+   {
+    "move": 16,
+    "side": "w",
+    "san": "Qb8+",
+    "text": {
+     "ca": "Ho dóna tot: la dama arrossega el cavall i deixa el rei sense sortida.",
+     "es": "Lo da todo: la dama arrastra al caballo y deja al rey sin salida.",
+     "en": "He gives everything: the queen drags the knight away and leaves the king with no way out."
+    }
+   },
+   {
+    "move": 17,
+    "side": "w",
+    "san": "Rd8#",
+    "text": {
+     "ca": "Rd8 és mat, amb només dues peces blanques al final: la torre i l'alfil de g5.",
+     "es": "Rd8 es mate, con solo dos piezas blancas al final: la torre y el alfil de g5.",
+     "en": "Rd8 is mate, with just two white pieces left doing it: the rook and the bishop on g5."
+    }
+   }
+  ]
+ },
+ {
+  "id": "immortal",
+  "title": {
+   "ca": "La immortal",
+   "es": "La inmortal",
+   "en": "The Immortal Game"
+  },
+  "players": "Anderssen – Kieseritzky",
+  "place": "Londres, 1851",
+  "side": "w",
+  "moves": "1. e4 e5 2. f4 exf4 3. Bc4 Qh4+ 4. Kf1 b5 5. Bxb5 Nf6 6. Nf3 Qh6 7. d3 Nh5 8. Nh4 Qg5 9. Nf5 c6 10. g4 Nf6 11. Rg1 cxb5 12. h4 Qg6 13. h5 Qg5 14. Qf3 Ng8 15. Bxf4 Qf6 16. Nc3 Bc5 17. Nd5 Qxb2 18. Bd6 Bxg1 19. e5 Qxa1+ 20. Ke2 Na6 21. Nxg7+ Kd8 22. Qf6+ Nxf6 23. Be7# 1-0",
+  "intro": {
+   "ca": "Una partida amistosa entre dues rondes d'un torneig de Londres. Anderssen acaba donant les dues torres, un alfil i la dama. Li queden tres peces menors, i n'hi ha prou.",
+   "es": "Una partida amistosa entre dos rondas de un torneo de Londres. Anderssen acaba entregando las dos torres, un alfil y la dama. Le quedan tres piezas menores, y basta.",
+   "en": "A friendly game between rounds of a London tournament. Anderssen ends up giving both rooks, a bishop and the queen. Three minor pieces remain, and that's enough."
+  },
+  "outro": {
+   "ca": "Avui el motor troba millors jugades en aquesta partida. Es recorda igualment, perquè mostra fins on pot arribar l'activitat.",
+   "es": "Hoy el motor encuentra mejores jugadas en esta partida. Se recuerda igualmente, porque muestra hasta dónde puede llegar la actividad.",
+   "en": "Engines now find better moves in this game. It's remembered anyway, for showing how far activity can go."
+  },
+  "moments": [
+   {
+    "move": 18,
+    "side": "w",
+    "san": "Bd6",
+    "text": {
+     "ca": "L'alfil deixa la torre penjada i talla el rei negre. Ara mana on són les peces, no quantes en queden.",
+     "es": "El alfil deja la torre colgada y corta al rey negro. Ahora manda dónde están las piezas, no cuántas quedan.",
+     "en": "The bishop leaves the rook hanging and cuts off the black king. What matters now is where the pieces stand, not how many remain."
+    }
+   },
+   {
+    "move": 19,
+    "side": "w",
+    "san": "e5",
+    "text": {
+     "ca": "Un peó tanca la dama fora de la defensa. Encara queda una torre per perdre, i no importa.",
+     "es": "Un peón deja a la dama fuera de la defensa. Aún queda una torre por perder, y no importa.",
+     "en": "A pawn shuts the queen out of the defence. There's still a rook to lose, and it doesn't matter."
+    }
+   },
+   {
+    "move": 22,
+    "side": "w",
+    "san": "Qf6+",
+    "text": {
+     "ca": "L'última peça gran es dóna: obliga el cavall a sortir de g8 i obre e7.",
+     "es": "La última pieza grande se entrega: obliga al caballo a salir de g8 y abre e7.",
+     "en": "The last big piece goes: it forces the knight off g8 and opens e7."
+    }
+   },
+   {
+    "move": 23,
+    "side": "w",
+    "san": "Be7#",
+    "text": {
+     "ca": "Be7 és mat, amb alfil i dos cavalls. Per això es diu la immortal.",
+     "es": "Be7 es mate, con alfil y dos caballos. Por eso se llama la inmortal.",
+     "en": "Be7 is mate, with a bishop and two knights. That's why it's called the Immortal."
+    }
+   }
+  ]
+ },
+ {
+  "id": "evergreen",
+  "title": {
+   "ca": "Sempre verda",
+   "es": "La siempreviva",
+   "en": "The Evergreen Game"
+  },
+  "players": "Anderssen – Dufresne",
+  "place": "Berlín, 1852",
+  "side": "w",
+  "moves": "1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. b4 Bxb4 5. c3 Ba5 6. d4 exd4 7. O-O d3 8. Qb3 Qf6 9. e5 Qg6 10. Re1 Nge7 11. Ba3 b5 12. Qxb5 Rb8 13. Qa4 Bb6 14. Nbd2 Bb7 15. Ne4 Qf5 16. Bxd3 Qh5 17. Nf6+ gxf6 18. exf6 Rg8 19. Rad1 Qxf3 20. Rxe7+ Nxe7 21. Qxd7+ Kxd7 22. Bf5+ Ke8 23. Bd7+ Kf8 24. Bxe7# 1-0",
+  "intro": {
+   "ca": "Una altra d'Anderssen, un any després. Steinitz la va batejar així perquè no es fa mai vella. Mira què passa quan el rei es queda a la columna oberta.",
+   "es": "Otra de Anderssen, un año después. Steinitz la bautizó así porque nunca envejece. Mira qué pasa cuando el rey se queda en la columna abierta.",
+   "en": "Another by Anderssen, a year later. Steinitz gave it the name because it never grows old. Watch what happens when a king stays on an open file."
+  },
+  "outro": {
+   "ca": "Tres captures seguides, i un mat amb dos alfils.",
+   "es": "Tres capturas seguidas, y un mate con dos alfiles.",
+   "en": "Three captures in a row, and mate with two bishops."
+  },
+  "moments": [
+   {
+    "move": 19,
+    "side": "w",
+    "san": "Rad1",
+    "text": {
+     "ca": "La jugada tranquil·la de la partida: l'amenaça sobre el cavall de f3 no li importa, perquè la torre ocupa d1.",
+     "es": "La jugada tranquila de la partida: la amenaza sobre el caballo de f3 no le importa, porque la torre ocupa d1.",
+     "en": "The quiet move of the game: the threat to the knight on f3 doesn't matter once the rook takes d1."
+    }
+   },
+   {
+    "move": 20,
+    "side": "w",
+    "san": "Rxe7+",
+    "text": {
+     "ca": "La torre destrueix l'única peça que defensava el rei.",
+     "es": "La torre destruye la única pieza que defendía al rey.",
+     "en": "The rook destroys the one piece defending the king."
+    }
+   },
+   {
+    "move": 21,
+    "side": "w",
+    "san": "Qxd7+",
+    "text": {
+     "ca": "La dama es dóna a d7 per treure el rei de casa, directe a l'escac doble.",
+     "es": "La dama se entrega en d7 para sacar al rey de casa, directo al jaque doble.",
+     "en": "The queen gives herself on d7 to draw the king out, straight into a double check."
+    }
+   },
+   {
+    "move": 24,
+    "side": "w",
+    "san": "Bxe7#",
+    "text": {
+     "ca": "Bxe7 és mat. Els dos alfils han fet tota la feina.",
+     "es": "Bxe7 es mate. Los dos alfiles han hecho todo el trabajo.",
+     "en": "Bxe7 is mate. The two bishops did all the work."
+    }
+   }
+  ]
+ },
+ {
+  "id": "reti",
+  "title": {
+   "ca": "Deu jugades",
+   "es": "Diez jugadas",
+   "en": "Ten moves"
+  },
+  "players": "Réti – Tartakower",
+  "place": "Viena, 1910",
+  "side": "w",
+  "moves": "1. e4 c6 2. d4 d5 3. Nc3 dxe4 4. Nxe4 Nf6 5. Qd3 e5 6. dxe5 Qa5+ 7. Bd2 Qxe5 8. O-O-O Nxe4 9. Qd8+ Kxd8 10. Bg5+ Kc7 11. Bd8# 1-0",
+  "intro": {
+   "ca": "Una partida ràpida entre dos mestres, en un cafè de Viena. Les negres es mengen un cavall sense mirar què passa a la columna d.",
+   "es": "Una partida rápida entre dos maestros, en un café de Viena. Las negras se comen un caballo sin mirar qué pasa en la columna d.",
+   "en": "A quick game between two masters, in a Vienna café. Black takes a knight without looking at what's happening on the d-file."
+  },
+  "outro": {
+   "ca": "Tres escacs, un de doble, i s'ha acabat. Mira sempre les columnes obertes abans de capturar.",
+   "es": "Tres jaques, uno doble, y se acabó. Mira siempre las columnas abiertas antes de capturar.",
+   "en": "Three checks, one of them double, and it's over. Always look at open files before capturing."
+  },
+  "moments": [
+   {
+    "move": 8,
+    "side": "w",
+    "san": "O-O-O",
+    "text": {
+     "ca": "Enroca llarg i deixa el cavall penjat a propòsit. La torre ja mira cap al rei negre.",
+     "es": "Enroca largo y deja el caballo colgado a propósito. La torre ya mira hacia el rey negro.",
+     "en": "He castles long and leaves the knight hanging on purpose. The rook now looks at the black king."
+    }
+   },
+   {
+    "move": 9,
+    "side": "w",
+    "san": "Qd8+",
+    "text": {
+     "ca": "La dama es dóna per atreure el rei a la columna de la torre.",
+     "es": "La dama se entrega para atraer al rey a la columna de la torre.",
+     "en": "The queen gives herself to lure the king onto the rook's file."
+    }
+   },
+   {
+    "move": 10,
+    "side": "w",
+    "san": "Bg5+",
+    "text": {
+     "ca": "L'alfil es mou i descobreix la torre: dos escacs alhora.",
+     "es": "El alfil se mueve y descubre la torre: dos jaques a la vez.",
+     "en": "The bishop moves and uncovers the rook: two checks at once."
+    }
+   },
+   {
+    "move": 11,
+    "side": "w",
+    "san": "Bd8#",
+    "text": {
+     "ca": "Bd8 és mat, a la casella on s'acaba de sacrificar la dama.",
+     "es": "Bd8 es mate, en la casilla donde se acaba de sacrificar la dama.",
+     "en": "Bd8 is mate, on the very square where the queen was just given up."
+    }
+   }
+  ]
+ },
+ {
+  "id": "rubinstein",
+  "title": {
+   "ca": "La immortal de Rubinstein",
+   "es": "La inmortal de Rubinstein",
+   "en": "Rubinstein's Immortal"
+  },
+  "players": "Rotlewi – Rubinstein",
+  "place": "Łódź, 1907",
+  "side": "b",
+  "moves": "1. d4 d5 2. Nf3 e6 3. e3 c5 4. c4 Nc6 5. Nc3 Nf6 6. dxc5 Bxc5 7. a3 a6 8. b4 Bd6 9. Bb2 O-O 10. Qd2 Qe7 11. Bd3 dxc4 12. Bxc4 b5 13. Bd3 Rd8 14. Qe2 Bb7 15. O-O Ne5 16. Nxe5 Bxe5 17. f4 Bc7 18. e4 Rac8 19. e5 Bb6+ 20. Kh1 Ng4 21. Be4 Qh4 22. g3 Rxc3 23. gxh4 Rd2 24. Qxd2 Bxe4+ 25. Qg2 Rh3 0-1",
+  "intro": {
+   "ca": "Avui jugues amb negres. Rubinstein prepara amb calma dos alfils apuntant al rei blanc, i de sobte tot explota.",
+   "es": "Hoy juegas con negras. Rubinstein prepara con calma dos alfiles apuntando al rey blanco, y de pronto todo explota.",
+   "en": "Today you play Black. Rubinstein calmly lines up two bishops at the white king, and suddenly it all explodes."
+  },
+  "outro": {
+   "ca": "Després de Rh3 no hi ha res a fer: l'alfil de b6 i la torre acaben amb el rei. Les blanques van abandonar.",
+   "es": "Después de Rh3 no hay nada que hacer: el alfil de b6 y la torre acaban con el rey. Las blancas abandonaron.",
+   "en": "After Rh3 there's nothing to do: the bishop on b6 and the rook finish the king. White resigned."
+  },
+  "moments": [
+   {
+    "move": 20,
+    "side": "b",
+    "san": "Ng4",
+    "text": {
+     "ca": "El cavall salta a g4 i apunta a h2, just al costat del rei blanc.",
+     "es": "El caballo salta a g4 y apunta a h2, justo al lado del rey blanco.",
+     "en": "The knight jumps to g4 and aims at h2, right next to the white king."
+    }
+   },
+   {
+    "move": 22,
+    "side": "b",
+    "san": "Rxc3",
+    "text": {
+     "ca": "Deixa la dama penjada a h4. Si les blanques la prenen, el mat arriba igualment.",
+     "es": "Deja la dama colgada en h4. Si las blancas la toman, el mate llega igualmente.",
+     "en": "He leaves the queen hanging on h4. If White takes it, mate comes anyway."
+    }
+   },
+   {
+    "move": 23,
+    "side": "b",
+    "san": "Rd2",
+    "text": {
+     "ca": "L'altra torre també es dóna. Només vol desviar la dama blanca de la gran diagonal.",
+     "es": "La otra torre también se entrega. Solo quiere desviar la dama blanca de la gran diagonal.",
+     "en": "The other rook goes too. It only wants to pull the white queen off the long diagonal."
+    }
+   },
+   {
+    "move": 25,
+    "side": "b",
+    "san": "Rh3",
+    "text": {
+     "ca": "Rh3, una jugada tranquil·la, sense escac. Les blanques no poden evitar el mat i abandonen.",
+     "es": "Rh3, una jugada tranquila, sin jaque. Las blancas no pueden evitar el mate y abandonan.",
+     "en": "Rh3, a quiet move with no check. White can't stop mate and resigns."
+    }
+   }
+  ]
+ }
+]

@@ -178,17 +178,27 @@ struct ChessComClient {
     /// someone else's game, from walking 15 years of months. Past it a link reports not found and offers a PGN paste.
     private static let monthCap = 24
 
-    func recentGames(username: String, limit: Int = 20) async throws -> [ImportedGame] {
+    /// Newest first. With `before`, only games that ended earlier than that, for walking back through a history.
+    func recentGames(username: String, limit: Int = 20, before: Date? = nil) async throws -> [ImportedGame] {
         let user = try GameHTTP.validated(username: username).lowercased()
         var found: [ImportedGame] = []
-        for month in try await archiveMonths(user).prefix(Self.monthCap) {
+        let lastMonth = before.map(Self.monthKey)
+        for month in try await archiveMonths(user).filter({ lastMonth == nil || $0 <= lastMonth! }).prefix(Self.monthCap) {
             for game in try await games(user, month: month).sorted(by: { ($0.endTime ?? 0) > ($1.endTime ?? 0) }) {
+                if let before, (game.endTime ?? 0) >= before.timeIntervalSince1970 { continue }
                 guard let imported = game.imported() else { continue }
                 found.append(imported)
                 if found.count == limit { return found }
             }
         }
         return found
+    }
+
+    private static func monthKey(_ date: Date) -> String {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(identifier: "UTC")!
+        let c = calendar.dateComponents([.year, .month], from: date)
+        return String(format: "%04d/%02d", c.year ?? 0, c.month ?? 0)
     }
 
     /// chess.com has no official single-game endpoint, so a link is searched for in the player's own months.
@@ -323,12 +333,13 @@ struct LichessClient {
     private static let gate = RequestGate()
     private static let extras = ["pgnInJson", "clocks", "evals", "accuracy", "opening", "division"].map { URLQueryItem(name: $0, value: "true") }
 
-    func recentGames(username: String, limit: Int = 20) async throws -> [ImportedGame] {
+    func recentGames(username: String, limit: Int = 20, before: Date? = nil) async throws -> [ImportedGame] {
         let user = try GameHTTP.validated(username: username)
         var parts = URLComponents(string: "https://lichess.org/api/games/user/\(user)")
         // perfType keeps variants from using up the max before the standard-chess filter runs.
         parts?.queryItems = [URLQueryItem(name: "max", value: String(limit)),
                              URLQueryItem(name: "perfType", value: "ultraBullet,bullet,blitz,rapid,classical,correspondence")] + Self.extras
+        if let before { parts?.queryItems?.append(URLQueryItem(name: "until", value: String(Int64(before.timeIntervalSince1970 * 1000)))) }
         guard let url = parts?.url else { throw ImportError.unexpectedResponse }
         var request = URLRequest(url: url)
         let data = try await send(&request)

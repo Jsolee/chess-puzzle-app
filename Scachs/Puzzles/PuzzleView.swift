@@ -1,7 +1,11 @@
 import SwiftUI
 
 struct PuzzleView: View {
-    @State private var session = PuzzleSession(progress: .shared, store: .shared)
+    /// Set when opened as a short themed set from Avui, which also brings a way out.
+    var focus: Set<String>?
+    @State private var session: PuzzleSession
+    @Environment(\.dismiss) private var dismiss
+    @State private var idea: String?
     @State private var board = BoardModel()
     @State private var run: PuzzleRun?
     @State private var context: AttemptContext = .blind
@@ -15,7 +19,11 @@ struct PuzzleView: View {
     @State private var streak = 0
     @State private var replyTask: Task<Void, Never>?
     @State private var openLesson: LessonMeta?
-    @State private var showDaily = false
+
+    init(focus: Set<String>? = nil) {
+        self.focus = focus
+        _session = State(initialValue: PuzzleSession(progress: .shared, store: .shared, focus: focus))
+    }
 
     enum Phase { case loading, yourMove, wrong, solved, revealed }
     private var progress: Progress { .shared }
@@ -24,7 +32,12 @@ struct PuzzleView: View {
         GeometryReader { geo in
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
-                    DailyRow { showDaily = true }.padding(.horizontal, 20)
+                    if focus != nil {
+                        Button { dismiss() } label: {
+                            Image(systemName: "xmark").font(.system(size: 17, weight: .semibold)).foregroundStyle(Theme.tin).frame(width: 44, height: 44, alignment: .leading)
+                        }
+                        .accessibilityLabel("Tanca").padding(.horizontal, 20)
+                    }
                     Spacer(minLength: 8)
                     header.padding(.horizontal, 20).padding(.bottom, 14)
                     BoardView(board)
@@ -38,7 +51,6 @@ struct PuzzleView: View {
         }
         .background(Theme.field.ignoresSafeArea())
         .sheet(item: $openLesson) { l in LessonRunnerView(meta: l) }
-        .fullScreenCover(isPresented: $showDaily) { DailyPuzzleView() }
         .task { if run == nil && !over { load() } }
     }
 
@@ -58,6 +70,7 @@ struct PuzzleView: View {
     }
 
     private var subtitle: String {
+        if let idea, phase == .yourMove || phase == .wrong { return String(localized: "Pensa en això: \(idea).") }
         switch phase {
         case .wrong: return String(localized: "Torna-hi, o mira la solució.")
         case .solved where delta > 0.5: return String(localized: "Resolt. +\(Int(delta.rounded()))")
@@ -125,10 +138,10 @@ struct PuzzleView: View {
                 .buttonStyle(.plain)
             }
             Button {
-                session = PuzzleSession(progress: .shared, store: .shared)
+                session = PuzzleSession(progress: .shared, store: .shared, focus: focus)
                 over = false; recommended = nil; load()
             } label: {
-                Text("Deu més").font(Theme.text(18, .semibold)).foregroundStyle(Theme.ink)
+                Text(focus == nil ? "Deu més" : "Tres més").font(Theme.text(18, .semibold)).foregroundStyle(Theme.ink)
                     .frame(maxWidth: .infinity, minHeight: 50).background(Capsule().fill(Theme.tin))
             }
         }
@@ -140,7 +153,7 @@ struct PuzzleView: View {
         replyTask?.cancel()
         session.harderBias = UserDefaults.standard.integer(forKey: "difficulty")
         guard let (p, ctx) = session.next() else { endSession(); return }
-        run = PuzzleRun(p); context = ctx; failed = false; hinted = false; hintLevel = 0; delta = 0
+        run = PuzzleRun(p); context = ctx; failed = false; hinted = false; hintLevel = 0; delta = 0; idea = nil
         phase = .loading
         board.interactive = false; board.arrows = []; board.hint = nil; board.lastMove = nil
         board.orientation = p.solverSide
@@ -198,8 +211,8 @@ struct PuzzleView: View {
         guard let r = run, let e = r.expected else { return }
         hintLevel += 1
         hinted = true
-        if hintLevel == 1 { board.hint = e.from; Haptics.tap(0.2, sharpness: 0.3) }
-        else { board.arrows = [BoardArrow(from: e.from, to: e.to, role: .idea)] }
+        if hintLevel == 1, let name = ThemeNames.idea(of: r.puzzle.themes) { idea = name }
+        else { board.hint = e.from; Haptics.tap(0.2, sharpness: 0.3) }
     }
 
     private func reveal() {

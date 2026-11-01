@@ -26,6 +26,11 @@ struct Attempt: Codable {
         var dismissedLessons: [String: Date] = [:]
         /// Optional because files saved before the daily puzzle don't have the key, and a missing key would fail the whole file.
         var dailyDays: Set<Int>?
+        var mistakes: [MistakeCard]?
+        /// Games whose review has been read for mistakes, so deleting a card doesn't bring it back.
+        var harvestedGames: Set<String>?
+        var mistakeDay: Int?
+        var mistakeCount: Int?
     }
 
     private var stored: Stored
@@ -101,6 +106,45 @@ struct Attempt: Codable {
 
     func recordDaily(on date: Date = Date()) {
         stored.dailyDays = dailyDays.union([PuzzleStore.dayNumber(date)])
+        save()
+    }
+
+    // MARK: Your own mistakes
+
+    var mistakes: [MistakeCard] { stored.mistakes ?? [] }
+
+    func harvest(_ review: GameReview, game: ImportedGame, now: Date = Date()) {
+        guard game.mySide != nil, !(stored.harvestedGames ?? []).contains(game.id) else { return }
+        stored.harvestedGames = (stored.harvestedGames ?? []).union([game.id])
+        stored.mistakes = mistakes + MistakeCard.cards(from: review, game: game, now: now)
+        save()
+    }
+
+    /// Due first, newest game first among equals, and only a few a day: this is meant to be a pleasure.
+    func nextMistake(at date: Date = Date()) -> MistakeCard? {
+        guard answeredToday(at: date) < MistakeCard.perDay else { return nil }
+        return mistakes.filter { $0.due <= date }.min { ($0.due, $1.gameDate) < ($1.due, $0.gameDate) }
+    }
+
+    func answeredToday(at date: Date = Date()) -> Int {
+        stored.mistakeDay == PuzzleStore.dayNumber(date) ? stored.mistakeCount ?? 0 : 0
+    }
+
+    /// Same ladder as puzzle retries. Found first time climbs; missed goes back to tomorrow; off the top it is learnt.
+    func answerMistake(_ card: MistakeCard, solved: Bool, at date: Date = Date()) {
+        stored.mistakeCount = answeredToday(at: date) + 1
+        stored.mistakeDay = PuzzleStore.dayNumber(date)
+        var all = mistakes
+        if let i = all.firstIndex(where: { $0.id == card.id }) {
+            let box = solved ? all[i].box + 1 : 0
+            if box < Self.ladderDays.count {
+                all[i].box = box
+                all[i].due = Self.days(Self.ladderDays[solved ? box : 0], after: date)
+            } else {
+                all.remove(at: i)
+            }
+        }
+        stored.mistakes = all
         save()
     }
 

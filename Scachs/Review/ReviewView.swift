@@ -16,12 +16,19 @@ import SwiftUI
     var variation: [Move] = []
     var retrying = false
     var retryState: RetryState = .idle
+    var retryIdea: String?
     var showingLine = false
+    /// The ply of your move to go back and play from, when asked.
+    var replayFrom: Int?
     enum RetryState { case idle, thinking, wrong, right }
     @ObservationIgnored private var task: Task<Void, Never>?
     @ObservationIgnored private var engineTask: Task<Void, Never>?
     @ObservationIgnored private var lineTask: Task<Void, Never>?
     @ObservationIgnored private var analysisRun = 0
+    @ObservationIgnored private var retryHints = 0
+    /// Moments already put to you, so walking back and forth doesn't ask twice.
+    @ObservationIgnored private var asked: Set<Int> = []
+    @ObservationIgnored private var holdsAuto = false
 
     init(game: ImportedGame) {
         self.game = game
@@ -47,6 +54,7 @@ import SwiftUI
 
     private func runEngine(_ pgn: PGNGame) {
         running = true; failure = nil
+        if !holdsAuto { holdsAuto = true; AutoReview.shared.hold() }
         let ratings = Ratings(game: pgn, fallback: Int(Progress.shared.rating))
         let id = game.id
         task = Task { [weak self] in
@@ -80,19 +88,32 @@ import SwiftUI
         }
     }
 
-    func stop() { task?.cancel(); task = nil; engineTask?.cancel(); lineTask?.cancel() }
+    func stop() {
+        task?.cancel(); task = nil; engineTask?.cancel(); lineTask?.cancel()
+        if holdsAuto { holdsAuto = false; AutoReview.shared.release() }
+    }
     func retryEngine() { if let pgn { runEngine(pgn) } }
 
     // MARK: Walking through
 
-    func beginWalk() { walking = true; go(firstKey() ?? 1) }
+    func beginWalk() { walking = true; visit(firstKey() ?? 1) }
+
+    /// Going to a key moment of your own asks before it tells: seeing the answer on demand costs real learning.
+    /// Stepping through by hand stays free, so nothing is ever hidden behind a question.
+    private func visit(_ target: Int) {
+        guard game.mySide != nil, let m = review?.moves[safe: target - 1], m.side == game.mySide, m.bestMove != nil,
+              let c = m.moveClass, [.mistake, .miss, .blunder].contains(c), asked.insert(target).inserted else { go(target); return }
+        variation = []
+        ply = target
+        beginRetry()
+    }
     private func firstKey() -> Int? { review?.moves.first { $0.isKey }.map { $0.ply + 1 } }
 
     func go(_ target: Int, sound: Bool = true) {
         guard let r = replay else { return }
         let n = max(0, min(r.positions.count - 1, target))
         lineTask?.cancel(); showingLine = false
-        retrying = false; retryState = .idle; variation = []
+        retrying = false; retryState = .idle; variation = []; board.hint = nil
         board.interactive = true
         board.onMove = { [weak self] m in self?.exploreMove(m) }
         if n == ply + 1, board.position == r.positions[ply] {
@@ -116,7 +137,7 @@ import SwiftUI
     func next() { go(ply + 1) }
     func previous() { go(ply - 1, sound: false) }
     func nextKey() {
-        if let k = review?.moves.first(where: { $0.isKey && $0.ply + 1 > ply }) { go(k.ply + 1) } else { go((replay?.positions.count ?? 1) - 1) }
+        if let k = review?.moves.first(where: { $0.isKey && $0.ply + 1 > ply }) { visit(k.ply + 1) } else { go((replay?.positions.count ?? 1) - 1) }
     }
 
     func showBest() {
@@ -154,14 +175,28 @@ import SwiftUI
     func beginRetry() {
         guard let r = replay, ply > 0 else { return }
         lineTask?.cancel(); showingLine = false; engineTask?.cancel(); lines = []; showLines = false
-        retrying = true; retryState = .idle
+        retrying = true; retryState = .idle; retryIdea = nil; retryHints = 0
+        board.hint = nil
         board.set(r.positions[ply - 1], animated: true)
         board.arrows = []; board.marks = []; board.badge = nil; board.lastMove = nil
         board.interactive = true
         board.onMove = { [weak self] m in self?.retryMove(m) }
     }
 
+    /// The idea first, then the piece. The move itself only comes from asking for it.
+    func retryHint() {
+        guard let m = move, let best = m.bestMove, let r = replay else { return }
+        retryHints += 1
+        if retryHints == 1, let tag = GameLibrary.motifTag(on: r.positions[ply - 1], line: m.bestLine) {
+            retryIdea = ThemeNames.name(tag)
+        } else {
+            board.hint = best.from
+            Haptics.tap(0.2, sharpness: 0.3)
+        }
+    }
+
     private func retryMove(_ m: Move) {
+        board.hint = nil
         engineTask?.cancel()
         guard let r = replay, let rm = move, let best = rm.evalBefore else { return }
         let isBest = rm.bestMove == m
@@ -205,6 +240,12 @@ import SwiftUI
         if showLines { analyseHere() }
     }
 
+    /// Taps on a candidate line play its first move as a variation, to look further from there.
+    func tryCandidate(_ line: EngineLine) {
+        guard !retrying, let m = line.pv.first, board.position.isLegal(m) else { return }
+        exploreMove(m)
+    }
+
     func backToGame() { go(ply, sound: false) }
 
     func analyseHere() {
@@ -225,6 +266,8 @@ import SwiftUI
 
 extension Array { subscript(safe i: Int) -> Element? { indices.contains(i) ? self[i] : nil } }
 
+private struct ReplayStart: Identifiable { let ply: Int; var id: Int { ply } }
+
 struct ReviewView: View {
     @State private var model: ReviewModel
     init(game: ImportedGame) { _model = State(initialValue: ReviewModel(game: game)) }
@@ -238,6 +281,9 @@ struct ReviewView: View {
         .background(Theme.field.ignoresSafeArea())
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(.hidden, for: .tabBar)
+        .fullScreenCover(item: Binding(get: { model.replayFrom.map(ReplayStart.init) }, set: { model.replayFrom = $0?.ply })) { start in
+            if let replay = model.replay { ReplayGameView(game: model.game, replay: replay, ply: start.ply) }
+        }
         .onAppear { model.start() }
         .onDisappear { model.stop() }
     }
@@ -290,6 +336,13 @@ struct ReviewSummary: View {
                     Text("Revisa la partida").font(Theme.text(18, .semibold)).foregroundStyle(Theme.ink)
                         .frame(maxWidth: .infinity, minHeight: 50).background(Capsule().fill(Theme.tin))
                 }
+                HStack(spacing: 18) {
+                    ShareLink(item: model.game.pgn, preview: SharePreview("\(model.game.white) – \(model.game.black)")) {
+                        Text("Comparteix el PGN")
+                    }
+                    Button("Torna-la a jugar") { model.replayFrom = review.moves.first { $0.isKey && $0.side == model.game.mySide }?.ply ?? 0 }
+                }
+                .font(Theme.text(16, .semibold)).foregroundStyle(Theme.gold)
                 Text("Etiquetes i precisió calculades per aquesta app amb \(review.engine.name). Poden no coincidir amb les d'altres serveis.")
                     .font(Theme.text(13)).foregroundStyle(Theme.quiet)
             }
@@ -393,12 +446,14 @@ struct WalkthroughView: View {
     }
 
     private var currentWin: Double {
-        guard let g = model.review?.graph, model.ply < g.count, let v = g[model.ply] else { return 50 }
+        // While it's your turn to try, the bar must not give away how the played move turned out.
+        let shown = model.retrying ? max(model.ply - 1, 0) : model.ply
+        guard let g = model.review?.graph, shown < g.count, let v = g[shown] else { return 50 }
         return v
     }
 
     private var evalLabel: String {
-        guard let e = model.move?.evalAfter else { return "" }
+        guard let e = model.retrying ? model.move?.evalBefore : model.move?.evalAfter else { return "" }
         return e.whiteLabel(sideToMove: .white)
     }
 
@@ -406,12 +461,19 @@ struct WalkthroughView: View {
         if model.retrying {
             VStack(alignment: .leading, spacing: 8) {
                 Text(retryTitle).font(Theme.display(32)).foregroundStyle(Theme.tin)
-                if model.retryState == .right || model.retryState == .wrong {
-                    Button("Torna a la partida") { model.backToGame() }.font(Theme.text(16, .semibold))
+                if let idea = model.retryIdea, model.retryState != .right {
+                    Text("Pensa en això: \(idea).").font(Theme.text(16)).foregroundStyle(Theme.quiet)
                 }
-                if model.retryState == .wrong {
-                    Button("Mostra la millor") { model.go(model.ply, sound: false); model.showBest() }.font(Theme.text(16, .semibold))
+                HStack(spacing: 18) {
+                    if model.retryState == .idle || model.retryState == .wrong {
+                        Button("Una pista") { model.retryHint() }
+                    }
+                    if model.retryState == .wrong {
+                        Button("Mostra la millor") { model.go(model.ply, sound: false); model.showBest() }
+                    }
+                    Button(model.retryState == .right ? "Mira què va passar" : "Passa") { model.backToGame() }
                 }
+                .font(Theme.text(16, .semibold)).foregroundStyle(Theme.gold)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         } else if !model.variation.isEmpty {
@@ -437,9 +499,12 @@ struct WalkthroughView: View {
                         Button(model.showingLine ? String(localized: "Amaga") : s.title) { model.showingLine ? model.hideCoachLine() : model.playCoachLine() }
                     }
                     if m.bestMove != nil, m.moveClass != .best, m.moveClass != .book, m.moveClass != .forced { Button("La millor") { model.showBest() } }
-                    if model.canRetry { Button("Reintenta") { model.beginRetry() } }
+                    if model.canRetry {
+                        Button("Reintenta") { model.beginRetry() }
+                        Button("Torna-la a jugar") { model.replayFrom = m.ply }
+                    }
                 }
-                .font(Theme.text(15, .semibold)).foregroundStyle(Theme.gold)
+                .font(Theme.text(15, .semibold)).foregroundStyle(Theme.gold).lineLimit(1).minimumScaleFactor(0.75)
             }
         } else {
             Text("Posició inicial").font(Theme.display(32)).foregroundStyle(Theme.tin).frame(maxWidth: .infinity, alignment: .leading)
@@ -458,10 +523,15 @@ struct WalkthroughView: View {
     private var engineLines: some View {
         VStack(alignment: .leading, spacing: 3) {
             ForEach(model.lines, id: \.multipv) { l in
-                HStack(spacing: 8) {
-                    Text(verbatim: scoreLabel(l)).font(Theme.text(14, .semibold)).foregroundStyle(Theme.gold).frame(width: 46, alignment: .leading)
-                    Text(verbatim: sanLine(l)).font(Theme.text(14)).foregroundStyle(Theme.tin).lineLimit(1)
+                Button { model.tryCandidate(l) } label: {
+                    HStack(spacing: 8) {
+                        Text(verbatim: scoreLabel(l)).font(Theme.text(14, .semibold)).foregroundStyle(Theme.gold).frame(width: 46, alignment: .leading)
+                        Text(verbatim: sanLine(l)).font(Theme.text(14)).foregroundStyle(Theme.tin).lineLimit(1)
+                        Spacer(minLength: 0)
+                    }
+                    .frame(minHeight: 30).contentShape(Rectangle())
                 }
+                .buttonStyle(.plain)
             }
             if model.lines.isEmpty { Text("El motor pensa").font(Theme.text(14)).foregroundStyle(Theme.quiet) }
         }

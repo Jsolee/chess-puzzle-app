@@ -6,6 +6,7 @@ struct ProfileView: View {
     @AppStorage("sound") private var sound = true
     @AppStorage("haptics") private var haptics = true
     @AppStorage("difficulty") private var difficulty = 0
+    @AppStorage("showStreak") private var showStreak = true
     @State private var showAbout = false
 
     var body: some View {
@@ -33,7 +34,7 @@ struct ProfileView: View {
             Text("\(solvedCount) puzzles resolts · \(progress.completedLessons.count) lliçons")
                 .font(Theme.text(16)).foregroundStyle(Theme.quiet).padding(.top, 2)
             let streak = DailyStreak(days: progress.dailyDays, today: PuzzleStore.dayNumber(Date()))
-            if streak.best > 0 {
+            if showStreak && streak.best > 0 {
                 Text("Ratxa del puzzle del dia: \(streak.current). La millor: \(streak.best).")
                     .font(Theme.text(16)).foregroundStyle(Theme.quiet)
             }
@@ -104,6 +105,8 @@ struct ProfileView: View {
             Toggle("So", isOn: $sound).font(Theme.text(17)).padding(.vertical, 8)
             Rectangle().fill(Theme.hairline).frame(height: 0.5)
             Toggle("Vibració", isOn: $haptics).font(Theme.text(17)).padding(.vertical, 8)
+            Rectangle().fill(Theme.hairline).frame(height: 0.5)
+            Toggle("Mostra la ratxa", isOn: $showStreak).font(Theme.text(17)).padding(.vertical, 8)
             Rectangle().fill(Theme.hairline).frame(height: 0.5)
             HStack {
                 Text("Dificultat dels puzzles").font(Theme.text(17))

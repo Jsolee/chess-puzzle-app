@@ -29,7 +29,9 @@ struct DailyPuzzleView: View {
     @State private var logged = false
     @State private var hintLevel = 0
     @State private var hinted = false
+    @State private var idea: String?
     @State private var replyTask: Task<Void, Never>?
+    @AppStorage("showStreak") private var showStreak = true
     private let day = Date()
 
     private enum Phase { case loading, yourMove, wrong, solved, revealed }
@@ -73,6 +75,7 @@ struct DailyPuzzleView: View {
     }
 
     private var subtitle: String {
+        if let idea, phase == .yourMove || phase == .wrong { return String(localized: "Pensa en això: \(idea).") }
         switch phase {
         case .wrong: return String(localized: "Torna-hi, o mira la solució.")
         case .solved: return String(localized: "Resolt.")
@@ -104,7 +107,7 @@ struct DailyPuzzleView: View {
             wideButton("Torna-hi") { start() }
         case .solved:
             VStack(alignment: .leading, spacing: 18) {
-                StreakPanel(days: progress.dailyDays, date: day)
+                if showStreak { StreakPanel(days: progress.dailyDays, date: day) }
                 wideButton("Fet") { dismiss() }
             }
             .transition(.opacity)
@@ -124,7 +127,7 @@ struct DailyPuzzleView: View {
         replyTask?.cancel()
         let p = PuzzleStore.shared.daily(for: day)
         run = PuzzleRun(p)
-        hinted = false; hintLevel = 0
+        hinted = false; hintLevel = 0; idea = nil
         board.interactive = false; board.arrows = []; board.hint = nil; board.lastMove = nil
         board.orientation = p.solverSide
         if progress.dailyDays.contains(PuzzleStore.dayNumber(day)) {
@@ -167,6 +170,7 @@ struct DailyPuzzleView: View {
             board.interactive = false
             log(r.puzzle, solved: true)
             progress.recordDaily(on: day)
+            WidgetSnapshot.write()
             withAnimation(.easeOut(duration: 0.25)) { phase = .solved }
             board.reflex(from: m.to)
         case .wrong:
@@ -184,11 +188,11 @@ struct DailyPuzzleView: View {
     }
 
     private func hint() {
-        guard let e = run?.expected else { return }
+        guard let r = run, let e = r.expected else { return }
         hintLevel += 1
         hinted = true
-        if hintLevel == 1 { board.hint = e.from; Haptics.tap(0.2, sharpness: 0.3) }
-        else { board.arrows = [BoardArrow(from: e.from, to: e.to, role: .idea)] }
+        if hintLevel == 1, let name = ThemeNames.idea(of: r.puzzle.themes) { idea = name }
+        else { board.hint = e.from; Haptics.tap(0.2, sharpness: 0.3) }
     }
 
     private func reveal() {
@@ -253,6 +257,7 @@ struct WeekTrack: View {
 /// The way in, above the session. It never nags: no badge, no count of what was missed.
 struct DailyRow: View {
     var open: () -> Void
+    @AppStorage("showStreak") private var showStreak = true
 
     var body: some View {
         TimelineView(.everyMinute) { context in
@@ -263,16 +268,18 @@ struct DailyRow: View {
                 HStack(spacing: 10) {
                     Text("Puzzle del dia").font(Theme.text(16, .semibold)).foregroundStyle(days.contains(today) ? Theme.quiet : Theme.gold)
                     Spacer()
-                    if streak.current > 0 {
-                        Text(verbatim: "\(streak.current)").font(Theme.text(16, .medium)).foregroundStyle(Theme.tin)
+                    if showStreak {
+                        if streak.current > 0 {
+                            Text(verbatim: "\(streak.current)").font(Theme.text(16, .medium)).foregroundStyle(Theme.tin)
+                        }
+                        WeekTrack(days: days, today: today)
                     }
-                    WeekTrack(days: days, today: today)
                     Image(systemName: "chevron.right").font(.footnote).foregroundStyle(Theme.quiet)
                 }
                 .frame(minHeight: 44).contentShape(Rectangle())
             }
             .buttonStyle(.plain)
-            .accessibilityLabel(streak.current > 0 ? "Puzzle del dia. Ratxa de \(streak.current)." : "Puzzle del dia")
+            .accessibilityLabel(showStreak && streak.current > 0 ? "Puzzle del dia. Ratxa de \(streak.current)." : "Puzzle del dia")
         }
     }
 }
