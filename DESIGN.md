@@ -12,3 +12,4 @@ Tokens: `brand/tokens.json`. Implementation: `Scachs/Design/Theme.swift`. Brand 
 - **Components:** primary action is tin text with weight on the field, or gold for the current one. Buttons have no fill unless they're the screen's single primary action, then a tin capsule with ink text. Hit areas 44 pt minimum.
 - **Move-class badge:** a small enamel disc with a dark glyph; `MoveClassBadge`. Classes are told apart by glyph, then colour.
 - **Numbers:** always Ysabeau Office, tabular by default. Accuracy and rating read like instruments.
+- **The Atlas:** the one exception to the field: a vellum portolan sheet, full-bleed like the board, painted per pixel (`AtlasPainter`). Its washes are pigments, not accents: green where you do well, ochre where it's even, vermilion where it costs you.

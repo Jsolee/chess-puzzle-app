@@ -769,6 +769,23 @@
         }
       }
     },
+    "%lld partides": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld games"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld partidas"
+          }
+        }
+      }
+    },
     "%lld partides. Guanyades: %lld. Taules: %lld. Perdudes: %lld.": {
       "extractionState": "manual",
       "localizations": {
@@ -901,6 +918,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "En la partida jugaste %@. Encuentra una mejor."
+          }
+        }
+      }
+    },
+    "A mitges": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Even"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A medias"
           }
         }
       }
@@ -2605,23 +2639,6 @@
         }
       }
     },
-    "Daurat on et va bé, vermell on et costa. Toca una terra per veure-la.": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gold where it goes well, red where it's hard. Tap a land to see it."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dorado donde te va bien, rojo donde te cuesta. Toca una tierra para verla."
-          }
-        }
-      }
-    },
     "Després d'això, el rival fa mat amb %@.": {
       "extractionState": "manual",
       "localizations": {
@@ -3336,6 +3353,23 @@
         }
       }
     },
+    "Et costa": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hard"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Te cuesta"
+          }
+        }
+      }
+    },
     "Et quedes amb %@.": {
       "extractionState": "manual",
       "localizations": {
@@ -3366,6 +3400,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Te toca"
+          }
+        }
+      }
+    },
+    "Et va bé": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Going well"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Te va bien"
           }
         }
       }
@@ -3621,6 +3672,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Hasta aquí."
+          }
+        }
+      }
+    },
+    "Flancs": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Flanks"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Flancos"
           }
         }
       }
@@ -6124,6 +6192,23 @@
         }
       }
     },
+    "Per explorar": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unexplored"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Por explorar"
+          }
+        }
+      }
+    },
     "Per recordar-ho": {
       "extractionState": "manual",
       "localizations": {
@@ -6273,6 +6358,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "Peón avanzado"
+          }
+        }
+      }
+    },
+    "Peó de dama": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Queen's pawn"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Peón de dama"
+          }
+        }
+      }
+    },
+    "Peó de rei": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "King's pawn"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Peón de rey"
           }
         }
       }

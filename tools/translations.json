@@ -1927,10 +1927,6 @@
   "en": "Against %1$@, at their level (%2$lld).",
   "es": "Contra %1$@, con su nivel (%2$lld)."
  },
- "Daurat on et va bé, vermell on et costa. Toca una terra per veure-la.": {
-  "en": "Gold where it goes well, red where it's hard. Tap a land to see it.",
-  "es": "Dorado donde te va bien, rojo donde te cuesta. Toca una tierra para verla."
- },
  "Era aquesta": {
   "en": "It was this one",
   "es": "Era esta"
@@ -2154,5 +2150,37 @@
  "Aquí hi ha dracs": {
   "en": "Here be dragons",
   "es": "Aquí hay dragones"
+ },
+ "Et va bé": {
+  "en": "Going well",
+  "es": "Te va bien"
+ },
+ "A mitges": {
+  "en": "Even",
+  "es": "A medias"
+ },
+ "Et costa": {
+  "en": "Hard",
+  "es": "Te cuesta"
+ },
+ "Per explorar": {
+  "en": "Unexplored",
+  "es": "Por explorar"
+ },
+ "Peó de rei": {
+  "en": "King's pawn",
+  "es": "Peón de rey"
+ },
+ "Peó de dama": {
+  "en": "Queen's pawn",
+  "es": "Peón de dama"
+ },
+ "Flancs": {
+  "en": "Flanks",
+  "es": "Flancos"
+ },
+ "%lld partides": {
+  "en": "%lld games",
+  "es": "%lld partidas"
  }
 }

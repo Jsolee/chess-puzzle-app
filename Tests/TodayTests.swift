@@ -112,6 +112,23 @@ final class TodayTests: XCTestCase {
         XCTAssertEqual(Atlas.family("Sicilian Defense: Najdorf Variation"), "Sicilian Defense")
     }
 
+    func testChartPutsEveryPlaceOnLandAndAnswersTaps() throws {
+        var regions = Atlas.regions(games: [], side: .white)
+        regions[0].wins = 30
+        regions[regions.count - 1].losses = 30
+        let chart = try XCTUnwrap(AtlasPainter.paint(regions: regions, size: CGSize(width: 402, height: 515), scale: 1))
+        XCTAssertEqual(chart.places.count, regions.count)
+        for place in chart.places {
+            XCTAssertEqual(chart.place(at: place.point)?.region, place.region, place.region.name)
+        }
+        XCTAssertNil(chart.place(at: CGPoint(x: 1, y: 1)))
+        XCTAssertNil(chart.place(at: CGPoint(x: -5, y: 900)))
+        XCTAssertNotNil(chart.highlight(chart.places[0].region))
+        XCTAssertEqual(chart.titles.count, Land.allCases.count)
+        let dragon = try XCTUnwrap(chart.places.first { $0.region.isDragon }?.dragon)
+        XCTAssertNil(chart.place(at: dragon), "the monster is out at sea")
+    }
+
     func testSundayGamesAreLegalAndTheirMomentsAreTheMovesPlayed() throws {
         XCTAssertFalse(SundayGames.all.isEmpty)
         for game in SundayGames.all {

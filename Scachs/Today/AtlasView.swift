@@ -60,104 +60,17 @@ enum Atlas {
     }
 }
 
-/// Draws the chart once per size: the geometry never changes for the same list of names, so places stay where you left them.
-private struct AtlasGeometry {
-    struct Cell {
-        let region: AtlasRegion
-        let polygon: [CGPoint]
-        let centre: CGPoint
-        let outward: Double
-        /// Just off the coast from this territory, where a chart would put its sea monster.
-        let offshore: CGPoint
-        /// How much of a name fits here without crossing a border, more or less.
-        let room: CGFloat
-    }
-
-    let cells: [Cell]
-    let lands: [[CGPoint]]
-
-    private static func hash(_ s: String) -> UInt64 { s.utf8.reduce(0xcbf2_9ce4_8422_2325) { ($0 ^ UInt64($1)) &* 0x0000_0100_0000_01b3 } }
-
-    private static let placement: [Land: (x: Double, y: Double, rx: Double, ry: Double)] = [
-        .kingPawn: (0.30, 0.27, 0.25, 0.205), .queenPawn: (0.70, 0.62, 0.255, 0.235), .flank: (0.21, 0.84, 0.17, 0.105),
-    ]
-
-    private static func blob(_ land: Land, in size: CGSize) -> [CGPoint] {
-        let p = placement[land]!
-        let seed = Double(hash(land.rawValue) % 1000) / 100
-        return (0..<140).map { i in
-            let a = Double(i) / 140 * 2 * .pi
-            let wobble = 1 + 0.10 * sin(3 * a + seed) + 0.06 * sin(7 * a + seed * 2) + 0.03 * sin(17 * a + seed * 3) + 0.015 * sin(41 * a + seed)
-            return CGPoint(x: (p.x + p.rx * wobble * cos(a)) * size.width, y: (p.y + p.ry * wobble * sin(a)) * size.height)
-        }
-    }
-
-    /// Half-plane clip. The subject isn't convex, but these blobs are close enough that the seams don't show.
-    private static func clip(_ polygon: [CGPoint], keepingCloserTo a: CGPoint, than b: CGPoint) -> [CGPoint] {
-        let mid = CGPoint(x: (a.x + b.x) / 2, y: (a.y + b.y) / 2)
-        let nx = b.x - a.x, ny = b.y - a.y
-        func side(_ p: CGPoint) -> CGFloat { (p.x - mid.x) * nx + (p.y - mid.y) * ny }
-        var out: [CGPoint] = []
-        for i in polygon.indices {
-            let p = polygon[i], q = polygon[(i + 1) % polygon.count]
-            let sp = side(p), sq = side(q)
-            if sp <= 0 { out.append(p) }
-            if (sp < 0) != (sq < 0), sp != sq {
-                let t = sp / (sp - sq)
-                out.append(CGPoint(x: p.x + (q.x - p.x) * t, y: p.y + (q.y - p.y) * t))
-            }
-        }
-        return out
-    }
-
-    init(regions: [AtlasRegion], size: CGSize) {
-        var cells: [Cell] = []
-        var lands: [[CGPoint]] = []
-        for land in Land.allCases {
-            let shape = Self.blob(land, in: size)
-            lands.append(shape)
-            let members = regions.filter { $0.land == land }.sorted { Self.hash($0.name) < Self.hash($1.name) }
-            guard !members.isEmpty else { continue }
-            let p = Self.placement[land]!
-            let centre = CGPoint(x: p.x * size.width, y: p.y * size.height)
-            // A sunflower spiral spreads the sites evenly whatever their number.
-            let sites: [CGPoint] = members.indices.map { i in
-                let r = 0.82 * (Double(i) + 0.5).squareRoot() / Double(members.count).squareRoot()
-                let a = Double(i) * 2.39996 + Double(Self.hash(land.rawValue) % 7)
-                return CGPoint(x: centre.x + r * p.rx * size.width * cos(a), y: centre.y + r * p.ry * size.height * sin(a))
-            }
-            for (i, region) in members.enumerated() {
-                var polygon = shape
-                for j in members.indices where j != i { polygon = Self.clip(polygon, keepingCloserTo: sites[i], than: sites[j]) }
-                guard polygon.count >= 3 else { continue }
-                let outward = atan2(sites[i].y - centre.y, sites[i].x - centre.x)
-                let land = path(shape)
-                var reach: CGFloat = 0
-                while reach < size.width, land.contains(CGPoint(x: centre.x + reach * cos(outward), y: centre.y + reach * sin(outward))) { reach += 4 }
-                let offshore = CGPoint(x: centre.x + (reach + 20) * cos(outward), y: centre.y + (reach + 20) * sin(outward))
-                let nearest: CGFloat = polygon.map { hypot($0.x - sites[i].x, $0.y - sites[i].y) }.min() ?? 25
-                let room = nearest * 2.4
-                cells.append(Cell(region: region, polygon: polygon, centre: sites[i], outward: outward, offshore: offshore, room: room))
-            }
-        }
-        self.cells = cells
-        self.lands = lands
-    }
-}
-
-private func path(_ points: [CGPoint]) -> Path {
-    var p = Path()
-    p.addLines(points)
-    p.closeSubpath()
-    return p
-}
-
 struct AtlasView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.displayScale) private var displayScale
     @State private var side: Side = .white
     @State private var selected: AtlasRegion?
     @State private var regions: [AtlasRegion] = []
-    private static let aspect = 1.25
+    @State private var chart: AtlasChart?
+    @State private var highlight: CGImage?
+    @State private var sheetSize: CGSize = .zero
+    @State private var painted: [String: ([AtlasRegion], AtlasChart?)] = [:]
+    private static let aspect: CGFloat = 1.28
 
     var body: some View {
         ScrollView {
@@ -172,18 +85,35 @@ struct AtlasView: View {
                     sideButton("Blanques", .white)
                     sideButton("Negres", .black)
                 }
-                .padding(.horizontal, 20)
-                chart
-                detail.padding(.horizontal, 20).padding(.top, 14).padding(.bottom, 28)
+                .padding(.horizontal, 20).padding(.bottom, 6)
+                sheet
+                detail.padding(.horizontal, 20).padding(.top, 16).padding(.bottom, 28)
             }
         }
         .scrollBounceBehavior(.basedOnSize)
         .background(Theme.field.ignoresSafeArea())
-        .task(id: side) {
-            let games = GameLibrary.shared.games
-            let side = side
-            let found = await Task.detached(priority: .userInitiated) { Atlas.regions(games: games, side: side) }.value
-            withAnimation(.easeOut(duration: 0.25)) { regions = found; selected = nil }
+        .task(id: "\(side == .white)\(Int(sheetSize.width))") { await paint() }
+    }
+
+    private func paint() async {
+        guard sheetSize.width > 0 else { return }
+        let key = "\(side == .white)\(Int(sheetSize.width))"
+        var result = painted[key]
+        if result == nil {
+            let games = GameLibrary.shared.games, side = side, size = sheetSize, scale = min(displayScale, 2.5)
+            let fresh = await Task.detached(priority: .userInitiated) { () -> ([AtlasRegion], AtlasChart?) in
+                let regions = Atlas.regions(games: games, side: side)
+                return (regions, AtlasPainter.paint(regions: regions, size: size, scale: scale))
+            }.value
+            guard !Task.isCancelled else { return }
+            painted[key] = fresh
+            result = fresh
+        }
+        withAnimation(.easeOut(duration: 0.25)) {
+            regions = result?.0 ?? []
+            chart = result?.1
+            selected = nil
+            highlight = nil
         }
     }
 
@@ -193,125 +123,265 @@ struct AtlasView: View {
         }
     }
 
-    private var chart: some View {
+    // MARK: The sheet
+
+    private var sheet: some View {
         GeometryReader { geo in
-            let geometry = AtlasGeometry(regions: regions, size: geo.size)
-            Canvas { context, size in draw(geometry, in: &context, size: size) }
-                .contentShape(Rectangle())
-                .onTapGesture { point in
-                    selected = geometry.cells.first { path($0.polygon).contains(point) }?.region
-                    Haptics.tap(0.2, sharpness: 0.3)
+            ZStack {
+                if let chart {
+                    Image(decorative: chart.image, scale: chart.scale).resizable().transition(.opacity)
+                    if let highlight {
+                        Image(decorative: highlight, scale: chart.scale).resizable().blendMode(.multiply).transition(.opacity)
+                    }
+                    Canvas { context, size in drawInk(chart, in: &context, size: size) }
+                        .contentShape(Rectangle())
+                        .onTapGesture { point in select(chart.place(at: point), in: chart) }
+                        .accessibilityRepresentation {
+                            VStack {
+                                ForEach(chart.places.sorted { $0.region.games > $1.region.games }, id: \.region.name) { place in
+                                    Button(place.region.name) { select(place, in: chart) }
+                                }
+                            }
+                        }
+                } else {
+                    ProgressView().tint(Theme.gold)
                 }
-                .accessibilityElement()
-                .accessibilityLabel(accessibilitySummary)
+            }
+            .onAppear { sheetSize = geo.size }
+            .onChange(of: geo.size) { _, size in sheetSize = size }
         }
         .aspectRatio(1 / Self.aspect, contentMode: .fit)
     }
 
-    private var accessibilitySummary: String {
-        let played = regions.filter { $0.games > 0 }.sorted { $0.games > $1.games }
-        return played.map { "\($0.name): \($0.games)" }.joined(separator: ", ")
+    private func select(_ place: AtlasChart.Place?, in chart: AtlasChart) {
+        withAnimation(.easeOut(duration: 0.2)) {
+            selected = place?.region
+            highlight = place.flatMap { chart.highlight($0.region) }
+        }
+        Haptics.tap(0.2, sharpness: 0.3)
     }
 
-    private func draw(_ geometry: AtlasGeometry, in context: inout GraphicsContext, size: CGSize) {
+    // MARK: Ink on top of the painting
+
+    private static let ink = Color(red: 0.10, green: 0.09, blue: 0.11)
+    private static let red = Color(red: 0.62, green: 0.16, blue: 0.09)
+    private static let green = Color(red: 0.08, green: 0.30, blue: 0.25)
+    private static let leaf = Color(red: 0.72, green: 0.53, blue: 0.22)
+    private static let skin = Color(red: 0.871, green: 0.812, blue: 0.690)
+
+    private func drawInk(_ chart: AtlasChart, in context: inout GraphicsContext, size: CGSize) {
         drawRhumbs(&context, size)
-        // Coast first with a soft second line, the way portolans double their shores.
-        for land in geometry.lands {
-            context.fill(path(land), with: .color(Theme.fieldDeep))
+        drawTitles(chart, &context)
+        for place in chart.places { drawName(place, &context) }
+        let dragons = chart.places.filter { $0.dragon != nil }
+        for place in dragons { drawDragon(at: place.dragon!, &context) }
+        if let worst = dragons.max(by: { $0.region.losses < $1.region.losses })?.dragon {
+            context.draw(Text("Aquí hi ha dracs").font(Theme.text(10, .medium)).foregroundColor(Self.red), at: CGPoint(x: worst.x, y: worst.y + 18))
         }
-        for cell in geometry.cells {
-            let polygon = path(cell.polygon)
-            context.fill(polygon, with: .color(fill(cell.region)))
-            if selected == cell.region { context.fill(polygon, with: .color(Theme.tin.opacity(0.16))) }
-            context.stroke(polygon, with: .color(Theme.gold.opacity(0.22)), style: StrokeStyle(lineWidth: 0.5, dash: [2, 2]))
-        }
-        for land in geometry.lands {
-            context.stroke(path(land), with: .color(Theme.gold.opacity(0.28)), lineWidth: 3)
-            context.stroke(path(land), with: .color(Theme.gold), lineWidth: 0.9)
-        }
-        for cell in geometry.cells { drawName(cell, &context) }
-        let dragons = geometry.cells.filter(\.region.isDragon)
-        for cell in dragons { drawDragon(at: cell.offshore, &context) }
-        if let worst = dragons.max(by: { $0.region.losses < $1.region.losses }) {
-            context.draw(Text("Aquí hi ha dracs").font(Theme.text(10, .medium)).foregroundColor(Theme.gold), at: CGPoint(x: worst.offshore.x, y: worst.offshore.y - 14))
-        }
-        drawRose(&context, at: CGPoint(x: size.width * 0.84, y: size.height * 0.16), radius: size.width * 0.085)
+        drawRose(&context, at: CGPoint(x: size.width * AtlasPainter.rose.x, y: size.height * AtlasPainter.rose.y), radius: size.width * AtlasPainter.rose.radius)
+        drawScale(chart, &context, size)
+        drawBorder(&context, size)
     }
 
-    private func fill(_ region: AtlasRegion) -> Color {
-        guard region.games > 0 else { return Theme.fieldLift.opacity(0.55) }
-        let weight = min(0.42 + Double(region.games) * 0.06, 0.85)
-        if region.score >= 0.55 { return Theme.gold.opacity(weight) }
-        if region.score < 0.45 { return Color(hex: 0xEF7D6C).opacity(weight) }
-        return Theme.tin.opacity(weight * 0.6)
-    }
-
+    /// The web of lines every portolan carries, in the traditional three inks: black for the eight winds, green for the half winds, red for the quarters.
     private func drawRhumbs(_ context: inout GraphicsContext, _ size: CGSize) {
+        var copy = context
+        copy.blendMode = .multiply
+        copy.clip(to: Path(CGRect(origin: .zero, size: size).insetBy(dx: 16, dy: 16)))
         let centre = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
-        let radius = max(size.width, size.height) * 0.62
+        let radius = size.width * 0.46
         let nodes = (0..<16).map { i -> CGPoint in
             let a = Double(i) / 16 * 2 * .pi
             return CGPoint(x: centre.x + radius * cos(a), y: centre.y + radius * sin(a))
         }
-        var lines = Path()
-        for origin in nodes + [centre] {
-            for i in 0..<16 {
-                let a = Double(i) / 16 * 2 * .pi
-                lines.move(to: origin)
-                lines.addLine(to: CGPoint(x: origin.x + 2 * radius * cos(a), y: origin.y + 2 * radius * sin(a)))
+        for colour in 0..<3 {
+            var lines = Path()
+            for origin in nodes + [centre] {
+                for i in 0..<32 where (colour == 0 ? i % 4 == 0 : colour == 1 ? i % 4 == 2 : i % 2 == 1) {
+                    let a = Double(i) / 32 * 2 * .pi
+                    lines.move(to: origin)
+                    lines.addLine(to: CGPoint(x: origin.x + size.width * 1.6 * cos(a), y: origin.y + size.width * 1.6 * sin(a)))
+                }
             }
+            let tone = colour == 0 ? Self.ink.opacity(0.13) : colour == 1 ? Self.green.opacity(0.15) : Self.red.opacity(0.11)
+            copy.stroke(lines, with: .color(tone), lineWidth: 0.4)
         }
-        context.stroke(lines, with: .color(Theme.tin.opacity(0.045)), lineWidth: 0.5)
     }
 
-    /// Names run out from the land towards the sea, as on the real charts.
-    private func drawName(_ cell: AtlasGeometry.Cell, _ context: inout GraphicsContext) {
-        var angle = cell.outward
-        if cos(angle) < 0 { angle += .pi }
-        let played = cell.region.games > 0
-        var short = cell.region.name.replacingOccurrences(of: " Defense", with: "").replacingOccurrences(of: " Opening", with: "").replacingOccurrences(of: " Game", with: "").replacingOccurrences(of: " Attack", with: "")
-        func label(_ text: String) -> GraphicsContext.ResolvedText {
-            context.resolve(Text(verbatim: text).font(Theme.text(10, played ? .semibold : .regular)).foregroundColor(played ? Theme.tin : Theme.tin.opacity(0.42)))
+    private func drawTitles(_ chart: AtlasChart, _ context: inout GraphicsContext) {
+        let titles: [(Land, LocalizedStringKey)] = [(.kingPawn, "Peó de rei"), (.queenPawn, "Peó de dama"), (.flank, "Flancs")]
+        for (land, title) in titles {
+            guard let at = chart.titles[land] else { continue }
+            context.draw(Text(title).font(Theme.display(28)).foregroundColor(Self.ink.opacity(0.5)), at: at)
         }
-        // Too long for its territory: abbreviate the way a chart would, keeping the word that tells places apart.
-        if label(short).measure(in: CGSize(width: 400, height: 40)).width > cell.room {
-            short = short.replacingOccurrences(of: "Queen's Gambit", with: "QG").replacingOccurrences(of: "Queen's", with: "Q.").replacingOccurrences(of: "King's", with: "K.")
+    }
+
+    private func drawName(_ place: AtlasChart.Place, _ context: inout GraphicsContext) {
+        let region = place.region, played = region.games > 0
+        var name = region.name.replacingOccurrences(of: " Defense", with: "").replacingOccurrences(of: " Opening", with: "").replacingOccurrences(of: " Game", with: "").replacingOccurrences(of: " Attack", with: "")
+        var size: CGFloat = played ? 11 : 9.5
+        func label() -> GraphicsContext.ResolvedText {
+            context.resolve(Text(verbatim: name).font(Theme.text(size, played ? .semibold : .regular)).foregroundColor(played ? Self.ink : Self.ink.opacity(0.62)))
         }
+        func width() -> CGFloat { label().measure(in: CGSize(width: 400, height: 40)).width }
+        if width() > place.room {
+            name = name.replacingOccurrences(of: "Queen's Gambit", with: "QG").replacingOccurrences(of: "Queen's", with: "Q.").replacingOccurrences(of: "King's", with: "K.").replacingOccurrences(of: " System", with: "").replacingOccurrences(of: "Nimzo-Larsen", with: "Larsen")
+        }
+        if width() > place.room { size = max(size * place.room / width(), 8) }
         var copy = context
-        copy.translateBy(x: cell.centre.x, y: cell.centre.y)
-        copy.rotate(by: .radians(angle))
-        copy.draw(label(short), at: .zero)
+        copy.translateBy(x: place.point.x, y: place.point.y)
+        copy.rotate(by: .radians(place.angle))
+        copy.draw(label(), at: .zero)
+        if played {
+            var flag = context
+            flag.translateBy(x: place.point.x + 7 * sin(place.angle), y: place.point.y - 7 * cos(place.angle))
+            drawPennant(games: region.games, &flag)
+        }
     }
 
-    /// A small sea serpent, three humps and a head.
+    /// A little flag on each place you've actually played, taller the more you've been there.
+    private func drawPennant(games: Int, _ context: inout GraphicsContext) {
+        let height = 7 + min(CGFloat(games), 8) * 0.7
+        var pole = Path()
+        pole.move(to: .zero)
+        pole.addLine(to: CGPoint(x: 0, y: -height))
+        context.stroke(pole, with: .color(Self.ink), lineWidth: 0.7)
+        var flag = Path()
+        flag.move(to: CGPoint(x: 0, y: -height))
+        flag.addQuadCurve(to: CGPoint(x: 7.5, y: -height + 1.8), control: CGPoint(x: 4, y: -height - 1.4))
+        flag.addQuadCurve(to: CGPoint(x: 0, y: -height + 3.8), control: CGPoint(x: 3.6, y: -height + 3.8))
+        flag.closeSubpath()
+        context.fill(flag, with: .color(Self.ink))
+    }
+
+    /// A sea serpent out of a bestiary: a forked tail, two coils breaking the water, a finned neck and open jaws.
     private func drawDragon(at point: CGPoint, _ context: inout GraphicsContext) {
-        var snake = Path()
-        let y = point.y + 2, x = point.x - 18
-        snake.move(to: CGPoint(x: x, y: y))
-        for hump in 0..<3 {
-            let start = x + CGFloat(hump) * 9
-            snake.addQuadCurve(to: CGPoint(x: start + 9, y: y), control: CGPoint(x: start + 4.5, y: y - 9))
+        var c = context
+        c.translateBy(x: point.x - 30, y: point.y + 6)
+        func P(_ x: CGFloat, _ y: CGFloat) -> CGPoint { CGPoint(x: x, y: y) }
+        var body = Path(), fins = Path()
+        body.move(to: P(3, 0))
+        body.addQuadCurve(to: P(-1, -8), control: P(-1, -4))
+        body.addQuadCurve(to: P(-6, -11), control: P(-4, -8))
+        body.addQuadCurve(to: P(0, -10.5), control: P(-3, -11.5))
+        body.addQuadCurve(to: P(3, -14), control: P(2, -11.5))
+        body.addQuadCurve(to: P(1.5, -7), control: P(3.5, -9.5))
+        body.addQuadCurve(to: P(7, 0), control: P(2.5, -3))
+        body.closeSubpath()
+        for start in [CGFloat(10), 26] {
+            let width: CGFloat = 14, thick: CGFloat = 3.4, rise: CGFloat = 15
+            body.move(to: P(start, 0))
+            body.addCurve(to: P(start + width, 0), control1: P(start + 1, -rise), control2: P(start + width - 1, -rise))
+            body.addLine(to: P(start + width - thick, 0))
+            body.addCurve(to: P(start + thick, 0), control1: P(start + width - thick - 0.5, -(rise - thick * 1.5)), control2: P(start + thick + 0.5, -(rise - thick * 1.5)))
+            body.closeSubpath()
+            fins.addLines([P(start + width / 2 - 3, -10.6), P(start + width / 2 + 0.6, -14.6), P(start + width / 2 + 3, -10.6)])
+            fins.closeSubpath()
         }
-        snake.addQuadCurve(to: CGPoint(x: x + 34, y: y - 5), control: CGPoint(x: x + 31, y: y + 3))
-        snake.addLine(to: CGPoint(x: x + 38, y: y - 3))
-        context.stroke(snake, with: .color(Theme.ink), style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
-        context.stroke(snake, with: .color(Theme.gold), style: StrokeStyle(lineWidth: 1, lineCap: .round, lineJoin: .round))
+        body.move(to: P(43, 0))
+        body.addCurve(to: P(49, -17), control1: P(44, -8), control2: P(45, -14))
+        body.addQuadCurve(to: P(60, -16.5), control: P(54, -21.5))
+        body.addLine(to: P(54, -14.8))
+        body.addLine(to: P(59, -11.5))
+        body.addQuadCurve(to: P(53, -11.5), control: P(56, -10))
+        body.addCurve(to: P(51, 0), control1: P(50, -8), control2: P(52, -4))
+        body.closeSubpath()
+        fins.addLines([P(46, -12), P(42.6, -14.6), P(45.6, -8)])
+        fins.closeSubpath()
+        fins.addLines([P(47.6, -16), P(45, -19.6), P(49.4, -18)])
+        fins.closeSubpath()
+        var tongue = Path()
+        tongue.addLines([P(56, -13.4), P(62, -13.2), P(64, -14.8)])
+        tongue.move(to: P(62, -13.2))
+        tongue.addLine(to: P(64, -11.8))
+        c.stroke(tongue, with: .color(Self.red), lineWidth: 0.6)
+        c.fill(body, with: .color(Self.red))
+        c.stroke(body, with: .color(Self.ink), style: StrokeStyle(lineWidth: 0.7, lineJoin: .round))
+        c.fill(fins, with: .color(Self.ink))
+        c.fill(Path(ellipseIn: CGRect(x: 52.2, y: -18.4, width: 2, height: 2)), with: .color(Self.skin))
+        var waves = Path()
+        for wave in 0..<5 {
+            let start = -7 + CGFloat(wave) * 14
+            waves.move(to: P(start, 3))
+            waves.addQuadCurve(to: P(start + 12, 3), control: P(start + 6, 0))
+        }
+        c.stroke(waves, with: .color(Self.ink.opacity(0.7)), lineWidth: 0.6)
     }
 
+    /// The wind rose of the Mallorcan school, with the winds' Catalan initials: Tramuntana, Gregal, Llevant, Xaloc, Migjorn, Llebeig, Ponent, Mestral.
     private func drawRose(_ context: inout GraphicsContext, at centre: CGPoint, radius: CGFloat) {
-        for i in 0..<16 {
-            let a = Double(i) / 16 * 2 * .pi - .pi / 2
-            let major = i % 4 == 0, minor = i % 2 == 0
-            let length = major ? radius : minor ? radius * 0.68 : radius * 0.45
-            let width = (major ? 0.15 : 0.09) * radius
-            let tip = CGPoint(x: centre.x + length * cos(a), y: centre.y + length * sin(a))
-            let left = CGPoint(x: centre.x + width * cos(a - .pi / 2), y: centre.y + width * sin(a - .pi / 2))
-            let right = CGPoint(x: centre.x + width * cos(a + .pi / 2), y: centre.y + width * sin(a + .pi / 2))
-            context.fill(path([centre, left, tip]), with: .color(Theme.gold))
-            context.fill(path([centre, right, tip]), with: .color(Theme.tin.opacity(major ? 0.9 : 0.5)))
+        func kite(_ angle: Double, length: CGFloat, width: CGFloat, left: Color, right: Color) {
+            let tip = CGPoint(x: centre.x + length * cos(angle), y: centre.y + length * sin(angle))
+            let l = CGPoint(x: centre.x + width * cos(angle - .pi / 2), y: centre.y + width * sin(angle - .pi / 2))
+            let r = CGPoint(x: centre.x + width * cos(angle + .pi / 2), y: centre.y + width * sin(angle + .pi / 2))
+            var a = Path(); a.addLines([centre, l, tip]); a.closeSubpath()
+            var b = Path(); b.addLines([centre, r, tip]); b.closeSubpath()
+            context.fill(a, with: .color(left))
+            context.fill(b, with: .color(right))
         }
-        context.stroke(Path(ellipseIn: CGRect(x: centre.x - radius * 0.26, y: centre.y - radius * 0.26, width: radius * 0.52, height: radius * 0.52)), with: .color(Theme.gold.opacity(0.6)), lineWidth: 0.6)
+        var ring = Path(ellipseIn: CGRect(x: centre.x - radius * 0.72, y: centre.y - radius * 0.72, width: radius * 1.44, height: radius * 1.44))
+        ring.addEllipse(in: CGRect(x: centre.x - radius * 0.68, y: centre.y - radius * 0.68, width: radius * 1.36, height: radius * 1.36))
+        context.stroke(ring, with: .color(Self.ink.opacity(0.7)), lineWidth: 0.45)
+        for i in 0..<16 where i % 2 == 1 {
+            kite(Double(i) / 16 * 2 * .pi - .pi / 2, length: radius * 0.58, width: radius * 0.05, left: Self.red, right: Self.red.opacity(0.55))
+        }
+        for i in 0..<8 where i % 2 == 1 {
+            kite(Double(i) / 8 * 2 * .pi - .pi / 2, length: radius * 0.8, width: radius * 0.09, left: Self.green, right: Self.skin)
+        }
+        for i in 0..<4 {
+            kite(Double(i) / 4 * 2 * .pi - .pi / 2, length: radius, width: radius * 0.13, left: Self.ink, right: Self.leaf)
+        }
+        context.fill(Path(ellipseIn: CGRect(x: centre.x - 2, y: centre.y - 2, width: 4, height: 4)), with: .color(Self.skin))
+        for (i, wind) in ["T", "G", "L", "X", "M", "Ll", "P", "M"].enumerated() {
+            let a = Double(i) / 8 * 2 * .pi - .pi / 2
+            let at = CGPoint(x: centre.x + (radius + 8) * cos(a), y: centre.y + (radius + 8) * sin(a))
+            context.draw(Text(verbatim: wind).font(Theme.text(9, .semibold)).foregroundColor(i == 0 ? Self.red : Self.ink), at: at)
+        }
     }
+
+    /// A chart's scale bar, only here it measures your games.
+    private func drawScale(_ chart: AtlasChart, _ context: inout GraphicsContext, _ size: CGSize) {
+        let total = chart.places.reduce(0) { $0 + $1.region.games }
+        guard total > 0 else { return }
+        let segment: CGFloat = 11, count = 6
+        let origin = CGPoint(x: size.width - 26 - segment * CGFloat(count), y: size.height - 32)
+        for i in 0..<count {
+            let rect = CGRect(x: origin.x + CGFloat(i) * segment, y: origin.y, width: segment, height: 3.5)
+            if i % 2 == 0 { context.fill(Path(rect), with: .color(Self.ink)) } else { context.stroke(Path(rect), with: .color(Self.ink), lineWidth: 0.5) }
+        }
+        context.draw(Text("\(total) partides").font(Theme.text(10, .medium)).foregroundColor(Self.ink), at: CGPoint(x: origin.x + segment * CGFloat(count) / 2, y: origin.y - 8))
+    }
+
+    /// The graduated border of a sea chart, which on this one is the edge of a chessboard.
+    private func drawBorder(_ context: inout GraphicsContext, _ size: CGSize) {
+        let inset: CGFloat = 12, band: CGFloat = 4.5, step: CGFloat = 12
+        let outer = CGRect(origin: .zero, size: size).insetBy(dx: inset, dy: inset)
+        let inner = outer.insetBy(dx: band, dy: band)
+        var squares = Path()
+        var x = outer.minX, odd = false
+        while x < outer.maxX {
+            let w = min(step, outer.maxX - x)
+            if odd {
+                squares.addRect(CGRect(x: x, y: outer.minY, width: w, height: band))
+                squares.addRect(CGRect(x: x, y: inner.maxY, width: w, height: band))
+            }
+            x += step; odd.toggle()
+        }
+        var y = outer.minY; odd = false
+        while y < outer.maxY {
+            let h = min(step, outer.maxY - y)
+            if odd {
+                squares.addRect(CGRect(x: outer.minX, y: y, width: band, height: h))
+                squares.addRect(CGRect(x: inner.maxX, y: y, width: band, height: h))
+            }
+            y += step; odd.toggle()
+        }
+        context.fill(squares, with: .color(Self.ink.opacity(0.82)))
+        context.stroke(Path(outer), with: .color(Self.ink.opacity(0.82)), lineWidth: 0.6)
+        context.stroke(Path(inner), with: .color(Self.ink.opacity(0.82)), lineWidth: 0.6)
+    }
+
+    // MARK: Under the sheet
 
     @ViewBuilder private var detail: some View {
         let played = regions.filter { $0.games > 0 }.count
@@ -325,10 +395,22 @@ struct AtlasView: View {
                     if region.isDragon { Text("Aquí hi ha dracs.").font(Theme.text(16, .semibold)).foregroundStyle(Theme.gold) }
                 }
             }
-        } else if played == 0 {
+        } else if played == 0 && chart != nil {
             Text("Quan tinguis partides amb aquest color, sortiran aquí.").font(Theme.text(16)).foregroundStyle(Theme.quiet)
-        } else {
-            Text("Daurat on et va bé, vermell on et costa. Toca una terra per veure-la.").font(Theme.text(16)).foregroundStyle(Theme.quiet)
+        } else if chart != nil {
+            HStack(spacing: 16) {
+                legend(Color(red: 0.13, green: 0.40, blue: 0.33), "Et va bé")
+                legend(Color(red: 0.72, green: 0.53, blue: 0.22), "A mitges")
+                legend(Color(red: 0.68, green: 0.20, blue: 0.12), "Et costa")
+                legend(Self.skin, "Per explorar")
+            }
+        }
+    }
+
+    private func legend(_ colour: Color, _ title: LocalizedStringKey) -> some View {
+        HStack(spacing: 6) {
+            Rectangle().fill(colour).frame(width: 11, height: 11)
+            Text(title).font(Theme.text(14)).foregroundStyle(Theme.quiet).lineLimit(1).minimumScaleFactor(0.8)
         }
     }
 }
