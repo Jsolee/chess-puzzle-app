@@ -112,6 +112,20 @@ final class TodayTests: XCTestCase {
         XCTAssertEqual(Atlas.family("Sicilian Defense: Najdorf Variation"), "Sicilian Defense")
     }
 
+    func testTemperamentReadsTheGames() {
+        let muzio = "1. e4 e5 2. f4 exf4 3. Nf3 g5 4. Bc4 g4 5. Nc3 gxf3 6. Qxf3 Nc6 7. Qxf4 Qf6 8. Qxf6 Nxf6 9. Bxf7+ Kxf7 10. d3 Bb4 11. Bg5 Bxc3+ 12. bxc3 d6 13. Bxf6 Kxf6 1-0"
+        let quiet = "1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. Bg5 Be7 5. e3 h6 6. Bh4 b6 7. Nf3 Bb7 8. Be2 Nbd7 9. Rc1 c5 10. a3 a6 1/2-1/2"
+        func games(_ pgn: String, _ n: Int, _ time: TimeClass = .rapid) -> [ImportedGame] {
+            (0..<n).map { ImportedGame(id: "g\($0)", source: .pgn, white: "me", black: "them", mySide: .white, result: "1-0", termination: .other, timeClass: time, date: .now, pgn: pgn) }
+        }
+        XCTAssertEqual(Temperament(games: games(muzio, 3)).figure, .squire, "too few games to say")
+        let knight = Temperament(games: games(muzio, 10))
+        XCTAssertEqual(knight.counts.games, 10, "every game parses")
+        XCTAssertEqual(knight.figure, .knight)
+        XCTAssertFalse(knight.evidence.isEmpty)
+        XCTAssertEqual(Temperament(games: games(quiet, 10, .bullet)).figure, .messenger)
+    }
+
     func testChartPutsEveryPlaceOnLandAndAnswersTaps() throws {
         var regions = Atlas.regions(games: [], side: .white)
         regions[0].wins = 30

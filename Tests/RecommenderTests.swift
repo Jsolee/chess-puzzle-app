@@ -27,16 +27,43 @@ final class RecommenderTests: XCTestCase {
                            reviewEvidence: review, frequency: frequency, now: now).prefix(n).map(\.lesson.id)
     }
 
-    func testAllThirtyLessonsLoad() {
-        XCTAssertEqual(lessons.count, 30)
-        XCTAssertEqual(LessonLibrary.sections.flatMap(\.lessonIDs).count, 30)
+    func testAllLessonsLoad() {
+        XCTAssertEqual(lessons.count, 70)
+        XCTAssertEqual(LessonLibrary.sections.flatMap(\.lessonIDs).count, 70)
+    }
+
+    func testOpeningsReadTheirLineFromMoveOne() throws {
+        let entries = OpeningEntry.all
+        XCTAssertEqual(entries.count, 20)
+        let italian = try XCTUnwrap(entries.first { $0.id == "O01" })
+        XCTAssertEqual(Array(italian.line.prefix(5)), ["e4", "e5", "Nf3", "Nc6", "Bc4"])
+        XCTAssertEqual(italian.side, .white)
+        XCTAssertEqual(entries.first { $0.id == "O06" }?.side, .black)
+        XCTAssertTrue(entries.allSatisfy { !$0.essence.isEmpty && Position(fen: $0.fen) != nil })
+        XCTAssertEqual(Set(entries.map { $0.line.first ?? "" }), ["e4", "d4", "c4", "Nf3"])
+    }
+
+    @MainActor func testAMissedQuestionComesBackBeforeTheTest() throws {
+        let library = LessonLibrary.shared.metas.isEmpty ? LessonLibrary(directory: Self.repo.appendingPathComponent("Scachs/Resources/Lessons")) : .shared
+        let lesson = try XCTUnwrap(library.lesson(id: "L06"))
+        let run = LessonRun(lesson: lesson, reexposure: nil)
+        let question = try XCTUnwrap(lesson.steps.firstIndex { $0.t == .choose })
+        while run.index != question { run.next() }
+        let step = lesson.steps[question]
+        run.choose(((step.answer ?? 0) + 1) % (step.options?.count ?? 1))
+        XCTAssertEqual(run.feedback?.good, false)
+        run.next()
+        let test = try XCTUnwrap(run.order.firstIndex { lesson.steps[$0].t == .test })
+        XCTAssertEqual(run.order[test - 1], question, "asked again just before the test")
+        XCTAssertEqual(run.order.filter { $0 == question }.count, 2, "and only once more")
     }
 
     // The research's order, with the sibling fix: at 1200 L06 now comes before L07, which is not eligible until L06 is done.
     func testColdStartOrder() {
-        XCTAssertEqual(top(3, rating: 800), ["L03", "L01", "L29"])
+        XCTAssertEqual(top(3, rating: 800), ["R01", "R02", "R03"], "a novice starts with the golden rules")
+        XCTAssertEqual(top(3, rating: 800, completed: ["R01", "R02", "R03"]), ["L03", "L01", "E01"])
         XCTAssertEqual(top(3, rating: 1200), ["L05", "L06", "L03"])
-        XCTAssertEqual(top(3, rating: 1800), ["L26", "L15", "L14"])
+        XCTAssertEqual(top(3, rating: 1800), ["L26", "L27", "L15"])
     }
 
     func testSiblingsNeedTheirFirstLessonDone() {

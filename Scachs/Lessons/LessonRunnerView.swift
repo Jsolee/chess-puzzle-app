@@ -15,6 +15,18 @@ import SwiftUI
     var testSolved: [Bool] = []
     var testDone = false
     var finished = false
+    /// Shown once the last step is done, before closing: the seal.
+    var completed = false
+    /// How the last answer went, shown in the panel that rises from the bottom.
+    var feedback: Feedback?
+    var picked: Int?
+    private(set) var answered = 0
+    private(set) var firstTry = 0
+    let started = Date()
+    /// Steps in the order they're played. A missed find, tap or choose is added again before the test.
+    private(set) var order: [Int]
+    private(set) var cursor = -1
+    @ObservationIgnored private var retried = Set<Int>()
     private let starts: [Position?]
     @ObservationIgnored private var task: Task<Void, Never>?
     @ObservationIgnored private var run: PuzzleRun?
@@ -23,10 +35,19 @@ import SwiftUI
 
     enum TestItem { case puzzle(Puzzle), step(LessonStep) }
 
+    struct Feedback: Equatable {
+        let good: Bool
+        let firstTry: Bool
+        /// The right option, when a wrong one was picked.
+        var answer: String?
+        let text: String?
+    }
+
     init(lesson: Lesson, reexposure: LessonReviews.Due?) {
         self.lesson = lesson
         self.reexposure = reexposure
         starts = lesson.startPositions()
+        order = Array(lesson.steps.indices)
         board.interactive = false
         if let first = starts.compactMap({ $0 }).first { board.set(first, animated: false) }
         // Orient for the side that plays the first find.
@@ -35,7 +56,10 @@ import SwiftUI
     }
 
     var step: LessonStep? { lesson.steps[safe: index] }
-    var progress: Double { Double(max(index, 0)) / Double(max(lesson.steps.count, 1)) }
+    var progress: Double { completed ? 1 : Double(max(cursor, 0)) / Double(max(order.count, 1)) }
+    var isRetry: Bool { cursor > 0 && order[..<cursor].contains(index) }
+    /// Its place in the whole syllabus, for the numeral on its seal.
+    var number: Int { (LessonLibrary.sections.flatMap(\.lessonIDs).firstIndex(of: lesson.id) ?? 0) + 1 }
     var title: String? {
         if reexposure != nil { return nil }      // these puzzles are blind
         if index < 0 { return lesson.title.text }
@@ -46,20 +70,32 @@ import SwiftUI
 
     func next() {
         task?.cancel()
-        let i = index + 1
-        guard i < lesson.steps.count else { finish(); return }
-        enter(i)
+        count()
+        let c = cursor + 1
+        guard c < order.count else { finish(); return }
+        cursor = c
+        enter(order[c])
+    }
+
+    private func count() {
+        guard let s = step, cursor >= 0, [.find, .tap, .choose].contains(s.t) else { return }
+        if !isRetry { answered += 1; if !failedThis { firstTry += 1 } }
+        guard failedThis, !retried.contains(index) else { return }
+        retried.insert(index)
+        let end = order.indices.first { $0 > cursor && [.test, .recap].contains(lesson.steps[order[$0]].t) } ?? order.count
+        order.insert(index, at: end)
     }
 
     func cancel() { task?.cancel() }
 
     func skipToTest() {
-        guard let i = lesson.steps.firstIndex(where: { $0.t == .test }) else { next(); return }
-        enter(i)
+        guard let c = order.firstIndex(where: { lesson.steps[$0].t == .test }) else { next(); return }
+        cursor = c
+        enter(order[c])
     }
 
     private func clear() {
-        message = nil; messageIsBad = false; canContinue = false; hintIndex = 0; failedThis = false
+        message = nil; messageIsBad = false; canContinue = false; hintIndex = 0; failedThis = false; feedback = nil; picked = nil
         board.arrows = []; board.marks = []; board.hint = nil; board.onTapSquare = nil; board.onMove = nil; board.interactive = false
         board.lastMove = nil; tapped = []
     }
@@ -78,6 +114,8 @@ import SwiftUI
         switch s.t {
         case .explain, .recap:
             applyShapes(s.draw); canContinue = true
+        case .choose:
+            applyShapes(s.draw)
         case .watch:
             applyShapes(s.draw)
             watch(s)
@@ -185,8 +223,13 @@ import SwiftUI
         if !played { board.play(m) }
         board.interactive = false
         board.reflex(from: m.to)
-        message = s.after?.text ?? String(localized: "Això mateix.")
         messageIsBad = false
+        if step?.t == .test {
+            message = s.after?.text ?? String(localized: "Això mateix.")
+        } else {
+            message = s.say?.text
+            feedback = Feedback(good: true, firstTry: !failedThis, text: s.after?.text)
+        }
         task = Task { [weak self] in
             if let r = s.reply {
                 try? await Task.sleep(for: .milliseconds(520))
@@ -237,12 +280,24 @@ import SwiftUI
             if tapped == answers {
                 board.onTapSquare = nil
                 board.reflex(from: sq)
-                message = s.after?.text ?? String(localized: "Això mateix.")
+                feedback = Feedback(good: true, firstTry: !failedThis, text: s.after?.text)
                 canContinue = true
             }
         } else {
+            failedThis = true
             board.flashWrong(sq)
         }
+    }
+
+    // MARK: Choose
+
+    func choose(_ option: Int) {
+        guard let s = step, s.t == .choose, picked == nil, let options = s.options else { return }
+        picked = option
+        let right = option == s.answer
+        if right { Sound.place(); Haptics.place() } else { failedThis = true; Sound.wrong(); Haptics.wrong() }
+        feedback = Feedback(good: right, firstTry: right, answer: right ? nil : options[safe: s.answer ?? 0]?.text, text: s.after?.text)
+        canContinue = true
     }
 
     // MARK: Test
@@ -342,6 +397,8 @@ import SwiftUI
         }
         testDone = true
         let good = testSolved.filter { $0 }.count
+        answered += testSolved.count
+        firstTry += good
         let pass = lesson.steps.first { $0.t == .test }?.pass ?? 0
         message = good >= pass
             ? String(localized: "\(good) de \(testSolved.count). Ho tens. Ho tornaràs a veure d'aquí a uns dies.")
@@ -354,7 +411,7 @@ import SwiftUI
         Progress.shared.completedLessons.insert(lesson.id)
         Progress.shared.save()
         LessonReviews.shared.markCompleted(lesson.id, days: lesson.review.days)
-        finished = true
+        completed = true
     }
 }
 
@@ -362,17 +419,28 @@ struct LessonRunnerView: View {
     let meta: LessonMeta
     var reexposure: LessonReviews.Due?
     @State private var run: LessonRun?
+    @State private var stamped = false
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         Group {
-            if let run { content(run) } else { Theme.field }
+            if let run {
+                if run.completed { seal(run) } else { content(run) }
+            } else { Theme.field }
         }
         .background(Theme.field.ignoresSafeArea())
         .onAppear {
             guard run == nil, let l = LessonLibrary.shared.lesson(id: meta.id) else { return }
             run = LessonRun(lesson: l, reexposure: reexposure)
+            #if DEBUG
+            // The screenshot of a lesson: its first question, answered wrong, so the panel shows the right one and why.
+            if ScreenshotScene.is("lesson"), let r = run, let q = l.steps.firstIndex(where: { $0.t == .choose }) {
+                while r.index != q { r.next() }
+                r.choose(((l.steps[q].answer ?? 0) + 1) % (l.steps[q].options?.count ?? 1))
+            }
+            #endif
         }
+        .onChange(of: run?.finished ?? false) { _, done in if done { dismiss() } }
     }
 
     private func content(_ r: LessonRun) -> some View {
@@ -382,15 +450,19 @@ struct LessonRunnerView: View {
                     .accessibilityLabel("Tanca")
                 GeometryReader { g in
                     ZStack(alignment: .leading) {
-                        Rectangle().fill(Theme.hairline)
-                        Rectangle().fill(Theme.gold).frame(width: g.size.width * r.progress).animation(.easeOut(duration: 0.25), value: r.progress)
+                        Capsule().fill(Theme.hairline)
+                        Capsule().fill(Theme.gold).frame(width: max(g.size.width * r.progress, r.progress > 0 ? 8 : 0))
+                            .animation(.easeOut(duration: 0.25), value: r.progress)
                     }
                 }
-                .frame(height: 3)
+                .frame(height: 8)
+                .padding(.trailing, 12)
+                .accessibilityElement().accessibilityLabel("Progrés").accessibilityValue(Text(r.progress, format: .percent.precision(.fractionLength(0))))
             }
             .padding(.horizontal, 8)
             ScrollView {
                 VStack(alignment: .leading, spacing: 8) {
+                    if r.isRetry { Text("Un altre cop").font(Theme.text(15, .semibold)).foregroundStyle(Theme.gold) }
                     if let t = r.title { Text(verbatim: t).font(Theme.display(40)).foregroundStyle(Theme.tin).fixedSize(horizontal: false, vertical: true) }
                     if r.index < 0 {
                         Text("\(meta.minutes) minuts").font(Theme.text(17)).foregroundStyle(Theme.quiet)
@@ -408,7 +480,12 @@ struct LessonRunnerView: View {
             bottom(r).padding(.horizontal, 20).padding(.top, 14)
             Spacer(minLength: 0)
         }
-        .onChange(of: r.finished, initial: true) { _, done in if done { dismiss() } }
+        .overlay(alignment: .bottom) {
+            if let f = r.feedback {
+                FeedbackPanel(feedback: f) { r.next() }.transition(.move(edge: .bottom).combined(with: .opacity))
+            }
+        }
+        .animation(.easeOut(duration: 0.22), value: r.feedback)
         .onDisappear { r.cancel() }
     }
 
@@ -420,10 +497,46 @@ struct LessonRunnerView: View {
                     Button("Ja ho sé: vés a la prova") { r.skipToTest() }.font(Theme.text(17, .semibold)).foregroundStyle(Theme.gold).frame(minHeight: 44)
                 }
             }
+        } else if r.feedback != nil {
+            EmptyView()
+        } else if r.step?.t == .choose, let options = r.step?.options {
+            VStack(spacing: 10) {
+                ForEach(options.indices, id: \.self) { i in
+                    Button { r.choose(i) } label: {
+                        Text(verbatim: options[i].text).font(Theme.text(17)).foregroundStyle(Theme.tin).multilineTextAlignment(.leading)
+                            .frame(maxWidth: .infinity, minHeight: 48, alignment: .leading).padding(.horizontal, 16)
+                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Theme.tin.opacity(0.28), lineWidth: 1))
+                            .contentShape(RoundedRectangle(cornerRadius: 12))
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
         } else if r.canContinue {
-            primary(r.index >= r.lesson.steps.count - 1 ? "Acaba" : "Continua") { r.next() }
+            primary(r.cursor >= r.order.count - 1 ? "Acaba" : "Continua") { r.next() }
         } else if r.hasHint {
             Button("Pista") { r.hint() }.font(Theme.text(17, .semibold)).foregroundStyle(Theme.gold).frame(minHeight: 44)
+        }
+    }
+
+    /// The end of a lesson: a seal pressed into wax, and how it went.
+    private func seal(_ r: LessonRun) -> some View {
+        let minutes = max(1, Int((Date().timeIntervalSince(r.started) / 60).rounded()))
+        return VStack(spacing: 0) {
+            Spacer()
+            WaxSeal(numeral: Roman.numeral(r.number), size: 176)
+                .scaleEffect(stamped ? 1 : 1.35).opacity(stamped ? 1 : 0)
+            Text("Lliçó apresa").font(Theme.display(46)).foregroundStyle(Theme.tin).padding(.top, 30)
+            Text(verbatim: r.lesson.title.text).font(Theme.text(19)).foregroundStyle(Theme.quiet).multilineTextAlignment(.center).padding(.top, 2)
+            if r.answered > 0 {
+                Text("\(r.firstTry) de \(r.answered) a la primera, en \(minutes) min.").font(Theme.text(17)).foregroundStyle(Theme.gold).padding(.top, 18)
+            }
+            Spacer()
+            primary("Continua") { r.finished = true }.padding(.horizontal, 20).padding(.bottom, 12)
+        }
+        .padding(.horizontal, 20)
+        .onAppear {
+            withAnimation(.easeOut(duration: 0.25)) { stamped = true }
+            Haptics.capture(); Sound.capture()
         }
     }
 
@@ -432,5 +545,35 @@ struct LessonRunnerView: View {
             Text(title).font(Theme.text(18, .semibold)).foregroundStyle(Theme.ink)
                 .frame(maxWidth: .infinity, minHeight: 50).background(Capsule().fill(Theme.tin))
         }
+    }
+}
+
+/// Rises from the bottom after an answer: right or not, the right one, and why.
+private struct FeedbackPanel: View {
+    let feedback: LessonRun.Feedback
+    let next: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(feedback.good ? (feedback.firstTry ? "Això mateix" : "Ara sí") : "No ben bé")
+                .font(Theme.display(30)).foregroundStyle(feedback.good ? Theme.gold : Color(hex: 0xEF7D6C))
+            if let answer = feedback.answer {
+                Text("La bona: \(answer)").font(Theme.text(17, .semibold)).foregroundStyle(Theme.tin).fixedSize(horizontal: false, vertical: true)
+            }
+            if let text = feedback.text {
+                SANText.prose(text, size: 17).font(Theme.text(17)).foregroundStyle(Theme.tin.opacity(0.88)).accessibilityLabel(text)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            Button(action: next) {
+                Text("Continua").font(Theme.text(18, .semibold)).foregroundStyle(Theme.ink)
+                    .frame(maxWidth: .infinity, minHeight: 50).background(Capsule().fill(feedback.good ? Theme.gold : Theme.tin))
+            }
+            .padding(.top, 8)
+        }
+        .padding(.horizontal, 20).padding(.top, 20).padding(.bottom, 12)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Theme.fieldDeep.ignoresSafeArea(edges: .bottom))
+        .overlay(alignment: .top) { Rectangle().fill(Theme.hairline).frame(height: 0.5) }
+        .accessibilityElement(children: .contain)
     }
 }

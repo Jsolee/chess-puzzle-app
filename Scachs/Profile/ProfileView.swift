@@ -13,6 +13,7 @@ struct ProfileView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 30) {
+                    TemperamentBlock()
                     ratingBlock
                     if ratingHistory.count > 3 { chart }
                     skills
@@ -31,7 +32,7 @@ struct ProfileView: View {
                 .font(Theme.display(progress.isProvisional ? 40 : 72)).foregroundStyle(Theme.tin)
             Text(progress.isProvisional ? "La puntuació surt després d'uns quants puzzles." : "Puntuació de puzzles. No és la teva puntuació en partides.")
                 .font(Theme.text(16)).foregroundStyle(Theme.quiet)
-            Text("\(solvedCount) puzzles resolts · \(progress.completedLessons.count) lliçons")
+            Text("Puzzles resolts: \(solvedCount) · Lliçons: \(progress.completedLessons.count)")
                 .font(Theme.text(16)).foregroundStyle(Theme.quiet).padding(.top, 2)
             let streak = DailyStreak(days: progress.dailyDays, today: PuzzleStore.dayNumber(Date()))
             if showStreak && streak.best > 0 {

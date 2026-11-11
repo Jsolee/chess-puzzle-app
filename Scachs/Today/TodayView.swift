@@ -111,6 +111,9 @@ struct TodayView: View {
             }
             .onChange(of: cover) { _, now in if now == nil { showDaily() } }
             .task { await refresh() }
+            #if DEBUG
+            .onAppear { if ScreenshotScene.is("atlas") { cover = .atlas } }
+            #endif
             .onChange(of: scenePhase) { _, phase in if phase == .active { Task { await refresh() } } }
             .onChange(of: auto.finished) { _, _ in model.load() }
         }

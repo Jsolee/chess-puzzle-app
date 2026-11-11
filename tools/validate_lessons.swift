@@ -7,6 +7,7 @@
 import Foundation
 
 @main struct ValidateLessons {
+    static let handTests: Set<String> = ["L02", "L29", "L30", "R01", "R02", "R03", "O01", "O02", "O03", "O04", "O05", "O06", "O07", "O08", "O09", "O10", "O11", "O12", "O13", "O14", "O15", "O16", "O17", "O18", "O19", "O20", "E01", "E02", "E03", "E04", "E05", "E06", "M01", "M02", "M03", "M04", "M05", "M06", "A01", "A02", "A03", "A04", "A05"]
     static var failures: [String] = []
     static var counts: [String: Int] = [:]
 
@@ -63,7 +64,7 @@ import Foundation
 
     static func check(_ lesson: Lesson) {
         text(lesson.title, "\(lesson.id) title", required: true)
-        if !(7...12).contains(lesson.steps.count) { fail(lesson.id, "\(lesson.steps.count) steps") }
+        if !(7...14).contains(lesson.steps.count) { fail(lesson.id, "\(lesson.steps.count) steps") }
         if !(3...5).contains(lesson.min) { fail(lesson.id, "min \(lesson.min)") }
         if lesson.review.days != [1, 3, 7] || lesson.review.n != 2 { fail(lesson.id, "review is not 1,3,7 x 2") }
         if lesson.steps.suffix(2).map(\.t) != [.test, .recap] { fail(lesson.id, "must end with test, recap") }
@@ -100,6 +101,12 @@ import Foundation
                 }
             case .tap:
                 checkTap(step, p, w)
+            case .choose:
+                let options = step.options ?? []
+                if !(2...4).contains(options.count) { fail(w, "\(options.count) options") }
+                for (n, o) in options.enumerated() { text(o, w + " option\(n + 1)", required: true) }
+                if !options.indices.contains(step.answer ?? -1) { fail(w, "answer out of range") }
+                if step.after == nil { fail(w, "needs after") }
             case .recap:
                 if step.card == nil || step.name == nil { fail(w, "needs card and name") }
                 if step.fen == nil { fail(w, "needs fen") }
@@ -137,7 +144,7 @@ import Foundation
     static func checkTest(_ step: LessonStep, _ lesson: Lesson, _ w: String) {
         guard let n = step.n, let pass = step.pass, pass <= n else { fail(w, "needs n and pass"); return }
         if let items = step.items {
-            if !["L02", "L29", "L30"].contains(lesson.id) { fail(w, "hand-written test outside L02, L29, L30") }
+            if !Self.handTests.contains(lesson.id) { fail(w, "hand-written test outside \(Self.handTests.sorted())") }
             if items.count < n { fail(w, "\(items.count) items for n \(n)") }
             if !items.contains(where: { $0.decoy == true }) { fail(w, "no decoy") }
             for (j, item) in items.enumerated() {
@@ -149,7 +156,7 @@ import Foundation
                 checkFind(item, p, iw)
             }
         } else {
-            if ["L02", "L29", "L30"].contains(lesson.id) { fail(w, "needs hand-written items") }
+            if Self.handTests.contains(lesson.id) { fail(w, "needs hand-written items") }
             guard let q = step.query, !q.any.isEmpty else { fail(w, "no query"); return }
             if (step.decoys ?? 0) < 1 { fail(w, "no decoy") }
             count("test queries")

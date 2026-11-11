@@ -79,7 +79,7 @@ enum Recommender {
 
         var out: [Ranked] = []
         for (i, lesson) in lessons.enumerated() {
-            if completed.contains(lesson.id) { continue }
+            if completed.contains(lesson.id) || lesson.section == "openings" { continue }
             if let when = dismissed[lesson.id], now.timeIntervalSince(when) < 14 * 86400 { continue }
             if !lesson.requires.allSatisfy({ prerequisiteMet($0, for: lesson) }) { continue }
             let theta = thetaOf(lesson)
@@ -89,7 +89,9 @@ enum Recommender {
             let c = Double(lesson.level)
             let fit = c > rating ? exp(-pow((c - rating) / 250, 2)) : exp(-pow((rating - c) / 700, 2))
             let order = 0.08 * (1 - Double(i) / Double(lessons.count))
-            out.append(Ranked(lesson: lesson, score: (need * value + order) * fit, theta: theta, evidence: evidenceOf(lesson)))
+            // Someone just starting gets the golden rules first, in order. Their tags are too broad for puzzle evidence to rank them.
+            let score = lesson.section == "rules" && rating < 1100 ? 2 - Double(i) / Double(lessons.count) : (need * value + order) * fit
+            out.append(Ranked(lesson: lesson, score: score, theta: theta, evidence: evidenceOf(lesson)))
         }
         return out.sorted { $0.score > $1.score }
     }

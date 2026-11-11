@@ -175,10 +175,6 @@
   "en": "%lld pawns",
   "es": "%lld peones"
  },
- "%lld puzzles resolts · %lld lliçons": {
-  "en": "%lld puzzles solved · %lld lessons",
-  "es": "%lld puzzles resueltos · %lld lecciones"
- },
  "2 puzzles": {
   "en": "2 puzzles",
   "es": "2 puzzles"
@@ -2182,5 +2178,345 @@
  "%lld partides": {
   "en": "%lld games",
   "es": "%lld partidas"
+ },
+ "%lld de %lld partides obren amb un gambit.": {
+  "en": "%1$lld of %2$lld games open with a gambit.",
+  "es": "%1$lld de %2$lld partidas empiezan con un gambito."
+ },
+ "A l'obertura, una de cada %lld jugades teves és una captura o un escac.": {
+  "en": "In the opening, one in every %lld of your moves is a capture or a check.",
+  "es": "En la apertura, una de cada %lld jugadas tuyas es una captura o un jaque."
+ },
+ "Enroques abans de la jugada 10 en %lld de %lld partides.": {
+  "en": "You castle before move 10 in %1$lld of %2$lld games.",
+  "es": "Enrocas antes de la jugada 10 en %1$lld de %2$lld partidas."
+ },
+ "Precisió mitjana de %lld a les partides analitzades.": {
+  "en": "Average accuracy of %lld in your analysed games.",
+  "es": "Precisión media de %lld en las partidas analizadas."
+ },
+ "%lld de %lld partides són de bala o blitz.": {
+  "en": "%1$lld of %2$lld games are bullet or blitz.",
+  "es": "%1$lld de %2$lld partidas son de bala o blitz."
+ },
+ "%lld de %lld partides passen de la jugada 40, i en guanyes %lld.": {
+  "en": "%1$lld of %2$lld games go past move 40, and you win %3$lld of them.",
+  "es": "%1$lld de %2$lld partidas pasan de la jugada 40, y ganas %3$lld."
+ },
+ "Has jugat %lld obertures diferents en %lld partides.": {
+  "en": "You've played %1$lld different openings in %2$lld games.",
+  "es": "Has jugado %1$lld aperturas distintas en %2$lld partidas."
+ },
+ "El Cavaller": {
+  "en": "The Knight",
+  "es": "El Caballero"
+ },
+ "El Castellà": {
+  "en": "The Castellan",
+  "es": "El Alcaide"
+ },
+ "L'Astròleg": {
+  "en": "The Astrologer",
+  "es": "El Astrólogo"
+ },
+ "El Missatger": {
+  "en": "The Messenger",
+  "es": "El Mensajero"
+ },
+ "El Ferrer": {
+  "en": "The Smith",
+  "es": "El Herrero"
+ },
+ "El Pelegrí": {
+  "en": "The Pilgrim",
+  "es": "El Peregrino"
+ },
+ "L'Escuder": {
+  "en": "The Squire",
+  "es": "El Escudero"
+ },
+ "Surts a buscar el rei des de les primeres jugades. Gambits, escacs i captures: prefereixes una posició viva a una de tranquil·la.": {
+  "en": "You go after the king from the first moves. Gambits, checks and captures: you'd rather have a lively position than a quiet one.",
+  "es": "Sales a buscar al rey desde las primeras jugadas. Gambitos, jaques y capturas: prefieres una posición viva a una tranquila."
+ },
+ "Primer, les muralles. Poses el rei a recer aviat, no regales res i esperes que l'altre s'equivoqui.": {
+  "en": "Walls first. You tuck your king away early, give nothing away and wait for the other side to slip.",
+  "es": "Primero, las murallas. Pones al rey a salvo pronto, no regalas nada y esperas a que el otro se equivoque."
+ },
+ "Calcules abans de moure. Les teves jugades s'acosten a les del motor més del que és habitual.": {
+  "en": "You calculate before you move. Your moves come closer to the engine's than most people's do.",
+  "es": "Calculas antes de mover. Tus jugadas se acercan a las del motor más de lo habitual."
+ },
+ "Jugues ràpid i amb instint. Per a tu, el rellotge és part del joc.": {
+  "en": "You play fast and by instinct. For you, the clock is part of the game.",
+  "es": "Juegas rápido y por instinto. Para ti, el reloj es parte del juego."
+ },
+ "Forges les victòries a cops lents. Les teves partides s'allarguen, i als finals t'hi trobes bé.": {
+  "en": "You forge your wins with slow blows. Your games run long, and you're at home in the endgame.",
+  "es": "Forjas las victorias a golpes lentos. Tus partidas se alargan, y en los finales te encuentras a gusto."
+ },
+ "Fas molts camins. Canvies d'obertura sovint, i cada partida és un viatge diferent.": {
+  "en": "You walk many roads. You change openings often, and every game is a different journey.",
+  "es": "Haces muchos caminos. Cambias de apertura a menudo, y cada partida es un viaje distinto."
+ },
+ "Encara t'estàs formant. Quan Scachs tingui unes quantes partides teves, el teu escut prendrà forma.": {
+  "en": "You're still in training. Once Scachs has a few of your games, your arms will take shape.",
+  "es": "Todavía te estás formando. Cuando Scachs tenga unas cuantas partidas tuyas, tu escudo tomará forma."
+ },
+ "De gules, un cavall d'or.": {
+  "en": "Gules, a knight Or.",
+  "es": "De gules, un caballo de oro."
+ },
+ "D'atzur, una torre d'argent.": {
+  "en": "Azure, a rook argent.",
+  "es": "De azur, una torre de plata."
+ },
+ "De porpra, un alfil d'or.": {
+  "en": "Purpure, a bishop Or.",
+  "es": "De púrpura, un alfil de oro."
+ },
+ "D'or, una dama de sable.": {
+  "en": "Or, a queen sable.",
+  "es": "De oro, una dama de sable."
+ },
+ "De sable, un rei d'or.": {
+  "en": "Sable, a king Or.",
+  "es": "De sable, un rey de oro."
+ },
+ "De sinople, un peó d'argent.": {
+  "en": "Vert, a pawn argent.",
+  "es": "De sinople, un peón de plata."
+ },
+ "Escut per pintar.": {
+  "en": "A shield still to be painted.",
+  "es": "Escudo por pintar."
+ },
+ "El teu temperament": {
+  "en": "Your temperament",
+  "es": "Tu temperamento"
+ },
+ "%lld de %lld partides.": {
+  "en": "%1$lld of %2$lld games.",
+  "es": "%1$lld de %2$lld partidas."
+ },
+ "Un altre cop": {
+  "en": "Once more",
+  "es": "Otra vez"
+ },
+ "Progrés": {
+  "en": "Progress",
+  "es": "Progreso"
+ },
+ "Lliçó apresa": {
+  "en": "Lesson learned",
+  "es": "Lección aprendida"
+ },
+ "%lld de %lld a la primera, en %lld min.": {
+  "en": "%1$lld of %2$lld right first time, in %3$lld min.",
+  "es": "%1$lld de %2$lld a la primera, en %3$lld min."
+ },
+ "Això mateix": {
+  "en": "That's it",
+  "es": "Eso es"
+ },
+ "Ara sí": {
+  "en": "Now you have it",
+  "es": "Ahora sí"
+ },
+ "No ben bé": {
+  "en": "Not quite",
+  "es": "No exactamente"
+ },
+ "La bona: %@": {
+  "en": "The right one: %@",
+  "es": "La buena: %@"
+ },
+ "Llegeix-les": {
+  "en": "Read them",
+  "es": "Léelas"
+ },
+ "Les regles d'or": {
+  "en": "The golden rules",
+  "es": "Las reglas de oro"
+ },
+ "Deu idees que serveixen a tota la partida. Si només te n'has d'endur una, que sigui la quarta.": {
+  "en": "Ten ideas that hold for the whole game. If you take away only one, make it the fourth.",
+  "es": "Diez ideas que sirven en toda la partida. Si solo te llevas una, que sea la cuarta."
+ },
+ "L'obertura": {
+  "en": "The opening",
+  "es": "La apertura"
+ },
+ "Abans de moure": {
+  "en": "Before you move",
+  "es": "Antes de mover"
+ },
+ "El pla i el final": {
+  "en": "The plan and the endgame",
+  "es": "El plan y el final"
+ },
+ "Lluita pel centre.": {
+  "en": "Fight for the centre.",
+  "es": "Lucha por el centro."
+ },
+ "Peons i peces al mig del tauler controlen més caselles i arriben abans a tot arreu.": {
+  "en": "Pawns and pieces in the middle of the board control more squares and reach everywhere sooner.",
+  "es": "Peones y piezas en el centro del tablero controlan más casillas y llegan antes a todas partes."
+ },
+ "Treu cavalls i alfils abans que la dama.": {
+  "en": "Bring out knights and bishops before the queen.",
+  "es": "Saca caballos y alfiles antes que la dama."
+ },
+ "Les peces menors volen sortir aviat. Si la dama surt massa d'hora, la persegueixen i perds temps. I no moguis dues vegades la mateixa peça sense motiu.": {
+  "en": "Minor pieces want to come out early. If the queen comes out too soon, she gets chased and you lose time. And don't move the same piece twice without a reason.",
+  "es": "Las piezas menores quieren salir pronto. Si la dama sale demasiado temprano, la persiguen y pierdes tiempo. Y no muevas dos veces la misma pieza sin motivo."
+ },
+ "Enroca aviat.": {
+  "en": "Castle early.",
+  "es": "Enroca pronto."
+ },
+ "Amb l'enroc, el rei queda a recer i la torre entra en joc. Un rei al centre amb columnes obertes és un blanc fàcil.": {
+  "en": "Castling puts the king in shelter and brings the rook into play. A king in the centre with open files is an easy target.",
+  "es": "Con el enroque, el rey queda a salvo y la torre entra en juego. Un rey en el centro con columnas abiertas es un blanco fácil."
+ },
+ "Mira què vol el rival.": {
+  "en": "Look at what your opponent wants.",
+  "es": "Mira qué quiere el rival."
+ },
+ "Escacs, captures i amenaces: primer les seves, després les teves. És la regla que més partides salva.": {
+  "en": "Checks, captures and threats: theirs first, then yours. No rule saves more games.",
+  "es": "Jaques, capturas y amenazas: primero las suyas, después las tuyas. Es la regla que más partidas salva."
+ },
+ "No deixis res penjat.": {
+  "en": "Leave nothing hanging.",
+  "es": "No dejes nada colgado."
+ },
+ "Compta qui ataca i qui defensa cada peça. Si l'ataquen més peces de les que la defensen, és en perill.": {
+  "en": "Count who attacks and who defends each piece. If more pieces attack it than defend it, it's in danger.",
+  "es": "Cuenta quién ataca y quién defiende cada pieza. Si la atacan más piezas de las que la defienden, está en peligro."
+ },
+ "Canvia només quan hi guanyes.": {
+  "en": "Trade only when you gain.",
+  "es": "Cambia solo cuando ganas."
+ },
+ "Peó 1, cavall 3, alfil 3, torre 5, dama 9. Una torre per un cavall és un mal negoci, encara que sembli un canvi.": {
+  "en": "Pawn 1, knight 3, bishop 3, rook 5, queen 9. A rook for a knight is a bad deal, even if it looks like a trade.",
+  "es": "Peón 1, caballo 3, alfil 3, torre 5, dama 9. Una torre por un caballo es un mal negocio, aunque parezca un cambio."
+ },
+ "Torres a les columnes obertes.": {
+  "en": "Rooks on open files.",
+  "es": "Torres en las columnas abiertas."
+ },
+ "Darrere dels teus peons, una torre no fa res. En una columna sense peons arriba fins a la setena fila.": {
+  "en": "Behind your own pawns a rook does nothing. On a file without pawns it reaches all the way to the seventh rank.",
+  "es": "Detrás de tus peones, una torre no hace nada. En una columna sin peones llega hasta la séptima fila."
+ },
+ "Si vas guanyant, canvia peces.": {
+  "en": "When you're ahead, trade pieces.",
+  "es": "Si vas ganando, cambia piezas."
+ },
+ "Com menys peces queden, més pesa el material de més. Si vas perdent, conserva-les i complica la partida.": {
+  "en": "The fewer pieces left, the more the extra material counts. When you're behind, keep them and make the game messy.",
+  "es": "Cuantas menos piezas quedan, más pesa el material de más. Si vas perdiendo, consérvalas y complica la partida."
+ },
+ "Al final, porta el rei al centre.": {
+  "en": "In the endgame, bring your king to the centre.",
+  "es": "En el final, lleva el rey al centro."
+ },
+ "Quan les dames ja no hi són, el rei no corre perill i és una peça forta. Fes-lo caminar.": {
+  "en": "Once the queens are gone, the king is safe and a strong piece. Make him walk.",
+  "es": "Cuando las damas ya no están, el rey no corre peligro y es una pieza fuerte. Hazlo caminar."
+ },
+ "Empeny els peons passats.": {
+  "en": "Push passed pawns.",
+  "es": "Empuja los peones pasados."
+ },
+ "Un peó sense peons contraris al davant vol arribar a dama. Cada pas que fa obliga el rival a vigilar-lo.": {
+  "en": "A pawn with no enemy pawns ahead of it wants to become a queen. Every step it takes makes your opponent watch it.",
+  "es": "Un peón sin peones contrarios delante quiere llegar a dama. Cada paso que da obliga al rival a vigilarlo."
+ },
+ "Practica-ho": {
+  "en": "Practise it",
+  "es": "Practícalo"
+ },
+ "Vint maneres de començar una partida. Cada branca és una jugada; segueix-la fins al nom i aprèn-la.": {
+  "en": "Twenty ways to start a game. Each branch is a move; follow it to the name and learn it.",
+  "es": "Veinte maneras de empezar una partida. Cada rama es una jugada; síguela hasta el nombre y apréndela."
+ },
+ "Totes": {
+  "en": "All of them",
+  "es": "Todas"
+ },
+ "Amb blanques": {
+  "en": "As White",
+  "es": "Con blancas"
+ },
+ "Amb negres": {
+  "en": "As Black",
+  "es": "Con negras"
+ },
+ "Camí": {
+  "en": "Path",
+  "es": "Camino"
+ },
+ "Obertures": {
+  "en": "Openings",
+  "es": "Aperturas"
+ },
+ "Cada dia, un moment de la teva última partida. Primer el busques tu, després te l'expliquem. A sota, el puzzle del dia.": {
+  "en": "Every day, a moment from your last game. You look for it first, then we explain it. Below, the daily puzzle.",
+  "es": "Cada día, un momento de tu última partida. Primero lo buscas tú, después te lo explicamos. Debajo, el puzzle del día."
+ },
+ "Problemes de partides reals, a la teva mida. Els que se t'escapen tornen més endavant.": {
+  "en": "Problems from real games, at your level. The ones that get away come back later.",
+  "es": "Problemas de partidas reales, a tu medida. Los que se te escapan vuelven más adelante."
+ },
+ "Escriu el teu usuari de chess.com o de Lichess i porta les teves partides. Stockfish les analitza aquí mateix, jugada a jugada.": {
+  "en": "Enter your chess.com or Lichess username and bring your games in. Stockfish reviews them right here, move by move.",
+  "es": "Escribe tu usuario de chess.com o de Lichess y trae tus partidas. Stockfish las analiza aquí mismo, jugada a jugada."
+ },
+ "Un camí de lliçons curtes, les regles d'or per a qui comença, i l'arbre de les obertures.": {
+  "en": "A road of short lessons, the golden rules for beginners, and the tree of openings.",
+  "es": "Un camino de lecciones cortas, las reglas de oro para quien empieza y el árbol de las aperturas."
+ },
+ "El teu escut: quina figura medieval ets segons com jugues. I els ajustos.": {
+  "en": "Your arms: which medieval figure you are, from the way you play. And the settings.",
+  "es": "Tu escudo: qué figura medieval eres según cómo juegas. Y los ajustes."
+ },
+ "Salta": {
+  "en": "Skip",
+  "es": "Saltar"
+ },
+ "Exercicis": {
+  "en": "Exercises",
+  "es": "Ejercicios"
+ },
+ "Exercicis per tema, a la teva mida. Tria un capítol i resol-ne tres; si en vols més, continua.": {
+  "en": "Exercises by theme, at your level. Pick a chapter and solve three; if you want more, keep going.",
+  "es": "Ejercicios por tema, a tu medida. Elige un capítulo y resuelve tres; si quieres más, sigue."
+ },
+ "Finals": {
+  "en": "Endgames",
+  "es": "Finales"
+ },
+ "Tàctica": {
+  "en": "Tactics",
+  "es": "Táctica"
+ },
+ "Mats": {
+  "en": "Checkmates",
+  "es": "Mates"
+ },
+ "Obertura i partides de mestres": {
+  "en": "Openings and master games",
+  "es": "Apertura y partidas de maestros"
+ },
+ "%lld exercicis": {
+  "en": "%lld exercises",
+  "es": "%lld ejercicios"
+ },
+ "Puzzles resolts: %lld · Lliçons: %lld": {
+  "en": "Puzzles solved: %lld · Lessons: %lld",
+  "es": "Puzzles resueltos: %lld · Lecciones: %lld"
  }
 }

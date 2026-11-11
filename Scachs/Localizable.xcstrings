@@ -701,6 +701,91 @@
         }
       }
     },
+    "%lld de %lld a la primera, en %lld min.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld of %2$lld right first time, in %3$lld min."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld de %2$lld a la primera, en %3$lld min."
+          }
+        }
+      }
+    },
+    "%lld de %lld partides obren amb un gambit.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld of %2$lld games open with a gambit."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld de %2$lld partidas empiezan con un gambito."
+          }
+        }
+      }
+    },
+    "%lld de %lld partides passen de la jugada 40, i en guanyes %lld.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld of %2$lld games go past move 40, and you win %3$lld of them."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld de %2$lld partidas pasan de la jugada 40, y ganas %3$lld."
+          }
+        }
+      }
+    },
+    "%lld de %lld partides són de bala o blitz.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld of %2$lld games are bullet or blitz."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld de %2$lld partidas son de bala o blitz."
+          }
+        }
+      }
+    },
+    "%lld de %lld partides.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld of %2$lld games."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld de %2$lld partidas."
+          }
+        }
+      }
+    },
     "%lld de %lld. Ho tens. Ho tornaràs a veure d'aquí a uns dies.": {
       "extractionState": "manual",
       "localizations": {
@@ -731,6 +816,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "%lld de %lld. Lo volverás a ver dentro de unos días, sin prisa."
+          }
+        }
+      }
+    },
+    "%lld exercicis": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld exercises"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld ejercicios"
           }
         }
       }
@@ -820,23 +922,6 @@
         }
       }
     },
-    "%lld puzzles resolts · %lld lliçons": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld puzzles solved · %lld lessons"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld puzzles resueltos · %lld lecciones"
-          }
-        }
-      }
-    },
     "2 puzzles": {
       "extractionState": "manual",
       "localizations": {
@@ -888,6 +973,23 @@
         }
       }
     },
+    "A l'obertura, una de cada %lld jugades teves és una captura o un escac.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In the opening, one in every %lld of your moves is a capture or a check."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En la apertura, una de cada %lld jugadas tuyas es una captura o un jaque."
+          }
+        }
+      }
+    },
     "A la partida vas jugar %@.": {
       "extractionState": "manual",
       "localizations": {
@@ -935,6 +1037,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "A medias"
+          }
+        }
+      }
+    },
+    "Abans de moure": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Before you move"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Antes de mover"
           }
         }
       }
@@ -1041,6 +1160,23 @@
         }
       }
     },
+    "Això mateix": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "That's it"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eso es"
+          }
+        }
+      }
+    },
     "Això mateix.": {
       "extractionState": "manual",
       "localizations": {
@@ -1088,6 +1224,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ajustes"
+          }
+        }
+      }
+    },
+    "Al final, porta el rei al centre.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In the endgame, bring your king to the centre."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En el final, lleva el rey al centro."
           }
         }
       }
@@ -1411,6 +1564,57 @@
           "stringUnit": {
             "state": "translated",
             "value": "Con esta jugada, la posición pasa %@ %@."
+          }
+        }
+      }
+    },
+    "Amb blanques": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "As White"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Con blancas"
+          }
+        }
+      }
+    },
+    "Amb l'enroc, el rei queda a recer i la torre entra en joc. Un rei al centre amb columnes obertes és un blanc fàcil.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Castling puts the king in shelter and brings the rook into play. A king in the centre with open files is an easy target."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Con el enroque, el rey queda a salvo y la torre entra en juego. Un rey en el centro con columnas abiertas es un blanco fácil."
+          }
+        }
+      }
+    },
+    "Amb negres": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "As Black"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Con negras"
           }
         }
       }
@@ -1959,6 +2163,23 @@
         }
       }
     },
+    "Ara sí": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Now you have it"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ahora sí"
+          }
+        }
+      }
+    },
     "Atac a f2 o f7": {
       "extractionState": "manual",
       "localizations": {
@@ -2265,6 +2486,23 @@
         }
       }
     },
+    "Cada dia, un moment de la teva última partida. Primer el busques tu, després te l'expliquem. A sota, el puzzle del dia.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Every day, a moment from your last game. You look for it first, then we explain it. Below, the daily puzzle."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cada día, un momento de tu última partida. Primero lo buscas tú, después te lo explicamos. Debajo, el puzzle del día."
+          }
+        }
+      }
+    },
     "Calcula. Quan ho tinguis, prem els auriculars o el botó.": {
       "extractionState": "manual",
       "localizations": {
@@ -2282,6 +2520,40 @@
         }
       }
     },
+    "Calcules abans de moure. Les teves jugades s'acosten a les del motor més del que és habitual.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You calculate before you move. Your moves come closer to the engine's than most people's do."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Calculas antes de mover. Tus jugadas se acercan a las del motor más de lo habitual."
+          }
+        }
+      }
+    },
+    "Camí": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Path"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Camino"
+          }
+        }
+      }
+    },
     "Cancel·la": {
       "extractionState": "manual",
       "localizations": {
@@ -2295,6 +2567,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cancelar"
+          }
+        }
+      }
+    },
+    "Canvia només quan hi guanyes.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trade only when you gain."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cambia solo cuando ganas."
           }
         }
       }
@@ -2469,6 +2758,23 @@
         }
       }
     },
+    "Com menys peces queden, més pesa el material de més. Si vas perdent, conserva-les i complica la partida.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The fewer pieces left, the more the extra material counts. When you're behind, keep them and make the game messy."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cuantas menos piezas quedan, más pesa el material de más. Si vas perdiendo, consérvalas y complica la partida."
+          }
+        }
+      }
+    },
     "Comença": {
       "extractionState": "manual",
       "localizations": {
@@ -2550,6 +2856,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Compruébala. Toca una pieza de abajo y luego la casilla para corregirla."
+          }
+        }
+      }
+    },
+    "Compta qui ataca i qui defensa cada peça. Si l'ataquen més peces de les que la defensen, és en perill.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Count who attacks and who defends each piece. If more pieces attack it than defend it, it's in danger."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cuenta quién ataca y quién defiende cada pieza. Si la atacan más piezas de las que la defienden, está en peligro."
           }
         }
       }
@@ -2639,6 +2962,125 @@
         }
       }
     },
+    "D'atzur, una torre d'argent.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Azure, a rook argent."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "De azur, una torre de plata."
+          }
+        }
+      }
+    },
+    "D'or, una dama de sable.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Or, a queen sable."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "De oro, una dama de sable."
+          }
+        }
+      }
+    },
+    "Darrere dels teus peons, una torre no fa res. En una columna sense peons arriba fins a la setena fila.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Behind your own pawns a rook does nothing. On a file without pawns it reaches all the way to the seventh rank."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detrás de tus peones, una torre no hace nada. En una columna sin peones llega hasta la séptima fila."
+          }
+        }
+      }
+    },
+    "De gules, un cavall d'or.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gules, a knight Or."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "De gules, un caballo de oro."
+          }
+        }
+      }
+    },
+    "De porpra, un alfil d'or.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Purpure, a bishop Or."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "De púrpura, un alfil de oro."
+          }
+        }
+      }
+    },
+    "De sable, un rei d'or.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sable, a king Or."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "De sable, un rey de oro."
+          }
+        }
+      }
+    },
+    "De sinople, un peó d'argent.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vert, a pawn argent."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "De sinople, un peón de plata."
+          }
+        }
+      }
+    },
     "Després d'això, el rival fa mat amb %@.": {
       "extractionState": "manual",
       "localizations": {
@@ -2669,6 +3111,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Desviación"
+          }
+        }
+      }
+    },
+    "Deu idees que serveixen a tota la partida. Si només te n'has d'endur una, que sigui la quarta.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ten ideas that hold for the whole game. If you take away only one, make it the fourth."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diez ideas que sirven en toda la partida. Si solo te llevas una, que sea la cuarta."
           }
         }
       }
@@ -2720,6 +3179,91 @@
           "stringUnit": {
             "state": "translated",
             "value": "Dos jugadas"
+          }
+        }
+      }
+    },
+    "El Castellà": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Castellan"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El Alcaide"
+          }
+        }
+      }
+    },
+    "El Cavaller": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Knight"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El Caballero"
+          }
+        }
+      }
+    },
+    "El Ferrer": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Smith"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El Herrero"
+          }
+        }
+      }
+    },
+    "El Missatger": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Messenger"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El Mensajero"
+          }
+        }
+      }
+    },
+    "El Pelegrí": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Pilgrim"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El Peregrino"
           }
         }
       }
@@ -2843,6 +3387,23 @@
         }
       }
     },
+    "El pla i el final": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The plan and the endgame"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El plan y el final"
+          }
+        }
+      }
+    },
     "El rei queda tancat a l'última fila per les seves pròpies peces.": {
       "extractionState": "manual",
       "localizations": {
@@ -2911,6 +3472,40 @@
         }
       }
     },
+    "El teu escut: quina figura medieval ets segons com jugues. I els ajustos.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your arms: which medieval figure you are, from the way you play. And the settings."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tu escudo: qué figura medieval eres según cómo juegas. Y los ajustes."
+          }
+        }
+      }
+    },
+    "El teu temperament": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your temperament"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tu temperamento"
+          }
+        }
+      }
+    },
     "Eliminació del defensor": {
       "extractionState": "manual",
       "localizations": {
@@ -2924,6 +3519,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Eliminación del defensor"
+          }
+        }
+      }
+    },
+    "Empeny els peons passats.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Push passed pawns."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Empuja los peones pasados."
           }
         }
       }
@@ -3064,6 +3676,23 @@
         }
       }
     },
+    "Encara t'estàs formant. Quan Scachs tingui unes quantes partides teves, el teu escut prendrà forma.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You're still in training. Once Scachs has a few of your games, your arms will take shape."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Todavía te estás formando. Cuando Scachs tenga unas cuantas partidas tuyas, tu escudo tomará forma."
+          }
+        }
+      }
+    },
     "Enfilada": {
       "extractionState": "manual",
       "localizations": {
@@ -3128,6 +3757,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "Enroque"
+          }
+        }
+      }
+    },
+    "Enroca aviat.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Castle early."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enroca pronto."
+          }
+        }
+      }
+    },
+    "Enroques abans de la jugada 10 en %lld de %lld partides.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You castle before move 10 in %1$lld of %2$lld games."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enrocas antes de la jugada 10 en %1$lld de %2$lld partidas."
           }
         }
       }
@@ -3319,6 +3982,23 @@
         }
       }
     },
+    "Escacs, captures i amenaces: primer les seves, després les teves. És la regla que més partides salva.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Checks, captures and threats: theirs first, then yours. No rule saves more games."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jaques, capturas y amenazas: primero las suyas, después las tuyas. Es la regla que más partidas salva."
+          }
+        }
+      }
+    },
     "Escolta la posició.": {
       "extractionState": "manual",
       "localizations": {
@@ -3332,6 +4012,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "Escucha la posición."
+          }
+        }
+      }
+    },
+    "Escriu el teu usuari de chess.com o de Lichess i porta les teves partides. Stockfish les analitza aquí mateix, jugada a jugada.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter your chess.com or Lichess username and bring your games in. Stockfish reviews them right here, move by move."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escribe tu usuario de chess.com o de Lichess y trae tus partidas. Stockfish las analiza aquí mismo, jugada a jugada."
+          }
+        }
+      }
+    },
+    "Escut per pintar.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A shield still to be painted."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escudo por pintar."
           }
         }
       }
@@ -3472,6 +4186,40 @@
         }
       }
     },
+    "Exercicis": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exercises"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ejercicios"
+          }
+        }
+      }
+    },
+    "Exercicis per tema, a la teva mida. Tria un capítol i resol-ne tres; si en vols més, continua.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exercises by theme, at your level. Pick a chapter and solve three; if you want more, keep going."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ejercicios por tema, a tu medida. Elige un capítulo y resuelve tres; si quieres más, sigue."
+          }
+        }
+      }
+    },
     "Falta un rei a cada bàndol": {
       "extractionState": "manual",
       "localizations": {
@@ -3502,6 +4250,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Das mate en la jugada siguiente."
+          }
+        }
+      }
+    },
+    "Fas molts camins. Canvies d'obertura sovint, i cada partida és un viatge diferent.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You walk many roads. You change openings often, and every game is a different journey."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Haces muchos caminos. Cambias de apertura a menudo, y cada partida es un viaje distinto."
           }
         }
       }
@@ -3659,6 +4424,23 @@
         }
       }
     },
+    "Finals": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Endgames"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finales"
+          }
+        }
+      }
+    },
     "Fins aquí.": {
       "extractionState": "manual",
       "localizations": {
@@ -3689,6 +4471,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Flancos"
+          }
+        }
+      }
+    },
+    "Forges les victòries a cops lents. Les teves partides s'allarguen, i als finals t'hi trobes bé.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You forge your wins with slow blows. Your games run long, and you're at home in the endgame."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Forjas las victorias a golpes lentos. Tus partidas se alargan, y en los finales te encuentras a gusto."
           }
         }
       }
@@ -3842,6 +4641,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Has dejado pasar la amenaza %@."
+          }
+        }
+      }
+    },
+    "Has jugat %lld obertures diferents en %lld partides.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You've played %1$lld different openings in %2$lld games."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Has jugado %1$lld aperturas distintas en %2$lld partidas."
           }
         }
       }
@@ -4356,6 +5172,40 @@
         }
       }
     },
+    "Jugues ràpid i amb instint. Per a tu, el rellotge és part del joc.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You play fast and by instinct. For you, the clock is part of the game."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Juegas rápido y por instinto. Para ti, el reloj es parte del juego."
+          }
+        }
+      }
+    },
+    "L'Astròleg": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Astrologer"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El Astrólogo"
+          }
+        }
+      }
+    },
     "L'Atles": {
       "extractionState": "manual",
       "localizations": {
@@ -4386,6 +5236,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "El Atlas de tus aperturas"
+          }
+        }
+      }
+    },
+    "L'Escuder": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Squire"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El Escudero"
           }
         }
       }
@@ -4437,6 +5304,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "La has ganado"
+          }
+        }
+      }
+    },
+    "L'obertura": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The opening"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La apertura"
+          }
+        }
+      }
+    },
+    "La bona: %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The right one: %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La buena: %@"
           }
         }
       }
@@ -4696,6 +5597,40 @@
         }
       }
     },
+    "Les peces menors volen sortir aviat. Si la dama surt massa d'hora, la persegueixen i perds temps. I no moguis dues vegades la mateixa peça sense motiu.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Minor pieces want to come out early. If the queen comes out too soon, she gets chased and you lose time. And don't move the same piece twice without a reason."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Las piezas menores quieren salir pronto. Si la dama sale demasiado temprano, la persiguen y pierdes tiempo. Y no muevas dos veces la misma pieza sin motivo."
+          }
+        }
+      }
+    },
+    "Les regles d'or": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The golden rules"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Las reglas de oro"
+          }
+        }
+      }
+    },
     "Lichess demana iniciar sessió per a aquesta partida": {
       "extractionState": "manual",
       "localizations": {
@@ -4726,6 +5661,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Lee la licencia"
+          }
+        }
+      }
+    },
+    "Llegeix-les": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Read them"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Léelas"
           }
         }
       }
@@ -4794,6 +5746,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "Lección"
+          }
+        }
+      }
+    },
+    "Lliçó apresa": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lesson learned"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lección aprendida"
+          }
+        }
+      }
+    },
+    "Lluita pel centre.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fight for the centre."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lucha por el centro."
           }
         }
       }
@@ -5376,6 +6362,23 @@
         }
       }
     },
+    "Mats": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Checkmates"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mates"
+          }
+        }
+      }
+    },
     "Mestre contra mestre": {
       "extractionState": "manual",
       "localizations": {
@@ -5423,6 +6426,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mira qué pasó"
+          }
+        }
+      }
+    },
+    "Mira què vol el rival.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Look at what your opponent wants."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mira qué quiere el rival."
           }
         }
       }
@@ -5695,6 +6715,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nivel de esta partida: %lld"
+          }
+        }
+      }
+    },
+    "No ben bé": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not quite"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No exactamente"
+          }
+        }
+      }
+    },
+    "No deixis res penjat.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leave nothing hanging."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No dejes nada colgado."
           }
         }
       }
@@ -6005,6 +7059,40 @@
         }
       }
     },
+    "Obertura i partides de mestres": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Openings and master games"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apertura y partidas de maestros"
+          }
+        }
+      }
+    },
+    "Obertures": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Openings"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aperturas"
+          }
+        }
+      }
+    },
     "Obre Scachs per veure el mat d'avui.": {
       "extractionState": "manual",
       "localizations": {
@@ -6175,6 +7263,23 @@
         }
       }
     },
+    "Peons i peces al mig del tauler controlen més caselles i arriben abans a tot arreu.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pawns and pieces in the middle of the board control more squares and reach everywhere sooner."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Peones y piezas en el centro del tablero controlan más casillas y llegan antes a todas partes."
+          }
+        }
+      }
+    },
     "Per Dama pres Bellea.": {
       "extractionState": "manual",
       "localizations": {
@@ -6341,6 +7446,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pieza colgada"
+          }
+        }
+      }
+    },
+    "Peó 1, cavall 3, alfil 3, torre 5, dama 9. Una torre per un cavall és un mal negoci, encara que sembli un canvi.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pawn 1, knight 3, bishop 3, rook 5, queen 9. A rook for a knight is a bad deal, even if it looks like a trade."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Peón 1, caballo 3, alfil 3, torre 5, dama 9. Una torre por un caballo es un mal negocio, aunque parezca un cambio."
           }
         }
       }
@@ -6583,6 +7705,23 @@
         }
       }
     },
+    "Practica-ho": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Practise it"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Practícalo"
+          }
+        }
+      }
+    },
     "Precisió %@": {
       "extractionState": "manual",
       "localizations": {
@@ -6600,6 +7739,57 @@
         }
       }
     },
+    "Precisió mitjana de %lld a les partides analitzades.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Average accuracy of %lld in your analysed games."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Precisión media de %lld en las partidas analizadas."
+          }
+        }
+      }
+    },
+    "Primer, les muralles. Poses el rei a recer aviat, no regales res i esperes que l'altre s'equivoqui.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Walls first. You tuck your king away early, give nothing away and wait for the other side to slip."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Primero, las murallas. Pones al rey a salvo pronto, no regalas nada y esperas a que el otro se equivoque."
+          }
+        }
+      }
+    },
+    "Problemes de partides reals, a la teva mida. Els que se t'escapen tornen més endavant.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Problems from real games, at your level. The ones that get away come back later."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Problemas de partidas reales, a tu medida. Los que se te escapan vuelven más adelante."
+          }
+        }
+      }
+    },
     "Programari lliure": {
       "extractionState": "manual",
       "localizations": {
@@ -6613,6 +7803,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Software libre"
+          }
+        }
+      }
+    },
+    "Progrés": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Progress"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Progreso"
           }
         }
       }
@@ -6804,6 +8011,23 @@
         }
       }
     },
+    "Puzzles resolts: %lld · Lliçons: %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Puzzles solved: %lld · Lessons: %lld"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Puzzles resueltos: %lld · Lecciones: %lld"
+          }
+        }
+      }
+    },
     "Pífia": {
       "extractionState": "manual",
       "localizations": {
@@ -6851,6 +8075,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cuando hayas resuelto más puzzles, aquí verás dónde te va mejor y dónde se te escapan."
+          }
+        }
+      }
+    },
+    "Quan les dames ja no hi són, el rei no corre perill i és una peça forta. Fes-lo caminar.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Once the queens are gone, the king is safe and a strong piece. Make him walk."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cuando las damas ya no están, el rey no corre peligro y es una pieza fuerte. Hazlo caminar."
           }
         }
       }
@@ -7229,6 +8470,23 @@
         }
       }
     },
+    "Salta": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skip"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saltar"
+          }
+        }
+      }
+    },
     "Saltar-te un dia no la trenca.": {
       "extractionState": "manual",
       "localizations": {
@@ -7433,6 +8691,23 @@
         }
       }
     },
+    "Si vas guanyant, canvia peces.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "When you're ahead, trade pieces."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Si vas ganando, cambia piezas."
+          }
+        }
+      }
+    },
     "So": {
       "extractionState": "manual",
       "localizations": {
@@ -7514,6 +8789,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Subpromoción"
+          }
+        }
+      }
+    },
+    "Surts a buscar el rei des de les primeres jugades. Gambits, escacs i captures: prefereixes una posició viva a una de tranquil·la.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You go after the king from the first moves. Gambits, checks and captures: you'd rather have a lively position than a quiet one."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sales a buscar al rey desde las primeras jugadas. Gambitos, jaques y capturas: prefieres una posición viva a una tranquila."
           }
         }
       }
@@ -7807,6 +9099,40 @@
         }
       }
     },
+    "Torres a les columnes obertes.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rooks on open files."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Torres en las columnas abiertas."
+          }
+        }
+      }
+    },
+    "Totes": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All of them"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Todas"
+          }
+        }
+      }
+    },
     "Totes les altres opcions eren clarament pitjors.": {
       "extractionState": "manual",
       "localizations": {
@@ -7875,6 +9201,23 @@
         }
       }
     },
+    "Treu cavalls i alfils abans que la dama.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bring out knights and bishops before the queen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saca caballos y alfiles antes que la dama."
+          }
+        }
+      }
+    },
     "Troba una jugada millor": {
       "extractionState": "manual",
       "localizations": {
@@ -7909,6 +9252,40 @@
         }
       }
     },
+    "Tàctica": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tactics"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Táctica"
+          }
+        }
+      }
+    },
+    "Un altre cop": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Once more"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otra vez"
+          }
+        }
+      }
+    },
     "Un bon sacrifici: %@ queda a l'abast, però la valoració es manté.": {
       "extractionState": "manual",
       "localizations": {
@@ -7926,6 +9303,23 @@
         }
       }
     },
+    "Un camí de lliçons curtes, les regles d'or per a qui comença, i l'arbre de les obertures.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A road of short lessons, the golden rules for beginners, and the tree of openings."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un camino de lecciones cortas, las reglas de oro para quien empieza y el árbol de las aperturas."
+          }
+        }
+      }
+    },
     "Un mat cada dia, per resoldre sense obrir l'app.": {
       "extractionState": "manual",
       "localizations": {
@@ -7939,6 +9333,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Un mate cada día, para resolver sin abrir la app."
+          }
+        }
+      }
+    },
+    "Un peó sense peons contraris al davant vol arribar a dama. Cada pas que fa obliga el rival a vigilar-lo.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A pawn with no enemy pawns ahead of it wants to become a queen. Every step it takes makes your opponent watch it."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un peón sin peones contrarios delante quiere llegar a dama. Cada paso que da obliga al rival a vigilarlo."
           }
         }
       }
@@ -8143,6 +9554,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vinculado"
+          }
+        }
+      }
+    },
+    "Vint maneres de començar una partida. Cada branca és una jugada; segueix-la fins al nom i aprèn-la.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Twenty ways to start a game. Each branch is a move; follow it to the name and learn it."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Veinte maneras de empezar una partida. Cada rama es una jugada; síguela hasta el nombre y apréndela."
           }
         }
       }

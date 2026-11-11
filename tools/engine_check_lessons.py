@@ -5,6 +5,7 @@ usage: engine_check_lessons.py --stockfish PATH [--cache FILE] [--nodes 1000000]
 
 Rules enforced with the engine (nodes per search, default 1M):
   find, guided, test items  every accepted move is the engine's best or within 30 cp; goal.mate is met exactly.
+                            In an opening lesson, watch and guided moves are theory and may lose up to 80 cp (gambits).
                             With goal.win, a move that stays at +300 or more passes and is printed as a note.
   find                      other moves within 30 cp of best must be listed in ok (ALT), except with goal win or draw,
                             where the runner asks the engine about unlisted moves
@@ -50,10 +51,50 @@ SYLLABUS = {
     "L26": (1600, ["L25"], {"sacrifice": .8, "mateIn3": .2}, "attack"),
     "L27": (1550, ["L01"], {"defensiveMove": .95, "equality": .05}, "defence"),
     "L28": (1750, ["L26"], {"quietMove": 1}, "defence"),
+    "R01": (700, [], {"opening": 1}, "rules"),
+    "R02": (750, [], {"hangingPiece": 1}, "rules"),
+    "R03": (800, [], {"endgame": 1}, "rules"),
+    "O01": (800, [], {"opening": 1}, "openings"),
+    "O02": (1000, [], {"opening": 1}, "openings"),
+    "O03": (900, [], {"opening": 1}, "openings"),
+    "O04": (850, [], {"opening": 1}, "openings"),
+    "O05": (1100, [], {"opening": 1}, "openings"),
+    "O06": (1000, [], {"opening": 1}, "openings"),
+    "O07": (950, [], {"opening": 1}, "openings"),
+    "O08": (900, [], {"opening": 1}, "openings"),
+    "O09": (800, [], {"opening": 1}, "openings"),
+    "O10": (1150, [], {"opening": 1}, "openings"),
+    "O11": (950, [], {"opening": 1}, "openings"),
+    "O12": (1150, [], {"opening": 1}, "openings"),
+    "O13": (1000, [], {"opening": 1}, "openings"),
+    "O14": (1500, [], {"opening": 1}, "openings"),
+    "O15": (1400, [], {"opening": 1}, "openings"),
+    "O16": (1100, [], {"opening": 1}, "openings"),
+    "O17": (1200, [], {"opening": 1}, "openings"),
+    "O18": (1500, [], {"opening": 1}, "openings"),
+    "O19": (1700, [], {"opening": 1}, "openings"),
+    "O20": (1300, [], {"opening": 1}, "openings"),
+    "E01": (700, [], {"mate": 1}, "endgames"),
+    "E02": (800, [], {"mate": 1}, "endgames"),
+    "E03": (1000, [], {"pawnEndgame": 1}, "endgames"),
+    "E04": (1300, [], {"rookEndgame": 1}, "endgames"),
+    "E05": (1500, [], {"bishopEndgame": 0.5, "knightEndgame": 0.5}, "endgames"),
+    "E06": (1700, [], {"queenEndgame": 1}, "endgames"),
+    "M01": (1100, [], {"middlegame": 1}, "strategy"),
+    "M02": (1250, [], {"middlegame": 1}, "strategy"),
+    "M03": (1200, [], {"middlegame": 1}, "strategy"),
+    "M04": (1400, [], {"middlegame": 1}, "strategy"),
+    "M05": (1650, [], {"middlegame": 1}, "strategy"),
+    "M06": (1800, [], {"middlegame": 1}, "strategy"),
+    "A01": (1800, [], {"long": 1}, "mastery"),
+    "A02": (1900, [], {"crushing": 1}, "mastery"),
+    "A03": (1950, [], {"sacrifice": 1}, "mastery"),
+    "A04": (2000, [], {"zugzwang": 1}, "mastery"),
+    "A05": (2050, [], {"defensiveMove": 1}, "mastery"),
     "L29": (1300, [], {"pawnEndgame": .8, "zugzwang": .2}, "endgames"),
     "L30": (1500, ["L29"], {"rookEndgame": 1}, "endgames"),
 }
-HAND_TESTS = {"L02", "L29", "L30"}
+HAND_TESTS = {"L02", "L29", "L30", "R01", "R02", "R03", "O01", "O02", "O03", "O04", "O05", "O06", "O07", "O08", "O09", "O10", "O11", "O12", "O13", "O14", "O15", "O16", "O17", "O18", "O19", "O20", "E01", "E02", "E03", "E04", "E05", "E06", "M01", "M02", "M03", "M04", "M05", "M06", "A01", "A02", "A03", "A04", "A05"}
 
 # ---- chess core -------------------------------------------------------------
 def sqn(s): return "abcdefgh"[s % 8] + str(s // 8 + 1)
@@ -366,6 +407,8 @@ def text_values(step):
         if "say" in h: yield "hint", h["say"]
     for u, b in (step.get("bad") or {}).items():
         if "say" in b: yield f"bad {u}", b["say"]
+    for n, o in enumerate(step.get("options", [])):
+        yield f"option{n + 1}", o
     for it in step.get("items", []):
         yield from text_values(it)
 
@@ -422,7 +465,7 @@ def engine_move_checks(p, ok, step, where, r, o):
     for u in ok:
         s_ = o.search(fen, [u])[0]
         loss = 0 if u == best["move"] else best["v"] - s_["v"]  # same move: two searches differ only by noise
-        if loss > 30:
+        if loss > (80 if step.get("book") else 30):
             # Won endings the engine cannot finish without tablebases give noisy scores in the hundreds: keeping the win is the test.
             if goal.get("win") and s_["v"] >= 300:
                 r.notes.append(f"{where}: {u} {fmt(s_['v'])} keeps the win, best {best['move']} {fmt(best['v'])}")
@@ -531,7 +574,7 @@ def check_lesson(path, o):
         if d["tags"] != syl[2]: r.err(f"tags {d['tags']} != {syl[2]}")
         if d["section"] != syl[3]: r.err(f"section {d['section']} != {syl[3]}")
     if not (3 <= d["min"] <= 5): r.err(f"min {d['min']}")
-    if not (7 <= len(d["steps"]) <= 12): r.err(f"{len(d['steps'])} steps")
+    if not (7 <= len(d["steps"]) <= 14): r.err(f"{len(d['steps'])} steps")
     if d["review"] != {"days": [1, 3, 7], "n": 2}: r.err("review must be days 1,3,7 n 2")
     kinds = [s.get("t") for s in d["steps"]]
     if kinds[-2:] != ["test", "recap"]: r.err(f"must end test, recap: {kinds[-2:]}")
@@ -543,11 +586,12 @@ def check_lesson(path, o):
     fens, cur = set(), None
     for i, step in enumerate(d["steps"]):
         t, where = step.get("t"), f"{lid} step{i + 1} {step.get('t')}"
-        if t not in ("explain", "watch", "guided", "find", "tap", "recap", "test"):
+        if d.get("section") == "openings" and t in ("watch", "guided"): step = dict(step, book=True)
+        if t not in ("explain", "watch", "guided", "find", "tap", "choose", "recap", "test"):
             r.err(f"{where}: unknown step type")
             continue
         check_text(step, where, r.err, r.warn)
-        if t in ("explain", "watch", "guided", "find", "tap", "recap") and "say" not in step: r.err(f"{where}: needs say")
+        if t in ("explain", "watch", "guided", "find", "tap", "choose", "recap") and "say" not in step: r.err(f"{where}: needs say")
         if t == "test":
             check_test(step, d, where, r, o)
             continue
@@ -580,7 +624,7 @@ def check_lesson(path, o):
                     allowed = step.get("shows", {}).get("mistakeAt")
                     if allowed == j:
                         if best["v"] - s_["v"] < 100: r.err(f"{where}: line[{j}] {u} shown as a mistake but only loses {best['v'] - s_['v']}")
-                    elif u != best["move"] and best["v"] - s_["v"] > 50 and best["v"] > -600:
+                    elif u != best["move"] and best["v"] - s_["v"] > (80 if step.get("book") else 50) and best["v"] > -600:
                         if (step.get("goal") or {}).get("win") and s_["v"] >= 300:
                             r.notes.append(f"{where}: line[{j}] {u} {fmt(s_['v'])} keeps the win, best {best['move']} {fmt(best['v'])}")
                         else:
@@ -617,6 +661,11 @@ def check_lesson(path, o):
                     r.err(f"{where}: squares {sorted(sqn(x) for x in want)} but rule gives {sorted(sqn(x) for x in got)}")
             else:
                 r.warn(f"{where}: tap without a rule")
+        elif t == "choose":
+            opts = step.get("options") or []
+            if not 2 <= len(opts) <= 4: r.err(f"{where}: {len(opts)} options")
+            if not isinstance(step.get("answer"), int) or not 0 <= step["answer"] < len(opts): r.err(f"{where}: answer out of range")
+            if "after" not in step: r.err(f"{where}: needs after")
         elif t == "recap":
             if "card" not in step or "name" not in step: r.err(f"{where}: needs card and name")
         check_san_in_text(step, seen + ([Pos(d['steps'][i + 1]['fen'])] if i + 1 < len(d['steps']) and 'fen' in d['steps'][i + 1] else []), where, r)

@@ -17,6 +17,9 @@ import Foundation
 //          Engine for the real refutation, or at least flash it wrong. `hints` are revealed one per request.
 //          `goal` is what the engine verified for `ok`: mate in N, a kept win, or a held draw.
 // tap      Tap the squares in `squares`, all of them and only them. `rule` is for the validator, not the runner.
+// choose   A question about the idea just shown, answered from `options` (2 to 4); `answer` is the right one's index.
+//          Board as for explain. Whatever is picked, `after` says why. A wrong pick comes back near the end of the lesson,
+//          like a failed find or tap.
 // test     Blind: no theme shown, no hints. Query form: draw `n` puzzles with `drawTest`, `decoys` of them outside the
 //          tags. Record each with context `.lesson`. Hand-written form: `items` are `find` steps played in order and
 //          one has `decoy` set. Passed at `pass` first-try solves.
@@ -111,7 +114,7 @@ struct LessonQuery: Codable, Hashable {
 }
 
 struct LessonStep: Codable, Hashable {
-    enum Kind: String, Codable { case explain, watch, guided, find, tap, recap, test }
+    enum Kind: String, Codable { case explain, watch, guided, find, tap, choose, recap, test }
     struct Shows: Codable, Hashable { var mistakeAt: Int? }
 
     var t: Kind
@@ -130,6 +133,8 @@ struct LessonStep: Codable, Hashable {
     var goal: LessonGoal?
     var squares: [String]?                  // tap
     var rule: LessonTapRule?
+    var options: [LocalizedText]?           // choose
+    var answer: Int?
     var card: String?                       // recap
     var name: LocalizedText?
     var n: Int?                             // test
@@ -203,6 +208,8 @@ final class LessonLibrary {
     }
 
     static let sections: [Section] = [
+        Section(id: "rules", name: LocalizedText(ca: "Les regles d'or", es: "Las reglas de oro", en: "The golden rules"),
+                lessonIDs: ["R01", "R02", "R03"]),
         Section(id: "seeing", name: LocalizedText(ca: "Veure i mats bàsics", es: "Ver y mates básicos", en: "Seeing and basic mates"),
                 lessonIDs: ["L01", "L02", "L03", "L04", "L05"]),
         Section(id: "double", name: LocalizedText(ca: "Atacs dobles", es: "Ataques dobles", en: "Double attacks"),
@@ -214,7 +221,14 @@ final class LessonLibrary {
         Section(id: "defence", name: LocalizedText(ca: "Defensa i càlcul", es: "Defensa y cálculo", en: "Defence and calculation"),
                 lessonIDs: ["L27", "L28"]),
         Section(id: "endgames", name: LocalizedText(ca: "Finals", es: "Finales", en: "Endgames"),
-                lessonIDs: ["L29", "L30"]),
+                lessonIDs: ["E01", "E02", "L29", "E03", "L30", "E04", "E05", "E06"]),
+        Section(id: "strategy", name: LocalizedText(ca: "Estratègia de mig joc", es: "Estrategia de medio juego", en: "Middlegame strategy"),
+                lessonIDs: ["M01", "M02", "M03", "M04", "M05", "M06"]),
+        Section(id: "mastery", name: LocalizedText(ca: "Mestria", es: "Maestría", en: "Mastery"),
+                lessonIDs: ["A01", "A02", "A03", "A04", "A05"]),
+        // Not on the path: they have their own page, the tree of openings. See OpeningsView.
+        Section(id: "openings", name: LocalizedText(ca: "Obertures", es: "Aperturas", en: "Openings"),
+                lessonIDs: ["O01", "O02", "O03", "O04", "O05", "O06", "O07", "O08", "O09", "O10", "O11", "O12", "O13", "O14", "O15", "O16", "O17", "O18", "O19", "O20"]),
     ]
 
     private struct Head: Decodable {

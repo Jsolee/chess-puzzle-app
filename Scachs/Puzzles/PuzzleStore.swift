@@ -147,6 +147,19 @@ final class PuzzleStore {
     /// Random pick among the matches in a window around `target`. The window starts at +-75, widens as Lichess
     /// does ((100 + |1500 - target| / 4) * k up to k = 4), then keeps doubling so a rare theme still finds its
     /// nearest puzzles. Nil only when nothing in the whole file matches.
+    /// How many puzzles carry each theme tag, counted once from the masks.
+    lazy var tagCounts: [String: Int] = data.withUnsafeBytes { raw in
+        var counts = [Int](repeating: 0, count: tags.count)
+        for i in 0..<count {
+            var mask = raw.loadUnaligned(fromByteOffset: maskAt + i * 8, as: UInt64.self)
+            while mask != 0 {
+                counts[mask.trailingZeroBitCount] += 1
+                mask &= mask - 1
+            }
+        }
+        return Dictionary(uniqueKeysWithValues: zip(tags, counts))
+    }
+
     func find(target: Int, anyOf themes: Set<String>?, excluding played: (Int) -> Bool) -> Puzzle? {
         guard count > 0 else { return nil }
         let wantedMask = themes.map { wanted in
