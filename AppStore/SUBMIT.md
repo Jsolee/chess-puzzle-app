@@ -36,7 +36,7 @@ Respon «No» o «Cap» a tot: violència, contingut sexual, llenguatge, drogues
 Gratuïta, a tots els territoris. Sense compres dins l'app.
 
 ## 6. Captures de pantalla
-`AppStore/screenshots/ca`, `es` i `en` contenen nou captures cadascuna, de 1320 × 2868 (pantalla de 6,9"), amb l'app en l'idioma de la carpeta. Apple les fa servir per a totes les mides d'iPhone. Puja-les en l'ordre del nom del fitxer, cada carpeta al seu idioma: la 01 és la portada i la resta mostren l'app en ús. Per refer-les: compila en Debug, obre l'app al simulador amb `-scene <escena> -toured YES -AppleLanguages "(ca)"` per a cada escena de `Scachs/App/ScreenshotScene.swift`, desa les captures com `<idioma>-<escena>.png` i passa `python3 tools/store_screenshots.py <idioma> <carpeta>`.
+`AppStore/screenshots/ca`, `es` i `en` contenen nou captures cadascuna, de 1206 × 2622, amb l'app en l'idioma de la carpeta. És la mida que App Store Connect demana com a obligatòria («iPhone con Dynamic Island, pantalla mediana»), i Apple la fa servir per a les altres mides d'iPhone. Puja-les en l'ordre del nom del fitxer, cada carpeta al seu idioma: la 01 és la portada i la resta mostren l'app en ús. Per refer-les: compila en Debug, obre l'app al simulador amb `-scene <escena> -toured YES -AppleLanguages "(ca)"` per a cada escena de `Scachs/App/ScreenshotScene.swift`, desa les captures com `<idioma>-<escena>.png` i passa `python3 tools/store_screenshots.py <carpeta>`. El disseny és a `tools/store_screenshots.html`: un sol panorama de nou captures amb una serp de mar d'esmalt que travessa les tres primeres. Chrome el pinta captura a captura.
 
 ## 7. Informació per a la revisió d'Apple
 - **Inici de sessió:** no cal. L'app no té comptes.

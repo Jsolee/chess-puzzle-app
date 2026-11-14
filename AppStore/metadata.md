@@ -50,7 +50,7 @@ SENSE SOROLL
 Sense comptes, sense anuncis, sense lligues, sense ratxes que es trenquen. Si tornes al cap de tres setmanes, el tauler és on el vas deixar.
 
 D'ON VE EL NOM
-«Scachs» és la paraula del poema *Scachs d'amor* (València, c.1475), el registre més antic que es coneix de la dama i l'alfil moderns. Es pronuncia «skaks».
+«Scachs» és la paraula del poema «Scachs d'amor» (València, c.1475), el registre més antic que es coneix de la dama i l'alfil moderns. Es pronuncia «skaks».
 
 Programari lliure: el codi és públic sota GPLv3 a https://github.com/Jsolee/chess-puzzle-app. Utilitza Stockfish. Puzzles de la base de dades de Lichess (CC0). Scachs no està afiliada a chess.com ni a Lichess. Les etiquetes de les jugades les calcula aquesta app i poden no coincidir amb les d'altres serveis.
 
@@ -59,7 +59,7 @@ Sobretot: com se sent. Resol uns quants puzzles amb el so activat i inclina el t
 
 ## Castellano
 
-**Nombre (30):** Scachs: Ajedrez y Puzzles
+**Nombre (30):** Scachs: Puzzles de Ajedrez («Scachs: Ajedrez y Puzzles» ya lo usa otra app)
 
 **Subtítulo (30):** Lecciones, aperturas, análisis
 
@@ -96,7 +96,7 @@ SIN RUIDO
 Sin cuentas, sin anuncios, sin ligas, sin rachas que se rompen. Si vuelves al cabo de tres semanas, el tablero está donde lo dejaste.
 
 DE DÓNDE VIENE EL NOMBRE
-«Scachs» es la palabra del poema *Scachs d'amor* (Valencia, c.1475), el registro más antiguo que se conoce de la dama y el alfil modernos. Se pronuncia «skaks».
+«Scachs» es la palabra del poema «Scachs d'amor» (Valencia, c.1475), el registro más antiguo que se conoce de la dama y el alfil modernos. Se pronuncia «skaks».
 
 Software libre: el código es público bajo GPLv3 en https://github.com/Jsolee/chess-puzzle-app. Utiliza Stockfish. Puzzles de la base de datos de Lichess (CC0). Scachs no está afiliada a chess.com ni a Lichess. Las etiquetas de las jugadas las calcula esta app y pueden no coincidir con las de otros servicios.
 
@@ -121,13 +121,13 @@ PUZZLES
 100,000 positions chosen from real games. Difficulty adjusts by itself, and the ones you missed come back later, with no backlog counter.
 
 YOUR GAMES
-Import games from chess.com or Lichess with your username, or paste a PGN. Stockfish analyses them on your iPhone, offline: accuracy, evaluation graph, every move classified in the notation you already know, from brilliant to blunder, and why.
+Import games from chess.com or Lichess with your username, or paste a PGN. Stockfish analyzes them on your iPhone, offline: accuracy, evaluation graph, every move classified in the notation you already know, from brilliant to blunder, and why.
 
 LESSONS
 50 lessons of three to five minutes, from the golden rules for beginners to mastery: endgames, middlegame strategy, the exchange sacrifice, zugzwang, on a road where every lesson you finish is sealed in wax. Short questions, instant feedback, and what you miss comes back at the end.
 
 OPENINGS
-Twenty openings, ten with each colour, drawn as a tree that grows from the first move: from the Italian and the Ruy Lopez to the Catalan, the Nimzo-Indian and the Grünfeld. You learn them by playing them from memory.
+Twenty openings, ten with each color, drawn as a tree that grows from the first move: from the Italian and the Ruy Lopez to the Catalan, the Nimzo-Indian and the Grünfeld. You learn them by playing them from memory.
 
 EXERCISES
 Practice by theme: pawn, rook and minor-piece endings, kingside attacks, every tactic and every named mate. Each chapter is shown by one of its own positions, and the difficulty follows your rating, whether you are starting out or playing strong.
@@ -139,6 +139,6 @@ NO NOISE
 No accounts, no ads, no leagues, no streaks to break. Come back after three weeks and the board is where you left it.
 
 WHERE THE NAME COMES FROM
-"Scachs" is the word in the poem *Scachs d'amor* (Valencia, c.1475), the earliest known record of the modern queen and bishop. Say "skaks".
+"Scachs" is the word in the poem "Scachs d'amor" (Valencia, c.1475), the earliest known record of the modern queen and bishop. Say "skaks".
 
 Free software: the source is public under GPLv3 at https://github.com/Jsolee/chess-puzzle-app. Uses Stockfish. Puzzles from the Lichess database (CC0). Scachs isn't affiliated with chess.com or Lichess. Move labels are computed by this app and may differ from other services.
