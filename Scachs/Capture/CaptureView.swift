@@ -27,7 +27,7 @@ struct CaptureView: View {
                 .padding(20).frame(maxWidth: .infinity, alignment: .leading)
             }
         }
-        .background(Theme.field.ignoresSafeArea())
+        .fieldBackground()
         .task {
             let image = image
             let extra = pieceTemplates()
@@ -87,7 +87,7 @@ struct PositionEditor: View {
                 .disabled(position == nil).padding(.horizontal, 20).padding(.bottom, 24)
             }
         }
-        .background(Theme.field.ignoresSafeArea())
+        .fieldBackground()
         .fullScreenCover(item: Binding(get: { analysing.map(AnalysedPosition.init) }, set: { analysing = $0?.position })) { PositionAnalysisView(position: $0.position) }
     }
 
@@ -184,7 +184,7 @@ struct PositionAnalysisView: View {
                 .padding(.horizontal, 20)
             }
         }
-        .background(Theme.field.ignoresSafeArea())
+        .fieldBackground()
         .task { reset() }
         .onDisappear { task?.cancel(); AutoReview.shared.release() }
         .onAppear { AutoReview.shared.hold() }

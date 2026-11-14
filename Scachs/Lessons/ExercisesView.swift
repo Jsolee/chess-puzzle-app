@@ -27,7 +27,7 @@ struct ExercisesView: View {
             ForEach(Array(Self.groups.enumerated()), id: \.offset) { _, group in
                 let tags = group.tags.filter { (tiles[$0]?.count ?? 0) >= Self.minimum }
                 if !tags.isEmpty {
-                    Text(group.title).font(Theme.display(30)).foregroundStyle(Theme.tin).padding(.top, 30).padding(.bottom, 12)
+                    SectionTitle(group.title).padding(.top, 30).padding(.bottom, 12)
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(alignment: .top, spacing: 16) {
                             ForEach(tags, id: \.self) { tag in tile(tag, tiles[tag]!) }

@@ -32,12 +32,12 @@ struct GoldenRulesView: View {
                     Image(systemName: "xmark").font(.system(size: 17, weight: .semibold)).foregroundStyle(Theme.tin).frame(width: 44, height: 44, alignment: .leading)
                 }
                 .accessibilityLabel("Tanca")
-                Text("Les regles d'or").font(Theme.display(48)).foregroundStyle(Theme.tin).padding(.top, 4)
+                ScreenTitle("Les regles d'or").padding(.top, 4)
                 Text("Deu idees que serveixen a tota la partida. Si només te n'has d'endur una, que sigui la quarta.")
                     .font(Theme.text(17)).foregroundStyle(Theme.quiet).fixedSize(horizontal: false, vertical: true).padding(.top, 6)
                 ForEach(Array(Self.groups.enumerated()), id: \.offset) { g, group in
                     let first = Self.groups[..<g].reduce(0) { $0 + $1.rules.count }
-                    Text(group.title).font(Theme.display(30)).foregroundStyle(Theme.tin).padding(.top, 34).padding(.bottom, 4)
+                    SectionTitle(group.title).padding(.top, 34).padding(.bottom, 4)
                     ForEach(Array(group.rules.enumerated()), id: \.offset) { i, rule in
                         HStack(alignment: .firstTextBaseline, spacing: 14) {
                             Text(verbatim: Roman.numeral(first + i + 1)).font(Theme.text(24, .semibold)).foregroundStyle(Theme.gold)
@@ -62,7 +62,7 @@ struct GoldenRulesView: View {
             }
             .padding(.horizontal, 20).padding(.bottom, 40)
         }
-        .background(Theme.field.ignoresSafeArea())
+        .fieldBackground()
         .fullScreenCover(item: $open) { LessonRunnerView(meta: $0) }
     }
 }

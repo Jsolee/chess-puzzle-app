@@ -428,7 +428,7 @@ struct LessonRunnerView: View {
                 if run.completed { seal(run) } else { content(run) }
             } else { Theme.field }
         }
-        .background(Theme.field.ignoresSafeArea())
+        .fieldBackground()
         .onAppear {
             guard run == nil, let l = LessonLibrary.shared.lesson(id: meta.id) else { return }
             run = LessonRun(lesson: l, reexposure: reexposure)
@@ -446,18 +446,8 @@ struct LessonRunnerView: View {
     private func content(_ r: LessonRun) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: 12) {
-                Button { dismiss() } label: { Image(systemName: "xmark").font(.system(size: 16, weight: .medium)).foregroundStyle(Theme.tin).frame(width: 44, height: 44) }
-                    .accessibilityLabel("Tanca")
-                GeometryReader { g in
-                    ZStack(alignment: .leading) {
-                        Capsule().fill(Theme.hairline)
-                        Capsule().fill(Theme.gold).frame(width: max(g.size.width * r.progress, r.progress > 0 ? 8 : 0))
-                            .animation(.easeOut(duration: 0.25), value: r.progress)
-                    }
-                }
-                .frame(height: 8)
-                .padding(.trailing, 12)
-                .accessibilityElement().accessibilityLabel("Progrés").accessibilityValue(Text(r.progress, format: .percent.precision(.fractionLength(0))))
+                CloseButton { dismiss() }
+                BeadProgress(count: r.order.count, current: max(r.cursor, 0)).padding(.trailing, 12)
             }
             .padding(.horizontal, 8)
             ScrollView {
@@ -542,9 +532,9 @@ struct LessonRunnerView: View {
 
     private func primary(_ title: LocalizedStringKey, _ action: @escaping () -> Void) -> some View {
         Button(action: action) {
-            Text(title).font(Theme.text(18, .semibold)).foregroundStyle(Theme.ink)
-                .frame(maxWidth: .infinity, minHeight: 50).background(Capsule().fill(Theme.tin))
+            Text(title)
         }
+        .buttonStyle(.cartouche)
     }
 }
 
@@ -564,10 +554,8 @@ private struct FeedbackPanel: View {
                 SANText.prose(text, size: 17).font(Theme.text(17)).foregroundStyle(Theme.tin.opacity(0.88)).accessibilityLabel(text)
                     .fixedSize(horizontal: false, vertical: true)
             }
-            Button(action: next) {
-                Text("Continua").font(Theme.text(18, .semibold)).foregroundStyle(Theme.ink)
-                    .frame(maxWidth: .infinity, minHeight: 50).background(Capsule().fill(feedback.good ? Theme.gold : Theme.tin))
-            }
+            Button(action: next) { Text("Continua") }
+                .buttonStyle(.cartouche(gold: feedback.good))
             .padding(.top, 8)
         }
         .padding(.horizontal, 20).padding(.top, 20).padding(.bottom, 12)

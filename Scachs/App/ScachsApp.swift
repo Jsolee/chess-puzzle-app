@@ -23,6 +23,7 @@ struct ScachsApp: App {
             .background(Theme.field)
             .preferredColorScheme(.dark)
             .tint(Theme.gold)
+            .toggleStyle(WireToggleStyle())
             .task {
                 try? await Task.sleep(for: .milliseconds(100))
                 mounted = true
@@ -47,11 +48,11 @@ struct RootView: View {
     @AppStorage("toured") private var toured = false
     var body: some View {
         TabView(selection: $tab) {
-            Tab("Avui", systemImage: "sun.horizon", value: 0) { TodayView() }
-            Tab("Puzzles", systemImage: "square.grid.3x3.middle.filled", value: 1) { PuzzleView() }
-            Tab("Partides", systemImage: "list.bullet.rectangle", value: 2) { GamesView() }
-            Tab("Lliçons", systemImage: "book.closed", value: 3) { LessonsView() }
-            Tab("Tu", systemImage: "person.crop.circle", value: 4) { ProfileView() }
+            Tab("Avui", image: "tab.today", value: 0) { TodayView() }
+            Tab("Puzzles", image: "tab.puzzles", value: 1) { PuzzleView() }
+            Tab("Partides", image: "tab.games", value: 2) { GamesView() }
+            Tab("Lliçons", image: "tab.lessons", value: 3) { LessonsView() }
+            Tab("Tu", image: "tab.you", value: 4) { ProfileView() }
         }
         .tabBarMinimizeBehavior(.onScrollDown)
         // The board is a UIKit view, so the overlay alone doesn't keep its touches from it.
@@ -68,7 +69,7 @@ struct RootView: View {
         .fullScreenCover(item: $share.game) { game in
             NavigationStack {
                 ReviewView(game: game).toolbar {
-                    ToolbarItem(placement: .cancellationAction) { Button("Tanca") { share.game = nil } }
+                    ToolbarItem(placement: .cancellationAction) { CloseButton { share.game = nil } }
                 }
             }
         }

@@ -3,11 +3,8 @@ import Charts
 
 struct ProfileView: View {
     private var progress: Progress { .shared }
-    @AppStorage("sound") private var sound = true
-    @AppStorage("haptics") private var haptics = true
-    @AppStorage("difficulty") private var difficulty = 0
     @AppStorage("showStreak") private var showStreak = true
-    @State private var showAbout = false
+    @State private var showSettings = false
 
     var body: some View {
         NavigationStack {
@@ -17,19 +14,27 @@ struct ProfileView: View {
                     ratingBlock
                     if ratingHistory.count > 3 { chart }
                     skills
-                    settings
                 }
-                .padding(.horizontal, 20).padding(.top, 10).padding(.bottom, 40)
+                .padding(.horizontal, 20).padding(.top, 4).padding(.bottom, 40)
             }
-            .background(Theme.field.ignoresSafeArea())
-            .sheet(isPresented: $showAbout) { AboutView() }
+            .fieldBackground()
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button { showSettings = true } label: { Image(systemName: "gearshape") }.accessibilityLabel("Ajustos")
+                }
+            }
+            .sheet(isPresented: $showSettings) { SettingsView() }
         }
     }
 
     private var ratingBlock: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(progress.isProvisional ? "Encara et conec poc" : "\(Int(progress.rating.rounded()))")
-                .font(Theme.display(progress.isProvisional ? 40 : 72)).foregroundStyle(Theme.tin)
+            if progress.isProvisional {
+                SectionTitle("Encara et conec poc").padding(.bottom, 6)
+            } else {
+                Text(verbatim: "\(Int(progress.rating.rounded()))").font(Theme.display(72)).foregroundStyle(Theme.tin)
+                GoldRule(section: true).padding(.bottom, 6)
+            }
             Text(progress.isProvisional ? "La puntuació surt després d'uns quants puzzles." : "Puntuació de puzzles. No és la teva puntuació en partides.")
                 .font(Theme.text(16)).foregroundStyle(Theme.quiet)
             Text("Puzzles resolts: \(solvedCount) · Lliçons: \(progress.completedLessons.count)")
@@ -82,7 +87,7 @@ struct ProfileView: View {
     @ViewBuilder private var skills: some View {
         let rows = skillRows
         VStack(alignment: .leading, spacing: 12) {
-            Text("Temes").font(Theme.display(32)).foregroundStyle(Theme.tin)
+            SectionTitle("Temes")
             if rows.isEmpty {
                 Text("Quan hagis resolt més puzzles, aquí veuràs on et va millor i on se t'escapen.").font(Theme.text(16)).foregroundStyle(Theme.quiet)
             } else {
@@ -100,14 +105,42 @@ struct ProfileView: View {
         }
     }
 
+}
+
+/// Sound, touch, the streak and difficulty: out of the profile, which is about you, and into a sheet of their own.
+struct SettingsView: View {
+    @AppStorage("sound") private var sound = true
+    @AppStorage("haptics") private var haptics = true
+    @AppStorage("difficulty") private var difficulty = 0
+    @AppStorage("showStreak") private var showStreak = true
+    @State private var showAbout = false
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 0) {
+                    ScreenTitle("Ajustos").padding(.bottom, 12)
+                    settings
+                }
+                .padding(.horizontal, 20).padding(.top, 4)
+            }
+            .fieldBackground()
+            .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Fet") { dismiss() } } }
+            .sheet(isPresented: $showAbout) { AboutView() }
+        }
+        .toggleStyle(WireToggleStyle())
+        .tint(Theme.gold)
+        .presentationDetents([.medium, .large])
+    }
+
     private var settings: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text("Ajustos").font(Theme.display(32)).foregroundStyle(Theme.tin).padding(.bottom, 8)
-            Toggle("So", isOn: $sound).font(Theme.text(17)).padding(.vertical, 8)
+            Toggle("So", isOn: $sound).font(Theme.text(17)).padding(.vertical, 4)
             Rectangle().fill(Theme.hairline).frame(height: 0.5)
-            Toggle("Vibració", isOn: $haptics).font(Theme.text(17)).padding(.vertical, 8)
+            Toggle("Vibració", isOn: $haptics).font(Theme.text(17)).padding(.vertical, 4)
             Rectangle().fill(Theme.hairline).frame(height: 0.5)
-            Toggle("Mostra la ratxa", isOn: $showStreak).font(Theme.text(17)).padding(.vertical, 8)
+            Toggle("Mostra la ratxa", isOn: $showStreak).font(Theme.text(17)).padding(.vertical, 4)
             Rectangle().fill(Theme.hairline).frame(height: 0.5)
             HStack {
                 Text("Dificultat dels puzzles").font(Theme.text(17))
@@ -151,7 +184,7 @@ struct AboutView: View {
                 }
                 .padding(20)
             }
-            .background(Theme.field.ignoresSafeArea())
+            .fieldBackground()
             .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Fet") { dismiss() } } }
         }
     }
@@ -163,6 +196,6 @@ struct LicenceView: View {
             Text(verbatim: (Bundle.main.url(forResource: "LICENSE", withExtension: "txt").flatMap { try? String(contentsOf: $0, encoding: .utf8) }) ?? "GNU GPL v3: https://www.gnu.org/licenses/gpl-3.0.html")
                 .font(.system(size: 12, design: .monospaced)).foregroundStyle(Theme.tin).padding(16)
         }
-        .background(Theme.field.ignoresSafeArea())
+        .fieldBackground()
     }
 }

@@ -528,6 +528,23 @@
         }
       }
     },
+    "%@ · %lld de %lld terres dominades": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ · %lld of %lld lands held"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ · %lld de %lld tierras dominadas"
+          }
+        }
+      }
+    },
     "%@ és un atac a la descoberta: %@ ataca %@.": {
       "extractionState": "manual",
       "localizations": {
@@ -786,6 +803,23 @@
         }
       }
     },
+    "%lld de %lld terres dominades": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld of %lld lands held"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld de %lld tierras dominadas"
+          }
+        }
+      }
+    },
     "%lld de %lld. Ho tens. Ho tornaràs a veure d'aquí a uns dies.": {
       "extractionState": "manual",
       "localizations": {
@@ -816,6 +850,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "%lld de %lld. Lo volverás a ver dentro de unos días, sin prisa."
+          }
+        }
+      }
+    },
+    "%lld de 10 cap a dominar-la": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld of 10 towards holding it"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld de 10 para dominarla"
+          }
+        }
+      }
+    },
+    "%lld de 3 per cartografiar-la": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld of 3 to chart it"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld de 3 para cartografiarla"
           }
         }
       }
@@ -922,6 +990,40 @@
         }
       }
     },
+    "%lld resolts, per sobre del teu nivell. La bandera ja hi és, i no se'n va.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld solved, above your level. The flag is planted, and it stays."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld resueltos, por encima de tu nivel. La bandera ya está puesta, y no se va."
+          }
+        }
+      }
+    },
+    "%lld resolts. Per dominar-la, una mica més per sobre del que toca al teu nivell.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld solved. To hold it, do a little better than your level expects."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld resueltos. Para dominarla, un poco más por encima de lo que toca a tu nivel."
+          }
+        }
+      }
+    },
     "2 puzzles": {
       "extractionState": "manual",
       "localizations": {
@@ -1003,23 +1105,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "En la partida jugaste %@."
-          }
-        }
-      }
-    },
-    "A la partida vas jugar %@. Troba'n una de millor.": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "In the game you played %@. Find a better one."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "En la partida jugaste %@. Encuentra una mejor."
           }
         }
       }
@@ -1275,6 +1360,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Oculta"
+          }
+        }
+      }
+    },
+    "Amaga les classes buides": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide the empty classes"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oculta las clases vacías"
           }
         }
       }
@@ -2146,6 +2248,23 @@
         }
       }
     },
+    "Ara ets": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You are now"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ahora eres"
+          }
+        }
+      }
+    },
     "Ara ja la saps": {
       "extractionState": "manual",
       "localizations": {
@@ -2176,6 +2295,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ahora sí"
+          }
+        }
+      }
+    },
+    "Arxipèlag dels Finals": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Endgame Archipelago"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Archipiélago de los Finales"
           }
         }
       }
@@ -2469,6 +2605,23 @@
         }
       }
     },
+    "Boscos del Mig Joc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Middlegame Woods"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bosques del Medio Juego"
+          }
+        }
+      }
+    },
     "Brillant": {
       "extractionState": "manual",
       "localizations": {
@@ -2588,6 +2741,23 @@
         }
       }
     },
+    "Cap a: %@ · tres puzzles": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next: %@ · three puzzles"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rumbo a: %@ · tres puzzles"
+          }
+        }
+      }
+    },
     "Cap altra jugada és millor que aquesta.": {
       "extractionState": "manual",
       "localizations": {
@@ -2686,6 +2856,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cargar más"
+          }
+        }
+      }
+    },
+    "Cartografiada": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Charted"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cartografiada"
           }
         }
       }
@@ -2928,6 +3115,23 @@
         }
       }
     },
+    "Contra %@ vas jugar %@. Troba'n una de millor.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Against %@ you played %@. Find a better one."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contra %@ jugaste %@. Encuentra una mejor."
+          }
+        }
+      }
+    },
     "Contra %@, amb el seu nivell (%lld).": {
       "extractionState": "manual",
       "localizations": {
@@ -3162,6 +3366,57 @@
           "stringUnit": {
             "state": "translated",
             "value": "Dificultad de los puzzles"
+          }
+        }
+      }
+    },
+    "Dominada": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Held"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dominada"
+          }
+        }
+      }
+    },
+    "Domines %lld terres de la carta.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You hold %lld lands on the chart."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dominas %lld tierras del mapa."
+          }
+        }
+      }
+    },
+    "Domines %lld terres de la carta. El rang següent, %@, arriba a les %lld.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You hold %lld lands on the chart. The next rank, %@, comes at %lld."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dominas %lld tierras del mapa. El rango siguiente, %@, llega a las %lld."
           }
         }
       }
@@ -3672,6 +3927,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aún no hay partidas. Añade alguna con el botón de arriba."
+          }
+        }
+      }
+    },
+    "Encara no hi has entrat. Tres puzzles d'aquest tema a la teva mida la treuen de la boira.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You haven't been here yet. Three puzzles of this theme at your level bring it out of the fog."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aún no has entrado. Tres puzzles de este tema a tu medida la sacan de la niebla."
           }
         }
       }
@@ -4220,6 +4492,23 @@
         }
       }
     },
+    "Explora: tres puzzles": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Explore: three puzzles"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Explora: tres puzzles"
+          }
+        }
+      }
+    },
     "Falta un rei a cada bàndol": {
       "extractionState": "manual",
       "localizations": {
@@ -4573,6 +4862,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Girar el tablero"
+          }
+        }
+      }
+    },
+    "Grumet": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ship's Boy"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grumete"
           }
         }
       }
@@ -5342,6 +5648,40 @@
         }
       }
     },
+    "La carta": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Chart"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El mapa"
+          }
+        }
+      }
+    },
+    "La carta dels temes": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The chart of themes"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El mapa de los temas"
+          }
+        }
+      }
+    },
     "La fallada del rival et donava una oportunitat que no has aprofitat.": {
       "extractionState": "manual",
       "localizations": {
@@ -5797,6 +6137,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mantienes un mate forzado en %lld."
+          }
+        }
+      }
+    },
+    "Mariner": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sailor"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marinero"
           }
         }
       }
@@ -6396,6 +6753,23 @@
         }
       }
     },
+    "Mestre de cartes": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Master Chartmaker"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Maestro cartógrafo"
+          }
+        }
+      }
+    },
     "Mig joc": {
       "extractionState": "manual",
       "localizations": {
@@ -6579,6 +6953,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mostrar la racha"
+          }
+        }
+      }
+    },
+    "Mostra les deu classes": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show all ten classes"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Muestra las diez clases"
           }
         }
       }
@@ -7229,6 +7620,23 @@
         }
       }
     },
+    "Patró": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skipper"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Patrón"
+          }
+        }
+      }
+    },
     "Pensa": {
       "extractionState": "manual",
       "localizations": {
@@ -7518,6 +7926,23 @@
         }
       }
     },
+    "Pilot": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pilot"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Piloto"
+          }
+        }
+      }
+    },
     "Pista": {
       "extractionState": "manual",
       "localizations": {
@@ -7599,6 +8024,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Podías ganar %@ con %@."
+          }
+        }
+      }
+    },
+    "Port de l'Obertura": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opening Harbour"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Puerto de la Apertura"
           }
         }
       }
@@ -8249,6 +8691,23 @@
         }
       }
     },
+    "Regne de la Tàctica": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kingdom of Tactics"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reino de la Táctica"
+          }
+        }
+      }
+    },
     "Rei exposat": {
       "extractionState": "manual",
       "localizations": {
@@ -8415,6 +8874,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Revisa la partida"
+          }
+        }
+      }
+    },
+    "Revisa-ho": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check it"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Revísalo"
           }
         }
       }
@@ -8670,6 +9146,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sin conexión"
+          }
+        }
+      }
+    },
+    "Serralada dels Mats": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Mate Mountains"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cordillera de los Mates"
           }
         }
       }
@@ -9197,6 +9690,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tres puzzles"
+          }
+        }
+      }
+    },
+    "Tres puzzles més": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Three more puzzles"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tres puzzles más"
           }
         }
       }
@@ -10051,6 +10561,23 @@
         }
       }
     },
+    "de precisió mitjana a les partides analitzades": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "average accuracy in reviewed games"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "de precisión media en las partidas analizadas"
+          }
+        }
+      }
+    },
     "del cavall": {
       "extractionState": "manual",
       "localizations": {
@@ -10319,6 +10846,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "negro"
+          }
+        }
+      }
+    },
+    "obertures diferents en %lld partides": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "different openings in %lld games"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "aperturas distintas en %lld partidas"
           }
         }
       }

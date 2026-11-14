@@ -4,6 +4,11 @@ enum Theme {
     static let field = Color(hex: 0x0F3A33)
     static let fieldDeep = Color(hex: 0x0B2C27)
     static let fieldLift = Color(hex: 0x154B41)
+    /// Where the field ends under the lamp, and the lamp's own green.
+    static let fieldLow = Color(hex: 0x092722)
+    static let lamp = Color(hex: 0x2E8470)
+    static let shadow = Color(hex: 0x030E0C)
+    static let warn = Color(hex: 0xEF7D6C)
     static let tileDark = Color(hex: 0x2C6F5E)
     static let tileLight = Color(hex: 0xECE6D6)
     static let tin = Color(hex: 0xF6F1E6)

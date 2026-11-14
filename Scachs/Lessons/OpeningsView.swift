@@ -47,7 +47,7 @@ struct OpeningsView: View {
             Text("Vint maneres de començar una partida. Cada branca és una jugada; segueix-la fins al nom i aprèn-la.")
                 .font(Theme.text(17)).foregroundStyle(Theme.quiet).fixedSize(horizontal: false, vertical: true)
             OpeningTree(entries: entries, done: done, open: open).padding(.top, 22)
-            Text("Totes").font(Theme.display(30)).foregroundStyle(Theme.tin).padding(.top, 34).padding(.bottom, 4)
+            SectionTitle("Totes").padding(.top, 34).padding(.bottom, 4)
             ForEach(entries) { row($0) }
         }
     }
@@ -196,8 +196,8 @@ private struct OpeningTree: View {
                 Circle().fill(Theme.gold).frame(width: 9, height: 9).position(x: x(0), y: nodes[0].y)
                 ForEach(nodes.indices.filter { $0 > 0 }, id: \.self) { i in
                     Text(verbatim: nodes[i].san).font(Theme.text(13, .semibold)).foregroundStyle(Theme.tin)
-                        .padding(.horizontal, 4).padding(.vertical, 1)
-                        .background(Capsule().fill(Theme.field))
+                        .padding(.horizontal, 6).padding(.vertical, 2)
+                        .background(Capsule().fill(Theme.fieldDeep).overlay(Capsule().strokeBorder(Theme.gold.opacity(0.4), lineWidth: 0.75)))
                         .position(x: x(nodes[i].depth), y: nodes[i].y)
                         .opacity(grown ? 1 : 0)
                         .animation(.easeOut(duration: 0.25).delay(Double(nodes[i].depth) * 0.12), value: grown)

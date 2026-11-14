@@ -86,19 +86,18 @@ struct TodayView: View {
     private var library: GameLibrary { .shared }
     private var auto: AutoReview { .shared }
 
-    private enum Cover: Int, Identifiable { case daily, blindfold, sunday, atlas; var id: Int { rawValue } }
+    private enum Cover: Int, Identifiable { case daily, blindfold, sunday, atlas, chart; var id: Int { rawValue } }
     private struct FocusedPuzzles: Identifiable { let themes: Set<String>; var id: String { themes.sorted().joined() } }
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
-                    header.padding(.horizontal, 20).padding(.top, 4).padding(.bottom, 16)
                     hero
                     rows.padding(.horizontal, 20).padding(.top, 18).padding(.bottom, 28)
                 }
             }
-            .background(Theme.field.ignoresSafeArea())
+            .fieldBackground()
             .sheet(item: $openLesson) { LessonRunnerView(meta: $0) }
             .fullScreenCover(item: $focus) { PuzzleView(focus: $0.themes) }
             .fullScreenCover(item: $cover) { cover in
@@ -107,12 +106,13 @@ struct TodayView: View {
                 case .blindfold: BlindfoldView()
                 case .sunday: SundayGameView()
                 case .atlas: AtlasView()
+                case .chart: ChartView()
                 }
             }
             .onChange(of: cover) { _, now in if now == nil { showDaily() } }
             .task { await refresh() }
             #if DEBUG
-            .onAppear { if ScreenshotScene.is("atlas") { cover = .atlas } }
+            .onAppear { if ScreenshotScene.is("atlas") { cover = .atlas }; if ScreenshotScene.is("chart") { cover = .chart } }
             #endif
             .onChange(of: scenePhase) { _, phase in if phase == .active { Task { await refresh() } } }
             .onChange(of: auto.finished) { _, _ in model.load() }
@@ -128,12 +128,9 @@ struct TodayView: View {
         WidgetSnapshot.write()
     }
 
-    private var header: some View {
-        HStack(alignment: .firstTextBaseline) {
-            Text("Avui").font(Theme.display(52)).foregroundStyle(Theme.tin)
-            Spacer()
-            Text(Date(), format: .dateTime.day().month(.wide)).font(Theme.text(16)).foregroundStyle(Theme.quiet)
-        }
+    /// "Avui · dimecres, 11 de novembre": the screen's name and the date in one line, so the board comes up.
+    private var rubric: Text {
+        Text(verbatim: String(localized: "Avui") + " · " + Date().formatted(.dateTime.weekday(.wide).day().month(.wide)))
     }
 
     // MARK: The board
@@ -148,13 +145,8 @@ struct TodayView: View {
 
     private func moment(_ card: MistakeCard) -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            VStack(alignment: .leading, spacing: 6) {
-                Text("Contra \(card.opponent)").font(Theme.text(16)).foregroundStyle(Theme.quiet).lineLimit(1)
-                Text(momentTitle).font(Theme.display(40)).foregroundStyle(Theme.tin).contentTransition(.opacity)
-                Text(verbatim: momentSubtitle(card)).font(Theme.text(16))
-                    .foregroundStyle(model.phase == .wrong ? Color(hex: 0xEF7D6C) : Theme.quiet).contentTransition(.opacity)
-            }
-            .padding(.horizontal, 20).padding(.bottom, 12)
+            BoardHeader(rubric: rubric, title: Text(momentTitle), subtitle: Text(verbatim: momentSubtitle(card)), warn: model.phase == .wrong)
+                .padding(.horizontal, 20).padding(.top, 6).padding(.bottom, 14)
             .animation(.easeOut(duration: 0.2), value: model.phase)
             BoardView(model.board)
             Group {
@@ -172,9 +164,9 @@ struct TodayView: View {
                                 .fixedSize(horizontal: false, vertical: true).accessibilityLabel(note)
                         }
                         Button { model.next() } label: {
-                            Text("Següent").font(Theme.text(18, .semibold)).foregroundStyle(Theme.ink)
-                                .frame(maxWidth: .infinity, minHeight: 50).background(Capsule().fill(Theme.tin))
+                            Text("Següent")
                         }
+                        .buttonStyle(.cartouche)
                     }
                 }
             }
@@ -194,7 +186,7 @@ struct TodayView: View {
     private func momentSubtitle(_ card: MistakeCard) -> String {
         if let idea = model.idea, model.phase == .asking || model.phase == .wrong { return String(localized: "Pensa en això: \(idea).") }
         switch model.phase {
-        case .asking: return String(localized: "A la partida vas jugar \(card.playedSAN). Troba'n una de millor.")
+        case .asking: return String(localized: "Contra \(card.opponent) vas jugar \(card.playedSAN). Troba'n una de millor.")
         case .wrong: return String(localized: "Torna-hi, o mira la solució.")
         case .found, .shown: return String(localized: "A la partida vas jugar \(card.playedSAN).")
         }
@@ -204,14 +196,13 @@ struct TodayView: View {
         let solved = Progress.shared.dailyDays.contains(PuzzleStore.dayNumber(Date()))
         return VStack(alignment: .leading, spacing: 0) {
             VStack(alignment: .leading, spacing: 6) {
+                BoardHeader(rubric: rubric, title: Text("Puzzle del dia"), subtitle: Text(solved ? "Resolt." : "Toca el tauler per començar."))
                 if let game = auto.current {
                     Text("Analitzant la partida contra \(game.mySide == .white ? game.black : game.white). \(Int(auto.progress * 100)) %")
-                        .font(Theme.text(16)).foregroundStyle(Theme.quiet).lineLimit(1).contentTransition(.numericText())
+                        .font(Theme.text(14)).foregroundStyle(Theme.quiet).lineLimit(1).contentTransition(.numericText())
                 }
-                Text("Puzzle del dia").font(Theme.display(40)).foregroundStyle(Theme.tin)
-                Text(solved ? "Resolt." : "Toca el tauler per començar.").font(Theme.text(16)).foregroundStyle(Theme.quiet)
             }
-            .padding(.horizontal, 20).padding(.bottom, 12)
+            .padding(.horizontal, 20).padding(.top, 6).padding(.bottom, 14)
             BoardView(dailyBoard)
                 .contentShape(Rectangle())
                 .onTapGesture { cover = .daily }
@@ -243,24 +234,27 @@ struct TodayView: View {
         return VStack(alignment: .leading, spacing: 0) {
             if model.card != nil { DailyRow { cover = .daily }; hairline }
             if let pick {
-                row("Lliçó", detail: pick.lesson.title) { openLesson = pick.lesson }
+                row("Lliçó", icon: Image("tab.lessons"), detail: pick.lesson.title) { openLesson = pick.lesson }
                 hairline
-                row("Tres puzzles", detail: pick.lesson.title) { focus = FocusedPuzzles(themes: Set(pick.lesson.tags.keys)) }
+                row("Tres puzzles", icon: Image("tab.puzzles"), detail: pick.lesson.title) { focus = FocusedPuzzles(themes: Set(pick.lesson.tags.keys)) }
                 hairline
             }
-            row("La partida del diumenge", detail: SundayGames.current().title.current) { cover = .sunday }
+            row("La carta dels temes", icon: Image(systemName: "sailboat"), detail: nil) { cover = .chart }
             hairline
-            row("A cegues, amb auriculars", detail: nil) { cover = .blindfold }
+            row("La partida del diumenge", icon: Image("tab.games"), detail: SundayGames.current().title.current) { cover = .sunday }
             hairline
-            row("L'Atles de les teves obertures", detail: nil) { cover = .atlas }
+            row("A cegues, amb auriculars", icon: Image(systemName: "headphones"), detail: nil) { cover = .blindfold }
+            hairline
+            row("L'Atles de les teves obertures", icon: Image("icon.rose"), detail: nil) { cover = .atlas }
         }
     }
 
     private var hairline: some View { Rectangle().fill(Theme.hairline).frame(height: 0.5) }
 
-    private func row(_ title: LocalizedStringKey, detail: String?, action: @escaping () -> Void) -> some View {
+    private func row(_ title: LocalizedStringKey, icon: Image, detail: String?, action: @escaping () -> Void) -> some View {
         Button(action: action) {
-            HStack(spacing: 10) {
+            HStack(spacing: 13) {
+                Medallion(image: icon)
                 VStack(alignment: .leading, spacing: 2) {
                     Text(title).font(Theme.text(17, .medium)).foregroundStyle(Theme.tin)
                     if let detail { Text(verbatim: detail).font(Theme.text(14)).foregroundStyle(Theme.quiet).lineLimit(1) }
@@ -268,7 +262,7 @@ struct TodayView: View {
                 Spacer()
                 Image(systemName: "chevron.right").font(.footnote).foregroundStyle(Theme.quiet)
             }
-            .frame(minHeight: 54).contentShape(Rectangle())
+            .frame(minHeight: 58).contentShape(Rectangle())
         }
         .buttonStyle(.plain)
     }

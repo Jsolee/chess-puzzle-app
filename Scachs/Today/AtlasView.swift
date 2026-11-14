@@ -80,7 +80,7 @@ struct AtlasView: View {
                 }
                 .accessibilityLabel("Tanca").padding(.horizontal, 20)
                 HStack(alignment: .firstTextBaseline) {
-                    Text("L'Atles").font(Theme.display(52)).foregroundStyle(Theme.tin)
+                    ScreenTitle("L'Atles")
                     Spacer()
                     sideButton("Blanques", .white)
                     sideButton("Negres", .black)
@@ -91,7 +91,7 @@ struct AtlasView: View {
             }
         }
         .scrollBounceBehavior(.basedOnSize)
-        .background(Theme.field.ignoresSafeArea())
+        .fieldBackground()
         .task(id: "\(side == .white)\(Int(sheetSize.width))") { await paint() }
     }
 

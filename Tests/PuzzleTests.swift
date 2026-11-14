@@ -355,3 +355,43 @@ final class PuzzleTests: XCTestCase {
         "master", "masterVsMaster", "superGM",
     ]
 }
+
+final class SeaChartTests: XCTestCase {
+    private func attempt(_ theme: String, solved: Bool, hinted: Bool = false, context: AttemptContext = .blind) -> Attempt {
+        Attempt(puzzleID: "p", index: 0, date: Date(), solved: solved, hinted: hinted, context: context, puzzleRating: 1500, ratingBefore: 1500, themes: [theme, "short"])
+    }
+
+    func testLandsMoveFromFogToChartedToHeld() {
+        XCTAssertEqual(SeaChart.Standing().state, .fog)
+        let charted = SeaChart.standings((0..<3).map { _ in attempt("fork", solved: false) })
+        XCTAssertEqual(charted["fork"]?.state, .charted)
+        let held = SeaChart.standings((0..<12).map { attempt("fork", solved: $0 < 9) })
+        XCTAssertEqual(held["fork"]?.state, .held)
+        let even = SeaChart.standings((0..<12).map { attempt("fork", solved: $0 < 6) })
+        XCTAssertEqual(even["fork"]?.state, .charted, "at your level is not yet above it")
+    }
+
+    func testHintsAndOtherContextsChartButDoNotHold() {
+        let hinted = SeaChart.standings((0..<20).map { _ in attempt("pin", solved: true, hinted: true) })
+        XCTAssertEqual(hinted["pin"]?.state, .charted)
+        XCTAssertNil(SeaChart.standings([attempt("short", solved: true)])["short"], "only themes on the chart count")
+    }
+
+    func testFlagsStayAndRanksClimb() {
+        let states = SeaChart.states([:], held: ["fork"])
+        XCTAssertEqual(states["fork"], .held)
+        XCTAssertEqual(states.count, SeaChart.themes.count)
+        XCTAssertEqual(SeaChart.rank(held: 0), 0)
+        XCTAssertEqual(SeaChart.rank(held: 3), 1)
+        XCTAssertEqual(SeaChart.rank(held: 17), 2)
+        XCTAssertEqual(SeaChart.rank(held: 45), 4)
+    }
+
+    @MainActor func testEveryThemeHasItsOwnLand() {
+        let world = SeaChart.world
+        XCTAssertEqual(world.territories.count, SeaChart.themes.count)
+        XCTAssertEqual(Set(world.territories.map(\.id)).count, SeaChart.themes.count)
+        for t in world.territories { XCTAssertTrue(world.lands[t.land].contains(t.seed), t.id) }
+        XCTAssertEqual(world.territory(at: world.territories[0].seed)?.id, world.territories[0].id)
+    }
+}

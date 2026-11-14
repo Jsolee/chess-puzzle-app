@@ -142,7 +142,7 @@ struct SundayGameView: View {
             }
         }
         .scrollBounceBehavior(.basedOnSize)
-        .background(Theme.field.ignoresSafeArea())
+        .fieldBackground()
         .onDisappear { model.stop() }
     }
 
@@ -181,8 +181,8 @@ struct SundayGameView: View {
 
     private func wide(_ title: LocalizedStringKey, action: @escaping () -> Void) -> some View {
         Button(action: action) {
-            Text(title).font(Theme.text(18, .semibold)).foregroundStyle(Theme.ink)
-                .frame(maxWidth: .infinity, minHeight: 50).background(Capsule().fill(Theme.tin))
+            Text(title)
         }
+        .buttonStyle(.cartouche)
     }
 }

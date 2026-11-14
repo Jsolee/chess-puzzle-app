@@ -278,7 +278,7 @@ struct ReviewView: View {
             else if let r = model.review { ReviewSummary(model: model, review: r) }
             else { ReviewProgress(model: model) }
         }
-        .background(Theme.field.ignoresSafeArea())
+        .fieldBackground()
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(.hidden, for: .tabBar)
         .fullScreenCover(item: Binding(get: { model.replayFrom.map(ReplayStart.init) }, set: { model.replayFrom = $0?.ply })) { start in
@@ -296,7 +296,7 @@ struct ReviewProgress: View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Analitzant").font(Theme.display(52)).foregroundStyle(Theme.tin)
             Text(verbatim: "\(Int(model.progress * 100)) %").font(Theme.text(22, .medium)).foregroundStyle(Theme.gold).contentTransition(.numericText())
-            EvalGraph(values: paddedGraph).frame(height: 96)
+            EvalGraph(values: paddedGraph).frame(height: 92).wireFrame()
             BoardView(model.board, showCoordinates: false).padding(.horizontal, -20).padding(.vertical, 6)
             if let f = model.failure {
                 Text(verbatim: f).font(Theme.text(16)).foregroundStyle(Color(hex: 0xEF7D6C))
@@ -319,23 +319,25 @@ struct ReviewSummary: View {
     let model: ReviewModel
     let review: GameReview
     private static let order: [MoveClass] = [.brilliant, .great, .best, .excellent, .good, .book, .inaccuracy, .mistake, .miss, .blunder]
+    @State private var allClasses = false
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 22) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(verbatim: review.opening?.name ?? String(localized: "Revisió")).font(Theme.display(38)).foregroundStyle(Theme.tin)
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(verbatim: review.opening.map { OpeningNames.local($0.name) } ?? String(localized: "Revisió")).font(Theme.display(32)).foregroundStyle(Theme.tin)
                         .lineLimit(3).minimumScaleFactor(0.7)
-                    Text(verbatim: "\(model.game.white) – \(model.game.black) · \(model.game.result)").font(Theme.text(16)).foregroundStyle(Theme.quiet)
+                    Text(verbatim: "\(model.game.white) – \(model.game.black) · \(model.game.result) · \(model.game.date.formatted(.dateTime.day().month(.abbreviated)))")
+                        .font(Theme.text(15)).foregroundStyle(Theme.quiet)
                 }
-                EvalGraph(values: review.graph, marks: keyMarks).frame(height: 96)
+                EvalGraph(values: review.graph, marks: keyMarks).frame(height: 92).wireFrame()
                 players
                 table
                 if !review.phases.isEmpty { phases }
                 Button { model.beginWalk() } label: {
-                    Text("Revisa la partida").font(Theme.text(18, .semibold)).foregroundStyle(Theme.ink)
-                        .frame(maxWidth: .infinity, minHeight: 50).background(Capsule().fill(Theme.tin))
+                    Text("Revisa la partida")
                 }
+                .buttonStyle(.cartouche)
                 HStack(spacing: 18) {
                     ShareLink(item: model.game.pgn, preview: SharePreview("\(model.game.white) – \(model.game.black)")) {
                         Text("Comparteix el PGN")
@@ -366,8 +368,16 @@ struct ReviewSummary: View {
     }
 
     private func playerColumn(_ name: String, _ p: GameReview.PlayerReview, _ a: HorizontalAlignment) -> some View {
-        VStack(alignment: a, spacing: 2) {
-            Text(verbatim: name).font(Theme.text(15)).foregroundStyle(Theme.quiet).lineLimit(1)
+        let white = a == .leading
+        let won = model.game.result == (white ? "1-0" : "0-1")
+        return VStack(alignment: a, spacing: 2) {
+            HStack(spacing: 7) {
+                if !white { Text(verbatim: name).foregroundStyle(won ? Theme.gold : Theme.quiet) }
+                Rectangle().fill(white ? Theme.tin : Theme.ink).frame(width: 9, height: 9)
+                    .overlay(Rectangle().strokeBorder(Theme.tin.opacity(white ? 0 : 0.5), lineWidth: 1))
+                if white { Text(verbatim: name).foregroundStyle(won ? Theme.gold : Theme.quiet) }
+            }
+            .font(Theme.text(15)).lineLimit(1)
             Text(verbatim: p.accuracy.map { $0.formatted(.number.precision(.fractionLength(1))) } ?? "–")
                 .font(Theme.text(50, .medium)).foregroundStyle(Theme.tin)
             if let r = p.gameRating {
@@ -376,22 +386,37 @@ struct ReviewSummary: View {
         }
     }
 
+    /// Each class as two bars facing each other, one per player, on the same scale. Empty classes stay out until asked for.
     private var table: some View {
-        VStack(spacing: 0) {
-            ForEach(Self.order, id: \.self) { c in
-                let w = review.white.counts[c] ?? 0, b = review.black.counts[c] ?? 0
-                HStack {
-                    Text(verbatim: "\(w)").font(Theme.text(17, .medium)).foregroundStyle(w > 0 ? c.fill : Theme.quiet.opacity(0.5)).frame(width: 34, alignment: .leading)
-                    Spacer()
-                    Text(verbatim: c.displayName).font(Theme.text(15)).foregroundStyle(Theme.tin.opacity(0.86))
-                    MoveClassBadge(cls: c, size: 20)
-                    Spacer()
-                    Text(verbatim: "\(b)").font(Theme.text(17, .medium)).foregroundStyle(b > 0 ? c.fill : Theme.quiet.opacity(0.5)).frame(width: 34, alignment: .trailing)
+        let counts = Self.order.map { (c: $0, w: review.white.counts[$0] ?? 0, b: review.black.counts[$0] ?? 0) }
+        let top = CGFloat(max(counts.map { max($0.w, $0.b) }.max() ?? 1, 1))
+        let shown = allClasses ? counts : counts.filter { $0.w + $0.b > 0 }
+        return VStack(spacing: 0) {
+            ForEach(shown, id: \.c) { r in
+                HStack(spacing: 8) {
+                    Text(verbatim: "\(r.w)").font(Theme.text(17, .medium)).foregroundStyle(r.w > 0 ? r.c.fill : Theme.quiet.opacity(0.5)).frame(width: 26, alignment: .leading)
+                    bar(r.w, of: top, r.c.fill).frame(maxWidth: .infinity, alignment: .trailing)
+                    HStack(spacing: 6) {
+                        Text(verbatim: r.c.displayName).font(Theme.text(15)).foregroundStyle(Theme.tin.opacity(0.86))
+                        MoveClassBadge(cls: r.c, size: 20)
+                    }
+                    .fixedSize()
+                    bar(r.b, of: top, r.c.fill).frame(maxWidth: .infinity, alignment: .leading)
+                    Text(verbatim: "\(r.b)").font(Theme.text(17, .medium)).foregroundStyle(r.b > 0 ? r.c.fill : Theme.quiet.opacity(0.5)).frame(width: 26, alignment: .trailing)
                 }
                 .padding(.vertical, 6)
                 .accessibilityElement(children: .combine)
             }
+            if counts.contains(where: { $0.w + $0.b == 0 }) {
+                Button { withAnimation(.easeOut(duration: 0.2)) { allClasses.toggle() } } label: {
+                    Text(allClasses ? "Amaga les classes buides" : "Mostra les deu classes").font(Theme.text(15, .semibold)).foregroundStyle(Theme.gold).frame(minHeight: 44)
+                }
+            }
         }
+    }
+
+    private func bar(_ n: Int, of top: CGFloat, _ color: Color) -> some View {
+        Rectangle().fill(color).frame(width: n > 0 ? max(4, 48 * CGFloat(n) / top) : 0, height: 6)
     }
 
     private var phases: some View {
@@ -580,8 +605,9 @@ struct WalkthroughView: View {
             Button { model.next() } label: { Image(systemName: "chevron.right").frame(width: 56, height: 44) }.foregroundStyle(Theme.tin).accessibilityLabel("Jugada següent")
             Spacer()
             Button { model.nextKey() } label: {
-                Text("Següent clau").font(Theme.text(16, .semibold)).foregroundStyle(Theme.ink).padding(.horizontal, 14).frame(height: 40).background(Capsule().fill(Theme.tin))
+                Text("Següent clau").padding(.horizontal, 16)
             }
+            .buttonStyle(CartoucheButtonStyle(compact: true))
         }
         .font(.system(size: 18, weight: .medium))
     }

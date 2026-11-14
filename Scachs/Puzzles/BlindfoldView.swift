@@ -167,7 +167,7 @@ struct BlindfoldView: View {
             }
             .accessibilityLabel("Tanca").padding(.horizontal, 20)
             VStack(alignment: .leading, spacing: 10) {
-                Text("A cegues").font(Theme.display(52)).foregroundStyle(Theme.tin)
+                ScreenTitle("A cegues")
                 Text(explanation).font(Theme.text(17)).foregroundStyle(Theme.quiet).fixedSize(horizontal: false, vertical: true)
             }
             .padding(.horizontal, 20).padding(.bottom, 18)
@@ -182,7 +182,7 @@ struct BlindfoldView: View {
             Spacer(minLength: 16)
             controls.padding(.horizontal, 20).padding(.bottom, 24)
         }
-        .background(Theme.field.ignoresSafeArea())
+        .fieldBackground()
         .animation(.easeOut(duration: 0.25), value: session.phase)
         .task { session.begin() }
         .onDisappear { session.end() }
@@ -213,8 +213,8 @@ struct BlindfoldView: View {
 
     private func wide(_ title: LocalizedStringKey, action: @escaping () -> Void) -> some View {
         Button(action: action) {
-            Text(title).font(Theme.text(18, .semibold)).foregroundStyle(Theme.ink)
-                .frame(maxWidth: .infinity, minHeight: 50).background(Capsule().fill(Theme.tin))
+            Text(title)
         }
+        .buttonStyle(.cartouche)
     }
 }

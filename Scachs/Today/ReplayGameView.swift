@@ -122,7 +122,7 @@ struct ReplayGameView: View {
             }
         }
         .scrollBounceBehavior(.basedOnSize)
-        .background(Theme.field.ignoresSafeArea())
+        .fieldBackground()
         .animation(.easeOut(duration: 0.2), value: model.phase)
         .onDisappear { model.close() }
     }

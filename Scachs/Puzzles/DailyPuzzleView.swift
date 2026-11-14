@@ -40,29 +40,18 @@ struct DailyPuzzleView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
-                topBar.padding(.horizontal, 20).padding(.bottom, 18)
-                header.padding(.horizontal, 20).padding(.bottom, 14)
+                CloseButton { dismiss() }.padding(.horizontal, 8)
+                header.padding(.horizontal, 20).padding(.top, 4).padding(.bottom, 14)
                 BoardView(board)
                 controls.padding(.horizontal, 20).padding(.top, 16)
             }
         }
         .scrollBounceBehavior(.basedOnSize)
-        .background(Theme.field.ignoresSafeArea())
+        .fieldBackground()
         .task { if run == nil { start() } }
         .onDisappear { replyTask?.cancel() }
     }
 
-    private var topBar: some View {
-        HStack(spacing: 12) {
-            Button { dismiss() } label: {
-                Image(systemName: "xmark").font(.system(size: 17, weight: .semibold)).foregroundStyle(Theme.tin).frame(width: 44, height: 44, alignment: .leading)
-            }
-            .accessibilityLabel("Tanca")
-            Text("Puzzle del dia").font(Theme.text(16, .semibold)).foregroundStyle(Theme.gold)
-            Spacer()
-            Text(day, format: .dateTime.day().month(.wide)).font(Theme.text(16)).foregroundStyle(Theme.quiet)
-        }
-    }
 
     private var title: String {
         guard let side = run?.puzzle.solverSide else { return " " }
@@ -85,12 +74,9 @@ struct DailyPuzzleView: View {
     }
 
     private var header: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(verbatim: title).font(Theme.display(46)).foregroundStyle(Theme.tin)
-                .lineLimit(1).minimumScaleFactor(0.6).contentTransition(.opacity)
-            Text(verbatim: subtitle).font(Theme.text(16)).foregroundStyle(phase == .wrong ? Color(hex: 0xEF7D6C) : Theme.quiet).contentTransition(.opacity)
-        }
-        .animation(.easeOut(duration: 0.2), value: phase)
+        BoardHeader(rubric: Text(verbatim: String(localized: "Puzzle del dia") + " · " + day.formatted(.dateTime.day().month(.wide))),
+                    title: Text(verbatim: title), subtitle: Text(verbatim: subtitle), warn: phase == .wrong)
+            .animation(.easeOut(duration: 0.2), value: phase)
     }
 
     @ViewBuilder private var controls: some View {
@@ -116,9 +102,9 @@ struct DailyPuzzleView: View {
 
     private func wideButton(_ title: LocalizedStringKey, action: @escaping () -> Void) -> some View {
         Button(action: action) {
-            Text(title).font(Theme.text(18, .semibold)).foregroundStyle(Theme.ink)
-                .frame(maxWidth: .infinity, minHeight: 50).background(Capsule().fill(Theme.tin))
+            Text(title)
         }
+        .buttonStyle(.cartouche)
     }
 
     // MARK: Flow
@@ -265,8 +251,9 @@ struct DailyRow: View {
             let days = Progress.shared.dailyDays
             let streak = DailyStreak(days: days, today: today)
             Button(action: open) {
-                HStack(spacing: 10) {
-                    Text("Puzzle del dia").font(Theme.text(16, .semibold)).foregroundStyle(days.contains(today) ? Theme.quiet : Theme.gold)
+                HStack(spacing: 13) {
+                    Medallion(image: Image("tab.today"))
+                    Text("Puzzle del dia").font(Theme.text(17, .medium)).foregroundStyle(days.contains(today) ? Theme.quiet : Theme.gold)
                     Spacer()
                     if showStreak {
                         if streak.current > 0 {
@@ -276,7 +263,7 @@ struct DailyRow: View {
                     }
                     Image(systemName: "chevron.right").font(.footnote).foregroundStyle(Theme.quiet)
                 }
-                .frame(minHeight: 44).contentShape(Rectangle())
+                .frame(minHeight: 58).contentShape(Rectangle())
             }
             .buttonStyle(.plain)
             .accessibilityLabel(showStreak && streak.current > 0 ? "Puzzle del dia. Ratxa de \(streak.current)." : "Puzzle del dia")

@@ -856,3 +856,22 @@ final class ReviewTests: XCTestCase {
         XCTAssertNil(Ratings(game: replayedGame("1.e4 *")).white)
     }
 }
+
+final class OpeningNamesTests: XCTestCase {
+    func testReadsNamesInCatalanAndSpanish() {
+        let cases: [(String, String, String)] = [
+            ("King's Gambit Accepted: Hanstein Gambit", "Gambit de rei acceptat: gambit Hanstein", "Gambito de rey aceptado: gambito Hanstein"),
+            ("Sicilian Defense: Najdorf Variation, English Attack", "Defensa siciliana: variant Najdorf, atac anglès", "Defensa siciliana: variante Najdorf, ataque inglés"),
+            ("King's Indian Defense: Four Pawns Attack", "Defensa índia de rei: atac dels quatre peons", "Defensa india de rey: ataque de los cuatro peones"),
+            ("Queen's Gambit Declined: Exchange Variation", "Gambit de dama refusat: variant del canvi", "Gambito de dama rehusado: variante del cambio"),
+            ("Ruy Lopez: Berlin Defense", "Obertura espanyola: defensa berlinesa", "Apertura española: defensa berlinesa"),
+            ("Scandinavian Defense: Panov Transfer", "Defensa escandinava: Panov Transfer", "Defensa escandinava: Panov Transfer"),
+            ("Queen's Indian Defense: with e3", "Defensa índia de dama: amb e3", "Defensa india de dama: con e3"),
+        ]
+        for (en, ca, es) in cases {
+            XCTAssertEqual(OpeningNames.local(en, language: "ca"), ca)
+            XCTAssertEqual(OpeningNames.local(en, language: "es"), es)
+            XCTAssertEqual(OpeningNames.local(en, language: "en"), en)
+        }
+    }
+}

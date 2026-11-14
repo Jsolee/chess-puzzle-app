@@ -153,21 +153,22 @@ extension Temperament.Figure {
 /// An enamelled heater shield in a gold wire, like the pieces, with the figure's piece as its charge.
 struct Crest: View {
     let figure: Temperament.Figure
+    var width: CGFloat = 88
 
     var body: some View {
-        let t = figure.tinctures
+        let t = figure.tinctures, k = width / 88
         ZStack {
             Crest.shield.fill(t.field)
             Crest.shield.fill(LinearGradient(colors: [Theme.tin.opacity(0.16), .clear, Theme.ink.opacity(0.18)], startPoint: .topLeading, endPoint: .bottomTrailing))
             if let piece = t.piece {
                 Image(uiImage: PieceImage.load("fig" + piece)).renderingMode(.template).resizable().aspectRatio(contentMode: .fit)
-                    .foregroundStyle(t.charge).frame(height: 54).offset(y: -4)
+                    .foregroundStyle(t.charge).frame(height: 54 * k).offset(y: -4 * k)
             } else {
-                Crest.shield.inset(by: 9).stroke(Theme.tin.opacity(0.35), style: StrokeStyle(lineWidth: 1, dash: [3, 4]))
+                Crest.shield.inset(by: 9 * k).stroke(Theme.tin.opacity(0.35), style: StrokeStyle(lineWidth: 1, dash: [3, 4]))
             }
-            Crest.shield.stroke(Theme.gold, lineWidth: 2.5)
+            Crest.shield.stroke(Theme.gold, lineWidth: 2.5 * k.squareRoot())
         }
-        .frame(width: 88, height: 104)
+        .frame(width: width, height: width * 104 / 88)
         .accessibilityHidden(true)
     }
 
@@ -194,36 +195,49 @@ struct Crest: View {
 struct TemperamentBlock: View {
     @State private var temperament: Temperament?
 
+    /// The arms large and centred, like a blazon at the head of a page, then who that is and the two figures it rests on.
     var body: some View {
-        VStack(alignment: .leading, spacing: 14) {
+        VStack(spacing: 0) {
             if let t = temperament {
-                HStack(alignment: .center, spacing: 18) {
-                    Crest(figure: t.figure)
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("El teu temperament").font(Theme.text(15)).foregroundStyle(Theme.quiet)
-                        Text(t.figure.name).font(Theme.display(40)).foregroundStyle(Theme.tin).lineLimit(1).minimumScaleFactor(0.7)
-                        Text(t.figure.blazon).font(Theme.text(15)).foregroundStyle(Theme.gold)
-                    }
-                }
-                Text(t.figure.portrait).font(Theme.text(17)).foregroundStyle(Theme.tin.opacity(0.9)).fixedSize(horizontal: false, vertical: true)
+                Crest(figure: t.figure, width: 136)
+                    .background(Circle().fill(RadialGradient(colors: [Theme.lamp.opacity(0.5), Theme.lamp.opacity(0)], center: .center, startRadius: 0, endRadius: 150)).frame(width: 300, height: 300))
+                Text("El teu temperament").font(Theme.text(15)).foregroundStyle(Theme.quiet).padding(.top, 16)
+                Text(t.figure.name).font(Theme.display(48)).foregroundStyle(Theme.tin).lineLimit(1).minimumScaleFactor(0.7).padding(.top, 2)
+                Text(t.figure.blazon).font(Theme.text(16)).foregroundStyle(Theme.gold).padding(.top, 4)
+                Text(t.figure.portrait).font(Theme.text(17)).foregroundStyle(Theme.tin.opacity(0.9)).multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true).frame(maxWidth: 330).padding(.top, 14)
+                GoldRule(centered: true).padding(.top, 22)
                 if t.figure == .squire {
-                    Text("\(t.counts.games) de \(Temperament.gamesNeeded) partides.").font(Theme.text(15)).foregroundStyle(Theme.quiet)
-                }
-                ForEach(t.evidence, id: \.self) { line in
-                    HStack(alignment: .firstTextBaseline, spacing: 10) {
-                        Rectangle().fill(Theme.gold).frame(width: 6, height: 6).alignmentGuide(.firstTextBaseline) { $0[.bottom] + 1 }
-                        Text(verbatim: line).font(Theme.text(15)).foregroundStyle(Theme.quiet).fixedSize(horizontal: false, vertical: true)
+                    Text("\(t.counts.games) de \(Temperament.gamesNeeded) partides.").font(Theme.text(16)).foregroundStyle(Theme.quiet).padding(.top, 16)
+                } else {
+                    HStack(alignment: .top, spacing: 0) {
+                        figure("\(t.counts.families)", Text("obertures diferents en \(t.counts.games) partides"))
+                        if t.counts.reviewed > 0 {
+                            Rectangle().fill(Theme.hairline).frame(width: 0.5).padding(.vertical, 4)
+                            figure("\(Int(t.counts.accuracy.rounded()))", Text("de precisió mitjana a les partides analitzades"))
+                        }
                     }
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.top, 18)
                 }
             } else {
-                Color.clear.frame(height: 104)
+                Color.clear.frame(height: 160)
             }
         }
+        .frame(maxWidth: .infinity)
         .accessibilityElement(children: .combine)
         .task {
             let games = GameLibrary.shared.games
             let read = await Task.detached(priority: .utility) { Temperament(games: games) }.value
             withAnimation(.easeOut(duration: 0.2)) { temperament = read }
         }
+    }
+
+    private func figure(_ number: String, _ label: Text) -> some View {
+        VStack(spacing: 2) {
+            Text(verbatim: number).font(Theme.text(42)).foregroundStyle(Theme.tin)
+            label.font(Theme.text(14)).foregroundStyle(Theme.quiet).multilineTextAlignment(.center).frame(maxWidth: 150)
+        }
+        .frame(maxWidth: .infinity)
     }
 }

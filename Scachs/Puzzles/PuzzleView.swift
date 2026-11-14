@@ -19,6 +19,7 @@ struct PuzzleView: View {
     @State private var streak = 0
     @State private var replyTask: Task<Void, Never>?
     @State private var openLesson: LessonMeta?
+    @State private var showChart = false
 
     init(focus: Set<String>? = nil) {
         self.focus = focus
@@ -33,13 +34,18 @@ struct PuzzleView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
                     if focus != nil {
-                        Button { dismiss() } label: {
-                            Image(systemName: "xmark").font(.system(size: 17, weight: .semibold)).foregroundStyle(Theme.tin).frame(width: 44, height: 44, alignment: .leading)
+                        CloseButton { dismiss() }.padding(.horizontal, 8)
+                    } else {
+                        HStack {
+                            Spacer()
+                            Button { showChart = true } label: {
+                                Label { Text("La carta") } icon: { Image("icon.rose").renderingMode(.template).resizable().frame(width: 18, height: 18) }
+                                    .font(Theme.text(16, .semibold)).foregroundStyle(Theme.gold).frame(minHeight: 44)
+                            }
                         }
-                        .accessibilityLabel("Tanca").padding(.horizontal, 20)
+                        .padding(.horizontal, 20)
                     }
-                    Spacer(minLength: 8)
-                    header.padding(.horizontal, 20).padding(.bottom, 14)
+                    header.padding(.horizontal, 20).padding(.top, 4).padding(.bottom, 14)
                     BoardView(board)
                     controls.padding(.horizontal, 20).padding(.top, 16)
                     if over { sessionEnd.padding(.horizontal, 20).padding(.top, 22) }
@@ -49,8 +55,9 @@ struct PuzzleView: View {
             }
             .scrollBounceBehavior(.basedOnSize)
         }
-        .background(Theme.field.ignoresSafeArea())
+        .fieldBackground()
         .sheet(item: $openLesson) { l in LessonRunnerView(meta: l) }
+        .fullScreenCover(isPresented: $showChart) { ChartView() }
         .task { if run == nil && !over { load() } }
     }
 
@@ -62,6 +69,12 @@ struct PuzzleView: View {
         case .solved: return failed ? String(localized: "Ara ja la saps") : motif
         case .revealed: return motif
         }
+    }
+
+    /// "Puzzles · 1.520", or the theme when it's a themed set.
+    private var rubric: String {
+        let name = focus.flatMap { $0.count == 1 ? $0.first.map(ThemeNames.name) : nil } ?? String(localized: "Puzzles")
+        return progress.isProvisional ? name : name + " · " + Int(progress.rating.rounded()).formatted()
     }
 
     private var motif: String {
@@ -83,21 +96,13 @@ struct PuzzleView: View {
     }
 
     private var header: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack(alignment: .firstTextBaseline) {
-                Text(verbatim: title).font(Theme.display(46)).foregroundStyle(Theme.tin)
-                    .lineLimit(1).minimumScaleFactor(0.6)
-                    .contentTransition(.opacity)
-                Spacer(minLength: 8)
-                if !progress.isProvisional {
-                    Text(verbatim: "\(Int(progress.rating.rounded()))").font(Theme.text(17, .medium)).foregroundStyle(Theme.quiet).accessibilityLabel("Puntuació \(Int(progress.rating.rounded()))")
-                }
-            }
+        VStack(alignment: .leading, spacing: 6) {
             HStack(alignment: .center) {
-                Text(verbatim: subtitle).font(Theme.text(16)).foregroundStyle(phase == .wrong ? Color(hex: 0xEF7D6C) : Theme.quiet).contentTransition(.opacity)
-                Spacer()
+                Rubric(verbatim: rubric)
+                Spacer(minLength: 8)
                 SessionTrack(results: session.results, current: session.current)
             }
+            BoardHeader(title: Text(verbatim: title), subtitle: Text(verbatim: subtitle), warn: phase == .wrong)
         }
         .animation(.easeOut(duration: 0.2), value: phase)
     }
@@ -112,9 +117,9 @@ struct PuzzleView: View {
             case .solved, .revealed:
                 if !over {
                     Button { load() } label: {
-                        Text("Següent").font(Theme.text(18, .semibold)).foregroundStyle(Theme.ink)
-                            .frame(maxWidth: .infinity, minHeight: 50).background(Capsule().fill(Theme.tin))
+                        Text("Següent")
                     }
+                    .buttonStyle(.cartouche)
                 }
             case .loading:
                 Color.clear.frame(height: 44)
@@ -141,9 +146,9 @@ struct PuzzleView: View {
                 session = PuzzleSession(progress: .shared, store: .shared, focus: focus)
                 over = false; recommended = nil; load()
             } label: {
-                Text(focus == nil ? "Deu més" : "Tres més").font(Theme.text(18, .semibold)).foregroundStyle(Theme.ink)
-                    .frame(maxWidth: .infinity, minHeight: 50).background(Capsule().fill(Theme.tin))
+                Text(focus == nil ? "Deu més" : "Tres més")
             }
+            .buttonStyle(.cartouche)
         }
     }
 

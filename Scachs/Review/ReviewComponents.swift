@@ -75,11 +75,14 @@ struct EvalGraph: View {
                 area.addLine(to: CGPoint(x: lastX, y: flipped ? 0 : h)); area.closeSubpath()
                 ctx.fill(Path(CGRect(origin: .zero, size: size)), with: .color(Theme.ink))
                 ctx.fill(area, with: .color(Theme.tin))
-                ctx.stroke(Path { $0.move(to: CGPoint(x: 0, y: h / 2)); $0.addLine(to: CGPoint(x: w, y: h / 2)) }, with: .color(Theme.copper.opacity(0.6)), lineWidth: 0.5)
+                ctx.stroke(Path { $0.move(to: CGPoint(x: 0, y: h / 2)); $0.addLine(to: CGPoint(x: w, y: h / 2)) },
+                           with: .color(Theme.gold.opacity(0.4)), style: StrokeStyle(lineWidth: 0.75, dash: [2, 3]))
+                ctx.stroke(line, with: .color(Theme.gold), style: StrokeStyle(lineWidth: 1.3, lineJoin: .round))
                 for m in marks where m.ply < values.count {
                     guard let v = values[m.ply] else { continue }
-                    let r: CGFloat = 3.2
-                    ctx.fill(Path(ellipseIn: CGRect(x: CGFloat(m.ply) * step - r, y: y(v) - r, width: r * 2, height: r * 2)), with: .color(m.cls.fill))
+                    let dot = Path(ellipseIn: CGRect(x: CGFloat(m.ply) * step - 4, y: y(v) - 4, width: 8, height: 8))
+                    ctx.fill(dot, with: .color(m.cls.fill))
+                    ctx.stroke(dot, with: .color(Theme.ink), lineWidth: 1.2)
                 }
                 if let c = current, c < values.count {
                     ctx.stroke(Path { $0.move(to: CGPoint(x: CGFloat(c) * step, y: 0)); $0.addLine(to: CGPoint(x: CGFloat(c) * step, y: h)) }, with: .color(Theme.gold), lineWidth: 1.5)
@@ -93,6 +96,16 @@ struct EvalGraph: View {
             })
         }
         .accessibilityElement().accessibilityLabel("Gràfic d'avaluació")
+    }
+}
+
+extension View {
+    /// An instrument's bezel: a gold wire round the face, and a fainter one outside it.
+    func wireFrame() -> some View {
+        clipShape(RoundedRectangle(cornerRadius: 3))
+            .overlay(RoundedRectangle(cornerRadius: 3).strokeBorder(Theme.gold, lineWidth: 1))
+            .padding(3)
+            .overlay(RoundedRectangle(cornerRadius: 5).strokeBorder(Theme.gold.opacity(0.5), lineWidth: 0.75))
     }
 }
 

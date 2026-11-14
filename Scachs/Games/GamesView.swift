@@ -13,7 +13,7 @@ struct GamesView: View {
             Group {
                 if library.games.isEmpty && !started { emptyState } else { list }
             }
-            .background(Theme.field.ignoresSafeArea())
+            .fieldBackground()
             .navigationDestination(for: ImportedGame.self) { ReviewView(game: $0) }
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
@@ -34,14 +34,14 @@ struct GamesView: View {
     private var emptyState: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 14) {
-                Text("Partides").font(Theme.display(52)).foregroundStyle(Theme.tin)
+                ScreenTitle("Partides")
                 Text("Porta aquí les teves partides de chess.com o de Lichess. Stockfish les analitza al teu iPhone, sense connexió.")
                     .font(Theme.text(18)).foregroundStyle(Theme.tin.opacity(0.88)).fixedSize(horizontal: false, vertical: true)
                 AccountFields().padding(.top, 10)
                 Button { started = true; Task { await library.refresh() } } label: {
-                    Text("Porta les partides").font(Theme.text(18, .semibold)).foregroundStyle(Theme.ink)
-                        .frame(maxWidth: .infinity, minHeight: 50).background(Capsule().fill(Theme.tin))
+                    Text("Porta les partides")
                 }
+                .buttonStyle(.cartouche)
                 .disabled(!library.hasAccounts).opacity(library.hasAccounts ? 1 : 0.4)
                 .padding(.top, 6)
                 Button { showAdd = true } label: {
@@ -54,12 +54,22 @@ struct GamesView: View {
 
     private var list: some View {
         List {
-            Text("Partides").font(Theme.display(52)).foregroundStyle(Theme.tin)
+            ScreenTitle("Partides")
                 .listRowBackground(Color.clear).listRowSeparator(.hidden).listRowInsets(.init(top: 0, leading: 20, bottom: 8, trailing: 20))
-            ForEach(Array(library.refreshErrors.keys), id: \.self) { source in
-                Text(verbatim: "\(source == .chessCom ? "chess.com" : "Lichess"): \(library.refreshErrors[source]?.errorDescription ?? "")")
-                    .font(Theme.text(15)).foregroundStyle(Color(hex: 0xEF7D6C))
-                    .listRowBackground(Color.clear).listRowSeparator(.hidden)
+            if !library.refreshErrors.isEmpty {
+                // Says which account failed and opens the place to fix it, instead of a loose red line.
+                Button { showAccounts = true } label: {
+                    HStack(spacing: 10) {
+                        Image(systemName: "exclamationmark.circle").foregroundStyle(Theme.warn)
+                        Text(verbatim: library.refreshErrors.map { "\($0.key == .chessCom ? "chess.com" : "Lichess"): \($0.value.errorDescription ?? "")" }.sorted().joined(separator: " · "))
+                            .foregroundStyle(Theme.tin).lineLimit(2)
+                        Spacer(minLength: 8)
+                        Text("Revisa-ho").foregroundStyle(Theme.gold)
+                    }
+                    .font(Theme.text(15)).frame(minHeight: 44).contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .listRowBackground(Color.clear).listRowSeparator(.hidden)
             }
             ForEach(library.games) { game in
                 NavigationLink(value: game) { GameRow(game: game) }
@@ -87,7 +97,27 @@ struct GamesView: View {
     }
 }
 
-/// One line per game, Flighty style: who, how it ended, how well.
+/// What a row shows of a game besides its headers: where it ended and what was opened. Read once, off the main thread.
+@MainActor private enum Glance {
+    struct Value { let fen: String; let opening: String? }
+    static var cache: [String: Value] = [:]
+
+    static func read(_ game: ImportedGame) async -> Value {
+        if let hit = cache[game.id] { return hit }
+        let pgn = game.pgn
+        let value = await Task.detached(priority: .utility) { () -> Value in
+            guard let g = PGN.parse(pgn).first else { return Value(fen: Position.start.fen, opening: nil) }
+            let start = g.startFEN.flatMap(Position.init(fen:)) ?? .start
+            let end = g.moves.reduce(start) { $0.applying($1.move) }
+            let name = Openings.shared.name(start: start, moves: g.moves.map(\.move))?.name
+            return Value(fen: end.fen, opening: name.map { OpeningNames.local(Atlas.family($0)) })
+        }.value
+        cache[game.id] = value
+        return value
+    }
+}
+
+/// One line per game: where it ended, who, how it ended and how well.
 struct GameRow: View {
     let game: ImportedGame
     private var side: Side { game.mySide ?? .white }
@@ -102,32 +132,46 @@ struct GameRow: View {
         }
     }
     private var siteAccuracy: Double? { side == .white ? game.whiteAccuracy : game.blackAccuracy }
+    @State private var glance: Glance.Value?
 
     var body: some View {
-        HStack(alignment: .firstTextBaseline, spacing: 12) {
+        HStack(alignment: .center, spacing: 14) {
+            Group {
+                if let glance { MiniBoard(fen: glance.fen, orientation: side) } else { Theme.fieldDeep }
+            }
+            .frame(width: 58, height: 58)
+            .overlay(Rectangle().strokeBorder(Theme.gold.opacity(0.35), lineWidth: 0.75))
+            .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 3) {
                 HStack(spacing: 6) {
                     Text(verbatim: opponent).font(Theme.text(18, .medium)).foregroundStyle(Theme.tin).lineLimit(1)
                     if let r = opponentRating { Text(verbatim: "\(r)").font(Theme.text(15)).foregroundStyle(Theme.quiet) }
                 }
-                HStack(spacing: 6) {
+                HStack(spacing: 5) {
                     Text(outcome.label).foregroundStyle(outcome.color)
                     Text(verbatim: "·").foregroundStyle(Theme.quiet)
-                    Text(game.date, format: .dateTime.day().month(.abbreviated)).foregroundStyle(Theme.quiet)
-                    Text(verbatim: "·").foregroundStyle(Theme.quiet)
-                    Text(game.timeClass.displayName).foregroundStyle(Theme.quiet)
+                    if let opening = glance?.opening {
+                        Text(verbatim: opening).foregroundStyle(Theme.quiet).lineLimit(1)
+                    } else {
+                        Text(game.timeClass.displayName).foregroundStyle(Theme.quiet)
+                    }
                 }
-                .font(Theme.text(14))
+                .font(Theme.text(14)).lineLimit(1)
             }
             Spacer()
             // Bright once this app has read the game; the site's own figure, if any, stays quiet until then.
-            if let accuracy = game.myAccuracy ?? siteAccuracy {
-                Text(verbatim: accuracy.formatted(.number.precision(.fractionLength(1)))).font(Theme.text(17, .medium))
-                    .foregroundStyle(game.reviewed ? Theme.gold : Theme.quiet)
-                    .accessibilityLabel(game.reviewed ? "Analitzada. Precisió \(accuracy.formatted(.number.precision(.fractionLength(1))))" : "Precisió \(accuracy.formatted(.number.precision(.fractionLength(1))))")
+            VStack(alignment: .trailing, spacing: 3) {
+                if let accuracy = game.myAccuracy ?? siteAccuracy {
+                    Text(verbatim: accuracy.formatted(.number.precision(.fractionLength(1)))).font(Theme.text(17, .medium))
+                        .foregroundStyle(game.reviewed ? Theme.gold : Theme.quiet)
+                        .accessibilityLabel(game.reviewed ? "Analitzada. Precisió \(accuracy.formatted(.number.precision(.fractionLength(1))))" : "Precisió \(accuracy.formatted(.number.precision(.fractionLength(1))))")
+                }
+                Text(game.date, format: .dateTime.day().month(.abbreviated)).font(Theme.text(14)).foregroundStyle(Theme.quiet)
             }
+            .fixedSize()
         }
         .padding(.vertical, 6)
+        .task(id: game.id) { glance = await Glance.read(game) }
     }
 }
 
@@ -169,7 +213,7 @@ struct AccountsSheet: View {
                     AccountFields()
                 }.padding(20)
             }
-            .background(Theme.field.ignoresSafeArea())
+            .fieldBackground()
             .navigationTitle("Comptes").navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
@@ -207,9 +251,9 @@ struct AddGameSheet: View {
                     .padding(10).background(Theme.fieldDeep).frame(minHeight: 180)
                 if let error { Text(verbatim: error).font(Theme.text(15)).foregroundStyle(Color(hex: 0xEF7D6C)) }
                 Button { add() } label: {
-                    Group { if busy { ProgressView().tint(Theme.ink) } else { Text("Afegeix").font(Theme.text(18, .semibold)) } }
-                        .foregroundStyle(Theme.ink).frame(maxWidth: .infinity, minHeight: 50).background(Capsule().fill(Theme.tin))
+                    if busy { ProgressView().tint(Theme.ink) } else { Text("Afegeix") }
                 }
+                .buttonStyle(.cartouche)
                 .disabled(text.isEmpty || busy)
                 Button("Enganxa del porta-retalls") { text = UIPasteboard.general.string ?? "" }
                     .font(Theme.text(17, .semibold)).frame(minHeight: 44)
@@ -217,7 +261,7 @@ struct AddGameSheet: View {
                 Spacer()
             }
             .padding(20)
-            .background(Theme.field.ignoresSafeArea())
+            .fieldBackground()
             .navigationTitle("Afegeix una partida").navigationBarTitleDisplayMode(.inline)
             .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Cancel·la") { dismiss() } } }
         }

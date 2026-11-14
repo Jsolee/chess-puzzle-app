@@ -36,7 +36,7 @@ struct WelcomeView: View {
             .padding(.horizontal, 20)
             .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .background(Theme.field.ignoresSafeArea())
+        .fieldBackground()
         .scrollBounceBehavior(.basedOnSize)
         .onAppear {
             Sound.start()
@@ -58,10 +58,8 @@ struct WelcomeView: View {
             Progress.shared.setInitialRating(r)
             done()
         } label: {
-            Text(title).font(Theme.text(16, .semibold)).foregroundStyle(Theme.ink)
-                .lineLimit(1).minimumScaleFactor(0.75).padding(.horizontal, 8)
-                .padding(.vertical, 13).frame(maxWidth: .infinity)
-                .background(Capsule().fill(Theme.tin))
+            Text(title).lineLimit(1).minimumScaleFactor(0.75).padding(.horizontal, 8)
         }
+        .buttonStyle(.cartouche)
     }
 }
