@@ -13,7 +13,11 @@ import SwiftUI
     var ply = 0 { didSet { engineTask?.cancel(); analysisRun += 1; lines = [] } }
     var lines: [EngineLine] = []
     var showLines = false
-    var variation: [Move] = []
+    /// Moves tried on the board from a position of the game, each judged by the engine once it has looked.
+    var branch: [Step] = []
+    /// How many of the branch's moves are on the board.
+    var branchAt = 0
+    struct Step { var move: Move; var san: String; var after: Position; var verdict: BranchVerdict? }
     var retrying = false
     var retryState: RetryState = .idle
     var retryIdea: String?
@@ -29,6 +33,11 @@ import SwiftUI
     /// Moments already put to you, so walking back and forth doesn't ask twice.
     @ObservationIgnored private var asked: Set<Int> = []
     @ObservationIgnored private var holdsAuto = false
+    @ObservationIgnored private var ratings = Ratings()
+    @ObservationIgnored private var branchRoot = Position.start
+    /// The game ply whose position the branch grows from, when it does.
+    @ObservationIgnored private var branchRootPly: Int?
+    @ObservationIgnored private var searches: [Position: [EngineLine]] = [:]
 
     init(game: ImportedGame) {
         self.game = game
@@ -47,8 +56,9 @@ import SwiftUI
         guard review == nil, task == nil else { return }
         guard let pgn, let r = try? GameReplay(pgn) else { failure = String(localized: "Aquesta partida no es pot llegir."); return }
         replay = r
+        ratings = Ratings(game: pgn, fallback: Int(Progress.shared.rating))
         board.set(r.positions[0], animated: false)
-        if let saved = GameLibrary.shared.review(for: game.id), saved.isComplete { review = saved; return }
+        if let saved = GameLibrary.shared.review(for: game.id), saved.isComplete { review = saved.relocalized(replay: r); return }
         runEngine(pgn)
     }
 
@@ -103,7 +113,7 @@ import SwiftUI
     private func visit(_ target: Int) {
         guard game.mySide != nil, let m = review?.moves[safe: target - 1], m.side == game.mySide, m.bestMove != nil,
               let c = m.moveClass, [.mistake, .miss, .blunder].contains(c), asked.insert(target).inserted else { go(target); return }
-        variation = []
+        branch = []; branchAt = 0
         ply = target
         beginRetry()
     }
@@ -113,7 +123,7 @@ import SwiftUI
         guard let r = replay else { return }
         let n = max(0, min(r.positions.count - 1, target))
         lineTask?.cancel(); showingLine = false
-        retrying = false; retryState = .idle; variation = []; board.hint = nil
+        retrying = false; retryState = .idle; branch = []; branchAt = 0; board.hint = nil
         board.interactive = true
         board.onMove = { [weak self] m in self?.exploreMove(m) }
         if n == ply + 1, board.position == r.positions[ply] {
@@ -124,18 +134,23 @@ import SwiftUI
         }
         ply = n
         decorate()
-        if showLines { analyseHere() }
+        if showLines { think() }
     }
 
     func decorate() {
+        if !branch.isEmpty {
+            guard branchAt > 0, let v = branch[branchAt - 1].verdict else { board.arrows = []; board.marks = []; board.badge = nil; return }
+            board.arrows = v.note.arrows; board.marks = v.note.marks; board.badge = (branch[branchAt - 1].move.to, v.moveClass)
+            return
+        }
         guard let m = move else { board.arrows = []; board.marks = []; board.badge = nil; return }
         board.arrows = m.coach?.arrows ?? []
         board.marks = m.coach?.marks ?? []
         if let c = m.moveClass, let mv = Move(uci: m.uci) { board.badge = (mv.to, c) } else { board.badge = nil }
     }
 
-    func next() { go(ply + 1) }
-    func previous() { go(ply - 1, sound: false) }
+    func next() { branch.isEmpty ? go(ply + 1) : stepBranch(to: branchAt + 1) }
+    func previous() { branch.isEmpty ? go(ply - 1, sound: false) : branchAt == 0 ? backToGame() : stepBranch(to: branchAt - 1) }
     func nextKey() {
         if let k = review?.moves.first(where: { $0.isKey && $0.ply + 1 > ply }) { visit(k.ply + 1) } else { go((replay?.positions.count ?? 1) - 1) }
     }
@@ -230,14 +245,40 @@ import SwiftUI
     func toggleLines() {
         guard retryState != .thinking else { return }
         showLines.toggle()
-        if showLines { analyseHere() } else { engineTask?.cancel(); lines = [] }
+        think()
     }
 
+    /// A move on the board starts a branch, or grows it from the move shown, dropping what came after.
     private func exploreMove(_ m: Move) {
-        variation.append(m)
+        let before = board.position
+        if branch.isEmpty {
+            branchRoot = before
+            branchRootPly = replay.flatMap { r in [ply, ply - 1].first { r.positions.indices.contains($0) && r.positions[$0] == before } }
+        }
+        branch.removeSubrange(branchAt...)
+        branch.append(Step(move: m, san: before.san(m), after: before.applying(m)))
+        branchAt = branch.count
         board.play(m)
-        board.arrows = []; board.marks = []; board.badge = nil
-        if showLines { analyseHere() }
+        decorate()
+        think()
+    }
+
+    func stepBranch(to target: Int) {
+        let n = max(0, min(branch.count, target))
+        guard n != branchAt else { return }
+        if n == branchAt + 1 { board.play(branch[branchAt].move) } else {
+            board.set(n == 0 ? branchRoot : branch[n - 1].after, animated: abs(n - branchAt) < 6)
+            board.lastMove = n > 0 ? branch[n - 1].move : nil
+        }
+        branchAt = n
+        decorate()
+        think()
+    }
+
+    /// White's score where the board stands in the branch, once the engine has looked.
+    var branchEval: Score? {
+        if branchAt > 0, let v = branch[branchAt - 1].verdict { return v.evalAfter }
+        return searches[board.position]?.first.map { $0.score.whitePOV(sideToMove: board.position.side) }
     }
 
     /// Taps on a candidate line play its first move as a variation, to look further from there.
@@ -248,19 +289,56 @@ import SwiftUI
 
     func backToGame() { go(ply, sound: false) }
 
-    func analyseHere() {
+    /// One queue for the engine: the branch's verdicts, oldest first, then the open-ended look for the lines.
+    private func think() {
         engineTask?.cancel()
-        // What the board shows, which isn't always the game's position: a best-move preview or a coach line.
-        let fen = board.position.fen
-        lines = []
         analysisRun += 1
         let run = analysisRun
+        lines = searches[board.position] ?? []
         engineTask = Task { [weak self] in
+            while let i = self?.branch.firstIndex(where: { $0.verdict == nil }) {
+                guard let v = await self?.judge(i), !Task.isCancelled, self?.analysisRun == run else { return }
+                self?.branch[i].verdict = v
+                self?.decorate()
+                if let me = self, me.lines.isEmpty { me.lines = me.searches[me.board.position] ?? [] }
+            }
+            // What the board shows, which isn't always the game's position: a best-move preview or a coach line.
+            guard self?.showLines == true, let fen = self?.board.position.fen else { return }
             let result = try? await Engine.shared.analyse(startFEN: fen, moves: [], multiPV: 3, nodes: nil, movetimeMs: 15000, searchMoves: nil) { lines in
                 Task { @MainActor in if self?.analysisRun == run { self?.lines = lines } }
             }
             if let result, !Task.isCancelled, self?.analysisRun == run { self?.lines = result }
         }
+    }
+
+    private func judge(_ i: Int) async -> BranchVerdict? {
+        guard let r = replay, branch.indices.contains(i) else { return nil }
+        let step = branch[i]
+        let before = i == 0 ? branchRoot : branch[i - 1].after
+        guard let b = await search(before), let a = await search(step.after),
+              branch.indices.contains(i), branch[i].after == step.after else { return nil }
+        var trail = [branchRoot], moves: [Move] = []
+        if let k = branchRootPly { trail = Array(r.positions[...k]); moves = Array(r.moves[..<k]) }
+        trail += branch[..<i].map(\.after); moves += branch[..<i].map(\.move)
+        var previous: MoveFacts.Previous?
+        if trail.count > 1 {
+            let earlier = trail[trail.count - 2], game = review?.moves[safe: trail.count - 2]
+            previous = MoveFacts.Previous(
+                before: earlier, move: moves[moves.count - 1],
+                epLost: (i > 0 ? branch[i - 1].verdict?.epLost : game?.epLost) ?? 0,
+                evalBefore: i > 0 ? searches[earlier]?.first?.score.flipped : game?.evalBefore?.whitePOV(sideToMove: before.side))
+        }
+        return BranchJudge.judge(trail: trail, moves: moves, move: step.move, rating: ratings.rating(for: before.side),
+                                 before: b, after: a, previous: previous)
+    }
+
+    private func search(_ p: Position) async -> [EngineLine]? {
+        if let s = searches[p] { return s }
+        guard let lines = try? await Engine.shared.analyse(
+            startFEN: p.fen, moves: [], multiPV: 3, nodes: Engine.budget(BranchJudge.nodes),
+            movetimeMs: BranchJudge.movetimeMs, searchMoves: nil, onUpdate: nil), !lines.isEmpty, !Task.isCancelled else { return nil }
+        searches[p] = lines
+        return lines
     }
 }
 
@@ -441,6 +519,7 @@ struct ReviewSummary: View {
 
 struct WalkthroughView: View {
     @Bindable var model: ReviewModel
+    @AppStorage("branchTried") private var branchTried = false
 
     var body: some View {
         ScrollView {
@@ -456,11 +535,16 @@ struct WalkthroughView: View {
                 if i != model.ply { model.go(i, sound: false); Haptics.step() }
             }
             .frame(height: 46).padding(.horizontal, 16).padding(.top, 10)
-            moveStrip.padding(.top, 8)
+            Group { if model.branch.isEmpty { moveStrip } else { branchStrip } }.padding(.top, 8)
             controls.padding(.horizontal, 16).padding(.vertical, 6)
+            if !branchTried, model.branch.isEmpty, !model.retrying {
+                Text("Mou qualsevol peça per explorar una altra jugada.").font(Theme.text(14)).foregroundStyle(Theme.quiet)
+                    .frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal, 16).padding(.bottom, 8)
+            }
         }
         }
         .scrollBounceBehavior(.basedOnSize)
+        .onChange(of: model.branch.isEmpty) { _, empty in if !empty { branchTried = true } }
     }
 
     private var marks: [(ply: Int, cls: MoveClass)] {
@@ -471,6 +555,7 @@ struct WalkthroughView: View {
     }
 
     private var currentWin: Double {
+        if !model.branch.isEmpty, let e = model.branchEval { return Accuracy.winPercent(e) }
         // While it's your turn to try, the bar must not give away how the played move turned out.
         let shown = model.retrying ? max(model.ply - 1, 0) : model.ply
         guard let g = model.review?.graph, shown < g.count, let v = g[shown] else { return 50 }
@@ -478,6 +563,7 @@ struct WalkthroughView: View {
     }
 
     private var evalLabel: String {
+        if !model.branch.isEmpty { return model.branchEval?.whiteLabel(sideToMove: .white) ?? "" }
         guard let e = model.retrying ? model.move?.evalBefore : model.move?.evalAfter else { return "" }
         return e.whiteLabel(sideToMove: .white)
     }
@@ -501,12 +587,8 @@ struct WalkthroughView: View {
                 .font(Theme.text(16, .semibold)).foregroundStyle(Theme.gold)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-        } else if !model.variation.isEmpty {
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Variant").font(Theme.display(32)).foregroundStyle(Theme.tin)
-                Button("Torna a la partida") { model.backToGame() }.font(Theme.text(16, .semibold))
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
+        } else if !model.branch.isEmpty {
+            branchCoach
         } else if let m = model.move {
             VStack(alignment: .leading, spacing: 6) {
                 HStack(spacing: 8) {
@@ -534,6 +616,33 @@ struct WalkthroughView: View {
         } else {
             Text("Posició inicial").font(Theme.display(32)).foregroundStyle(Theme.tin).frame(maxWidth: .infinity, alignment: .leading)
         }
+    }
+
+    /// The analysis board: the move tried, how the engine rates it, and why, in the review's own words.
+    private var branchCoach: some View {
+        let step = model.branch[safe: model.branchAt - 1]
+        return VStack(alignment: .leading, spacing: 6) {
+            HStack {
+                Rubric("Variant")
+                Spacer()
+                Button("Torna a la partida") { model.backToGame() }.font(Theme.text(15, .semibold)).foregroundStyle(Theme.gold)
+            }
+            HStack(spacing: 8) {
+                if let step {
+                    if let c = step.verdict?.moveClass { MoveClassBadge(cls: c, size: 26) }
+                    SANText(san: step.san, size: 20).foregroundStyle(Theme.tin)
+                    if let c = step.verdict?.moveClass { Text(verbatim: c.displayName).font(Theme.text(18, .medium)).foregroundStyle(c.fill) }
+                }
+                Spacer()
+                if let e = model.branchEval { Text(verbatim: e.whiteLabel(sideToMove: .white)).font(Theme.text(16, .medium)).foregroundStyle(Theme.quiet) }
+            }
+            if let t = step?.verdict?.note.text {
+                ScrollView { SANText.prose(t, size: 16).font(Theme.text(16)).foregroundStyle(Theme.tin.opacity(0.92)).accessibilityLabel(t).frame(maxWidth: .infinity, alignment: .leading) }.frame(maxHeight: 66)
+            } else {
+                Text(step == nil ? "Mou qualsevol peça per explorar una altra jugada." : "El motor pensa").font(Theme.text(16)).foregroundStyle(Theme.quiet)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     private var retryTitle: LocalizedStringKey {
@@ -576,13 +685,7 @@ struct WalkthroughView: View {
                 LazyHStack(spacing: 2) {
                     ForEach(model.review?.moves ?? []) { m in
                         Button { model.go(m.ply + 1) } label: {
-                            HStack(spacing: 3) {
-                                if m.side == .white { Text(verbatim: "\(m.ply / 2 + 1).").font(Theme.text(13)).foregroundStyle(Theme.quiet) }
-                                SANText(san: m.san, size: 15).foregroundStyle(m.ply + 1 == model.ply ? Theme.ink : Theme.tin)
-                                if let c = m.moveClass, ![.best, .excellent, .good, .book, .forced].contains(c) { MoveClassBadge(cls: c, size: 13) }
-                            }
-                            .padding(.horizontal, 6).padding(.vertical, 5)
-                            .background(RoundedRectangle(cornerRadius: 4).fill(m.ply + 1 == model.ply ? Theme.tin : .clear))
+                            chip(m.side == .white ? "\(m.ply / 2 + 1)." : nil, m.san, m.moveClass, current: m.ply + 1 == model.ply)
                         }
                         .buttonStyle(.plain).id(m.ply + 1)
                     }
@@ -592,6 +695,38 @@ struct WalkthroughView: View {
             .onChange(of: model.ply) { _, p in withAnimation(.easeOut(duration: 0.2)) { proxy.scrollTo(max(p, 1), anchor: .center) } }
         }
         .frame(height: 34)
+    }
+
+    /// The branch's moves in place of the game's, numbered from where it left the game.
+    private var branchStrip: some View {
+        ScrollViewReader { proxy in
+            ScrollView(.horizontal, showsIndicators: false) {
+                LazyHStack(spacing: 2) {
+                    ForEach(Array(model.branch.enumerated()), id: \.offset) { i, s in
+                        // Full moves count up after Black's, so a White move's number is the one after it.
+                        let white = s.after.side == .black
+                        Button { model.stepBranch(to: i + 1) } label: {
+                            chip(white ? "\(s.after.fullmoveNumber)." : i == 0 ? "\(s.after.fullmoveNumber - 1)…" : nil,
+                                 s.san, s.verdict?.moveClass, current: i + 1 == model.branchAt)
+                        }
+                        .buttonStyle(.plain).id(i + 1)
+                    }
+                }
+                .padding(.horizontal, 12)
+            }
+            .onChange(of: model.branchAt) { _, p in withAnimation(.easeOut(duration: 0.2)) { proxy.scrollTo(max(p, 1), anchor: .center) } }
+        }
+        .frame(height: 34)
+    }
+
+    private func chip(_ number: String?, _ san: String, _ cls: MoveClass?, current: Bool) -> some View {
+        HStack(spacing: 3) {
+            if let number { Text(verbatim: number).font(Theme.text(13)).foregroundStyle(current ? Theme.ink.opacity(0.6) : Theme.quiet) }
+            SANText(san: san, size: 15).foregroundStyle(current ? Theme.ink : Theme.tin)
+            if let c = cls, ![.best, .excellent, .good, .book, .forced].contains(c) { MoveClassBadge(cls: c, size: 13) }
+        }
+        .padding(.horizontal, 6).padding(.vertical, 5)
+        .background(RoundedRectangle(cornerRadius: 4).fill(current ? Theme.tin : .clear))
     }
 
     private var controls: some View {

@@ -94,9 +94,19 @@ struct GameReview: Codable, Sendable, Identifiable {
     var isComplete: Bool
     /// White's score per position, all at the first pass's budget so the line stays smooth.
     var whiteEvals: [Score?] = []
+    /// What the engine found, kept so the notes can be written again in another language. Nil on reviews saved before 1.2.
+    var state: ReviewState?
+    var ratings: Ratings?
 
     /// White win percent per position, for the graph. Nil where the eval is not known yet.
     var graph: [Double?] { whiteEvals.map { $0.map(Accuracy.winPercent) } }
+
+    /// The review assembled again, so its notes read in the language the app runs in now. No engine needed.
+    /// One saved without its state stays as it was written.
+    func relocalized(replay: GameReplay) -> GameReview {
+        guard let state, let ratings, replay.id == id else { return self }
+        return ReviewEngine.assemble(replay: replay, state: state, ratings: ratings)
+    }
 }
 
 /// Everything the engine found so far. Pure data, so a review can resume after being killed
@@ -511,7 +521,8 @@ enum ReviewEngine {
         return GameReview(
             id: replay.id, startFEN: replay.startFEN, moves: moves,
             white: player(.white, accuracy.white, acpl.white), black: player(.black, accuracy.black, acpl.black),
-            phases: phases(replay, scores, moves), opening: opening, engine: info, isComplete: isComplete, whiteEvals: scores)
+            phases: phases(replay, scores, moves), opening: opening, engine: info, isComplete: isComplete, whiteEvals: scores,
+            state: state, ratings: ratings)
     }
 
     private static func phases(_ replay: GameReplay, _ scores: [Score?], _ moves: [GameReview.ReviewedMove]) -> [GameReview.PhaseReview] {

@@ -15,7 +15,7 @@ import SwiftUI
     /// Only fills an empty board: things finishing in the background must not pull an answer away while you read it.
     func load() {
         guard card == nil else { return }
-        card = Progress.shared.nextMistake()
+        card = Progress.shared.nextMistake().map(GameLibrary.shared.relocalized)
         guard let card, let position = Position(fen: card.fen) else { return }
         phase = .asking; idea = nil; hintLevel = 0; missed = false; answered = false
         board.arrows = []; board.hint = nil; board.marks = []

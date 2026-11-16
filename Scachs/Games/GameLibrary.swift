@@ -394,6 +394,18 @@ extension ImportedGame {
         if changed { save() }
     }
 
+    /// The card with its note written again in the language the app runs in now, while its game's review can still do that.
+    func relocalized(_ card: MistakeCard) -> MistakeCard {
+        guard let ply = card.id.split(separator: "#").last.flatMap({ Int($0) }),
+              let review = review(for: card.gameID), review.state != nil,
+              let pgn = games.first(where: { $0.id == card.gameID }).flatMap({ PGN.parse($0.pgn).first }),
+              let replay = try? GameReplay(pgn),
+              let note = review.relocalized(replay: replay).moves[safe: ply]?.coach?.text else { return card }
+        var copy = card
+        copy.note = note
+        return copy
+    }
+
     /// A corrupt file counts as no review: it goes away and the game can be analysed again.
     func review(for id: String) -> GameReview? {
         let url = reviewURL(id)

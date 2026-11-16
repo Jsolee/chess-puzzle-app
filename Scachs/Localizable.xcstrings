@@ -7008,6 +7008,23 @@
         }
       }
     },
+    "Mou qualsevol peça per explorar una altra jugada.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move any piece to explore another move."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mueve cualquier pieza para explorar otra jugada."
+          }
+        }
+      }
+    },
     "Més difícil": {
       "extractionState": "manual",
       "localizations": {

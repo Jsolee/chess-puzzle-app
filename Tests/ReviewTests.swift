@@ -682,7 +682,7 @@ final class ReviewTests: XCTestCase {
         XCTAssertEqual(detectors(note(facts("k5rr/8/8/8/1R6/8/8/7K w - - 0 1", "b4h4", best: .cp(0)))), [.forced])
         let book = note(facts(Self.quiet, "f1b5", best: .cp(0), isBook: true), opening: Openings.Entry(eco: "C60", name: "Ruy Lopez"))
         XCTAssertEqual(detectors(book), [.book])
-        XCTAssertTrue(book.text.contains("Ruy Lopez"))
+        XCTAssertTrue(book.text.contains(OpeningNames.local("Ruy Lopez")), "the opening in the reader's language")
         let mate = note(facts("r1bqkb1r/pppp1ppp/2n2n2/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR w KQkq - 4 4", "h5f7", best: .mate(1)))
         XCTAssertEqual(detectors(mate), [.mateDelivered])
 
@@ -781,6 +781,23 @@ final class ReviewTests: XCTestCase {
         XCTAssertEqual(decoded.white.counts, review.white.counts)
     }
 
+    func testASavedReviewWritesItsNotesAgain() throws {
+        let replay = try GameReplay(replayedGame(Self.scachsDamor))
+        let book = Openings.shared.bookPlies(start: replay.positions[0], moves: replay.moves)
+        let review = ReviewEngine.assemble(replay: replay, state: handFedState(replay, book: book) { _ in 10 },
+                                           ratings: Ratings(white: 1800, black: 1800))
+        // As if saved while the app ran in another language.
+        var saved = try JSONDecoder().decode(GameReview.self, from: JSONEncoder().encode(review))
+        for i in saved.moves.indices { saved.moves[i].coach?.clauses = [CoachClause(detector: .verdict, text: "Written elsewhere.")] }
+        let shown = saved.relocalized(replay: replay)
+        XCTAssertEqual(shown.moves.map(\.coach), review.moves.map(\.coach))
+        XCTAssertEqual(shown.moves.map(\.moveClass), review.moves.map(\.moveClass))
+
+        // Saved before the state was kept: it reads as it was written.
+        saved.state = nil
+        XCTAssertEqual(saved.relocalized(replay: replay).moves.first?.coach?.text, "Written elsewhere.")
+    }
+
     func testAPartialStateStillAssembles() throws {
         let replay = try GameReplay(replayedGame(Self.scachsDamor))
         var state = ReviewState(gameID: replay.id, positions: replay.positions.count)
@@ -873,5 +890,40 @@ final class OpeningNamesTests: XCTestCase {
             XCTAssertEqual(OpeningNames.local(en, language: "es"), es)
             XCTAssertEqual(OpeningNames.local(en, language: "en"), en)
         }
+    }
+}
+
+final class BranchJudgeTests: XCTestCase {
+    private let afterD6 = Position(fen: "rnbqkbnr/ppp1pppp/3p4/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2")!
+    private func line(_ n: Int, _ score: Score, _ uci: String) -> EngineLine {
+        EngineLine(multipv: n, depth: 20, score: score, pv: uci.split(separator: " ").compactMap { Move(uci: String($0)) }, nodes: 1)
+    }
+
+    func testAQueenLeftEnPriseIsABlunderAndSaysWhy() throws {
+        let qg4 = try XCTUnwrap(Move(uci: "d1g4"))
+        let v = try XCTUnwrap(BranchJudge.judge(
+            trail: [afterD6], moves: [], move: qg4, rating: 1500,
+            before: [line(1, .cp(40), "d2d4 g8f6"), line(2, .cp(30), "g1f3 g8f6")],
+            after: [line(1, .cp(850), "c8g4 g1f3")], previous: nil))
+        XCTAssertEqual(v.moveClass, .blunder)
+        XCTAssertEqual(v.evalAfter, .cp(-850))
+        XCTAssertFalse(v.note.text.isEmpty)
+        XCTAssertTrue(v.note.arrows.contains { $0.from == square(named: "c8") && $0.to == square(named: "g4") })
+    }
+
+    func testACandidateKeepsItsOwnScore() throws {
+        let nf3 = try XCTUnwrap(Move(uci: "g1f3"))
+        let v = try XCTUnwrap(BranchJudge.judge(
+            trail: [afterD6], moves: [], move: nf3, rating: 1500,
+            before: [line(1, .cp(40), "d2d4 g8f6"), line(2, .cp(36), "g1f3 g8f6")],
+            after: [line(1, .cp(-20), "g8f6 b1c3")], previous: nil))
+        XCTAssertEqual(v.moveClass, .excellent)
+        XCTAssertEqual(v.evalAfter, .cp(36))
+        XCTAssertTrue(v.note.clauses.contains { $0.detector == .line }, "a quiet good move still shows where it leads")
+    }
+
+    func testAnIllegalMoveIsNotJudged() {
+        XCTAssertNil(BranchJudge.judge(trail: [afterD6], moves: [], move: Move(uci: "e1e3")!, rating: nil,
+                                       before: [line(1, .cp(40), "d2d4")], after: [], previous: nil))
     }
 }

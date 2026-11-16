@@ -96,7 +96,7 @@ enum Coach {
         case .forced:
             return CoachNote(clauses: [CoachClause(detector: .forced, text: words.forced())])
         case .book:
-            return CoachNote(clauses: [CoachClause(detector: .book, text: words.book(opening?.name))])
+            return CoachNote(clauses: [CoachClause(detector: .book, text: words.book(opening.map { OpeningNames.local($0.name) }))])
         case .inaccuracy, .mistake, .miss, .blunder:
             return badMove(f, c, threat, &words)
         case .brilliant, .great, .best, .excellent, .good:
@@ -262,6 +262,13 @@ enum Coach {
                                        arrows: [CoachArrow(from: best.from, to: best.to, role: .best)]))
         }
         return CoachNote(clauses: clauses, show: show, line: show == nil ? [] : line, lineStartsAfterMove: false)
+    }
+
+    /// The engine's continuation after the move, for a note with nothing more to say than its verdict.
+    static func continuation(_ f: MoveFacts) -> CoachClause? {
+        guard !f.refutation.isEmpty, !f.after.isCheckmate else { return nil }
+        var words = Words(seed: "\(f.before.epd)|\(f.move.uci)|line")
+        return CoachClause(detector: .line, text: words.line(sanLine(from: f.after, f.refutation)))
     }
 
     private static func mateDistance(_ score: Score) -> Int {
