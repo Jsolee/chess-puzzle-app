@@ -4,6 +4,8 @@ struct GamesView: View {
     private var library: GameLibrary { .shared }
     @State private var showAdd = false
     @State private var showAccounts = false
+    @State private var filter = Filter.all
+    private enum Filter: Hashable { case all, won, lost }
     @Environment(\.scenePhase) private var scenePhase
     /// Decided once, not from the live text: otherwise the first typed letter swaps out the field being typed in.
     @State private var started = !GameLibrary.shared.chessComUsername.isEmpty || !GameLibrary.shared.lichessUsername.isEmpty
@@ -14,13 +16,12 @@ struct GamesView: View {
                 if library.games.isEmpty && !started { emptyState } else { list }
             }
             .fieldBackground()
-            .navigationDestination(for: ImportedGame.self) { ReviewView(game: $0) }
-            .toolbar {
-                ToolbarItemGroup(placement: .topBarTrailing) {
-                    Button { showAccounts = true } label: { Image(systemName: "person.2") }.accessibilityLabel("Comptes")
-                    Button { showAdd = true } label: { Image(systemName: "plus") }.accessibilityLabel("Afegeix una partida")
-                }
+            .topBar(Text("Partides")) {
+                BarButton(systemImage: "person.2", label: "Comptes") { showAccounts = true }
+            } trailing: {
+                BarButton(systemImage: "plus", label: "Afegeix una partida") { showAdd = true }
             }
+            .navigationDestination(for: ImportedGame.self) { ReviewView(game: $0) }
             .sheet(isPresented: $showAdd) { AddGameSheet() }
             .sheet(isPresented: $showAccounts, onDismiss: { Task { await library.refreshIfStale() } }) { AccountsSheet() }
             .task { await library.refreshIfStale() }
@@ -34,15 +35,14 @@ struct GamesView: View {
     private var emptyState: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 14) {
-                ScreenTitle("Partides")
                 Text("Porta aquí les teves partides de chess.com o de Lichess. Stockfish les analitza al teu iPhone, sense connexió.")
                     .font(Theme.text(18)).foregroundStyle(Theme.tin.opacity(0.88)).fixedSize(horizontal: false, vertical: true)
                 AccountFields().padding(.top, 10)
                 Button { started = true; Task { await library.refresh() } } label: {
                     Text("Porta les partides")
                 }
-                .buttonStyle(.cartouche)
-                .disabled(!library.hasAccounts).opacity(library.hasAccounts ? 1 : 0.4)
+                .buttonStyle(.plaque)
+                .disabled(!library.hasAccounts)
                 .padding(.top, 6)
                 Button { showAdd = true } label: {
                     Text("O enganxa un PGN o un enllaç").font(Theme.text(17, .semibold)).foregroundStyle(Theme.gold).frame(minHeight: 44)
@@ -54,8 +54,8 @@ struct GamesView: View {
 
     private var list: some View {
         List {
-            ScreenTitle("Partides")
-                .listRowBackground(Color.clear).listRowSeparator(.hidden).listRowInsets(.init(top: 0, leading: 20, bottom: 8, trailing: 20))
+            SectionPicker(items: [("Totes", Filter.all), ("Guanyades", .won), ("Perdudes", .lost)], selection: $filter)
+                .listRowBackground(Color.clear).listRowSeparator(.hidden).listRowInsets(.init(top: 12, leading: 14, bottom: 4, trailing: 14))
             if !library.refreshErrors.isEmpty {
                 // Says which account failed and opens the place to fix it, instead of a loose red line.
                 Button { showAccounts = true } label: {
@@ -67,14 +67,16 @@ struct GamesView: View {
                         Text("Revisa-ho").foregroundStyle(Theme.gold)
                     }
                     .font(Theme.text(15)).frame(minHeight: 44).contentShape(Rectangle())
+                    .panel(Theme.warn.opacity(0.14), padding: 10)
                 }
                 .buttonStyle(.plain)
-                .listRowBackground(Color.clear).listRowSeparator(.hidden)
+                .listRowBackground(Color.clear).listRowSeparator(.hidden).listRowInsets(.init(top: 4, leading: 14, bottom: 4, trailing: 14))
             }
-            ForEach(library.games) { game in
+            ForEach(library.games.filter { filter == .all || GameRow.won($0) == (filter == .won) }) { game in
                 NavigationLink(value: game) { GameRow(game: game) }
-                    .listRowBackground(Color.clear)
-                    .listRowSeparatorTint(Theme.hairline)
+                    .listRowBackground(RoundedRectangle(cornerRadius: 6).fill(Theme.panel).padding(.vertical, 4).padding(.horizontal, 14))
+                    .listRowSeparator(.hidden)
+                    .listRowInsets(.init(top: 4, leading: 24, bottom: 4, trailing: 24))
                     .swipeActions { Button("Esborra", role: .destructive) { library.delete(game) } }
             }
             if library.hasAccounts && !library.games.isEmpty && !library.reachedOldest {
@@ -125,52 +127,60 @@ struct GameRow: View {
     private var opponentRating: Int? { side == .white ? game.blackRating : game.whiteRating }
     private var outcome: (label: LocalizedStringKey, color: Color) {
         switch (game.result, side) {
-        case ("1-0", .white), ("0-1", .black): return ("Guanyada", Theme.gold)
-        case ("1/2-1/2", _): return ("Taules", Theme.tin.opacity(0.72))
-        case ("*", _): return ("Sense acabar", Theme.quiet)
-        default: return ("Perduda", Color(hex: 0xEF7D6C))
+        case ("1-0", .white), ("0-1", .black): return ("Guanyada", Theme.good)
+        case ("1/2-1/2", _): return ("Taules", Theme.muted)
+        case ("*", _): return ("Sense acabar", Theme.muted)
+        default: return ("Perduda", Theme.warn)
+        }
+    }
+    /// Won, lost, or neither (a draw or unfinished game is in neither filter).
+    static func won(_ game: ImportedGame) -> Bool? {
+        switch (game.result, game.mySide ?? .white) {
+        case ("1-0", .white), ("0-1", .black): return true
+        case ("1-0", .black), ("0-1", .white): return false
+        default: return nil
         }
     }
     private var siteAccuracy: Double? { side == .white ? game.whiteAccuracy : game.blackAccuracy }
     @State private var glance: Glance.Value?
 
     var body: some View {
-        HStack(alignment: .center, spacing: 14) {
+        HStack(alignment: .center, spacing: 12) {
             Group {
                 if let glance { MiniBoard(fen: glance.fen, orientation: side) } else { Theme.fieldDeep }
             }
-            .frame(width: 58, height: 58)
-            .overlay(Rectangle().strokeBorder(Theme.gold.opacity(0.35), lineWidth: 0.75))
+            .frame(width: 50, height: 50)
+            .overlay(Rectangle().strokeBorder(Theme.rule, lineWidth: 1))
             .accessibilityHidden(true)
-            VStack(alignment: .leading, spacing: 3) {
+            VStack(alignment: .leading, spacing: 5) {
                 HStack(spacing: 6) {
-                    Text(verbatim: opponent).font(Theme.text(18, .medium)).foregroundStyle(Theme.tin).lineLimit(1)
-                    if let r = opponentRating { Text(verbatim: "\(r)").font(Theme.text(15)).foregroundStyle(Theme.quiet) }
+                    Text(verbatim: opponent).font(Theme.text(17, .semibold)).foregroundStyle(Theme.tin).lineLimit(1)
+                    if let r = opponentRating { Text(verbatim: "\(r)").font(Theme.text(14)).foregroundStyle(Theme.muted) }
                 }
-                HStack(spacing: 5) {
-                    Text(outcome.label).foregroundStyle(outcome.color)
-                    Text(verbatim: "·").foregroundStyle(Theme.quiet)
-                    if let opening = glance?.opening {
-                        Text(verbatim: opening).foregroundStyle(Theme.quiet).lineLimit(1)
-                    } else {
-                        Text(game.timeClass.displayName).foregroundStyle(Theme.quiet)
+                HStack(spacing: 7) {
+                    Text(outcome.label).font(Theme.text(13, .semibold)).foregroundStyle(outcome.color)
+                        .padding(.horizontal, 6).padding(.vertical, 2)
+                        .background(RoundedRectangle(cornerRadius: 4).fill(outcome.color.opacity(0.2)))
+                    Group {
+                        if let opening = glance?.opening { Text(verbatim: opening) } else { Text(game.timeClass.displayName) }
                     }
+                    .font(Theme.text(14)).foregroundStyle(Theme.muted)
                 }
-                .font(Theme.text(14)).lineLimit(1)
+                .lineLimit(1)
             }
             Spacer()
             // Bright once this app has read the game; the site's own figure, if any, stays quiet until then.
             VStack(alignment: .trailing, spacing: 3) {
                 if let accuracy = game.myAccuracy ?? siteAccuracy {
-                    Text(verbatim: accuracy.formatted(.number.precision(.fractionLength(1)))).font(Theme.text(17, .medium))
-                        .foregroundStyle(game.reviewed ? Theme.gold : Theme.quiet)
+                    Text(verbatim: accuracy.formatted(.number.precision(.fractionLength(1)))).font(Theme.text(18, .semibold))
+                        .foregroundStyle(game.reviewed ? Theme.tin : Theme.muted)
                         .accessibilityLabel(game.reviewed ? "Analitzada. Precisió \(accuracy.formatted(.number.precision(.fractionLength(1))))" : "Precisió \(accuracy.formatted(.number.precision(.fractionLength(1))))")
                 }
-                Text(game.date, format: .dateTime.day().month(.abbreviated)).font(Theme.text(14)).foregroundStyle(Theme.quiet)
+                Text(game.date, format: .dateTime.day().month(.abbreviated)).font(Theme.text(13)).foregroundStyle(Theme.muted)
             }
             .fixedSize()
         }
-        .padding(.vertical, 6)
+        .padding(.vertical, 2)
         .task(id: game.id) { glance = await Glance.read(game) }
     }
 }
@@ -253,7 +263,7 @@ struct AddGameSheet: View {
                 Button { add() } label: {
                     if busy { ProgressView().tint(Theme.ink) } else { Text("Afegeix") }
                 }
-                .buttonStyle(.cartouche)
+                .buttonStyle(.plaque)
                 .disabled(text.isEmpty || busy)
                 Button("Enganxa del porta-retalls") { text = UIPasteboard.general.string ?? "" }
                     .font(Theme.text(17, .semibold)).frame(minHeight: 44)

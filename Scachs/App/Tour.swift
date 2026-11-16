@@ -14,8 +14,8 @@ struct TourOverlay: View {
         Stop(tab: 3, title: "Lliçons", text: "Un camí de lliçons curtes, les regles d'or per a qui comença, i l'arbre de les obertures."),
         Stop(tab: 4, title: "Tu", text: "El teu escut: quina figura medieval ets segons com jugues. I els ajustos."),
     ]
-    /// Where each tab's icon sits across the bar, as a share of the width. The bar floats with margins, so these aren't fifths.
-    private static let iconX: [CGFloat] = [0.167, 0.326, 0.485, 0.659, 0.831]
+    /// Where each tab's icon sits across the bar, as a share of the width.
+    private static let iconX: [CGFloat] = [0.1, 0.3, 0.5, 0.7, 0.9]
     /// Room left at the bottom for the tab bar, which stays bright and is what the caret points at.
     private static let bar: CGFloat = 60
 
@@ -34,19 +34,16 @@ struct TourOverlay: View {
                                 Button("Salta") { finish() }.font(Theme.text(15, .semibold)).foregroundStyle(Theme.quiet).frame(minHeight: 44)
                             }
                         }
-                        Text(stop.title).font(Theme.display(38)).foregroundStyle(Theme.tin)
+                        Text(stop.title).font(Theme.title(26)).foregroundStyle(Theme.tin)
                         Text(stop.text).font(Theme.text(17)).foregroundStyle(Theme.tin.opacity(0.9)).fixedSize(horizontal: false, vertical: true)
-                        Button { advance() } label: {
-                            Text(last ? "Comença" : "Següent").font(Theme.text(18, .semibold)).foregroundStyle(Theme.ink)
-                                .frame(maxWidth: .infinity, minHeight: 50).background(Capsule().fill(last ? Theme.gold : Theme.tin))
-                        }
-                        .padding(.top, 6)
+                        Button { advance() } label: { Text(last ? "Comença" : "Següent") }
+                            .buttonStyle(.plaque).padding(.top, 6)
                     }
                     .id(step)
                     .transition(.opacity)
                     .padding(20)
                     .background(Theme.fieldDeep)
-                    .overlay(alignment: .top) { Rectangle().fill(Theme.hairline).frame(height: 0.5) }
+                    .overlay(alignment: .top) { Rectangle().fill(Theme.rule).frame(height: 1) }
                     .overlay(alignment: .bottomLeading) {
                         Caret().fill(Theme.gold).frame(width: 16, height: 8)
                             .offset(x: g.size.width * Self.iconX[stop.tab] - 8, y: 20)

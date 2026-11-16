@@ -162,20 +162,15 @@ struct BlindfoldView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Button { dismiss() } label: {
-                Image(systemName: "xmark").font(.system(size: 17, weight: .semibold)).foregroundStyle(Theme.tin).frame(width: 44, height: 44, alignment: .leading)
-            }
-            .accessibilityLabel("Tanca").padding(.horizontal, 20)
             VStack(alignment: .leading, spacing: 10) {
-                ScreenTitle("A cegues")
                 Text(explanation).font(Theme.text(17)).foregroundStyle(Theme.quiet).fixedSize(horizontal: false, vertical: true)
             }
             .padding(.horizontal, 20).padding(.bottom, 18)
             if session.phase == .answered || session.phase == .over {
-                BoardView(session.board).transition(.opacity)
+                BoardView(session.board).boardFrame().transition(.opacity)
             } else {
                 Spacer()
-                Text(verbatim: "\(session.index)").font(Theme.display(120)).foregroundStyle(Theme.gold).frame(maxWidth: .infinity)
+                Text(verbatim: "\(session.index)").font(Theme.text(96, .semibold)).foregroundStyle(Theme.gold).frame(maxWidth: .infinity)
                     .accessibilityLabel("Posició \(session.index) de \(BlindfoldSession.length)")
                 Spacer()
             }
@@ -183,6 +178,7 @@ struct BlindfoldView: View {
             controls.padding(.horizontal, 20).padding(.bottom, 24)
         }
         .fieldBackground()
+        .topBar(Text("A cegues")) { BarButton(systemImage: "xmark", label: "Tanca") { dismiss() } } trailing: { EmptyView() }
         .animation(.easeOut(duration: 0.25), value: session.phase)
         .task { session.begin() }
         .onDisappear { session.end() }
@@ -215,6 +211,6 @@ struct BlindfoldView: View {
         Button(action: action) {
             Text(title)
         }
-        .buttonStyle(.cartouche)
+        .buttonStyle(.plaque)
     }
 }

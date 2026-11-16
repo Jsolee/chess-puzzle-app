@@ -1,40 +1,10 @@
 import SwiftUI
 
-// The pieces every screen is built from: the lamplit field, the gold wire, the tin cartouche and the wire controls.
+// The pieces every screen is built from: the flat field, compact bars with a gold wire, flat panels, the gold plaque and the framed board.
 
-/// The verd field under a lamp: light falls from the top, the bottom goes deep, and a fine grain keeps it from looking printed.
+/// The flat ground under every screen.
 struct FieldBackground: View {
-    var body: some View {
-        ZStack {
-            LinearGradient(stops: [.init(color: Theme.field, location: 0.48), .init(color: Theme.fieldLow, location: 1)], startPoint: .top, endPoint: .bottom)
-            // An ellipse of light from the top centre, wider than the screen, gone by a third of the way down.
-            Canvas { ctx, size in
-                let ry = size.height * 0.37, rx = size.width * 0.925
-                ctx.translateBy(x: size.width / 2, y: 0)
-                ctx.scaleBy(x: rx / ry, y: 1)
-                ctx.fill(Path(CGRect(x: -ry, y: 0, width: ry * 2, height: ry)),
-                         with: .radialGradient(Gradient(colors: [Theme.lamp.opacity(0.62), Theme.lamp.opacity(0)]), center: .zero, startRadius: 0, endRadius: ry))
-            }
-            Image(uiImage: Self.grain).resizable(resizingMode: .tile).opacity(0.09)
-        }
-        .allowsHitTesting(false)
-        .accessibilityHidden(true)
-    }
-
-    /// White specks with random alpha, at screen scale so the tile reads as grain, not as a pattern.
-    static let grain: UIImage = {
-        let side = 96
-        var rng = SystemRandomNumberGenerator()
-        var bytes = [UInt8](repeating: 0, count: side * side * 4)
-        for i in stride(from: 0, to: bytes.count, by: 4) {
-            let a = UInt8(max(0, Int(rng.next() % 256) - 70) * 255 / 185)
-            bytes[i] = a; bytes[i + 1] = a; bytes[i + 2] = a; bytes[i + 3] = a
-        }
-        let ctx = CGContext(data: &bytes, width: side, height: side, bitsPerComponent: 8, bytesPerRow: side * 4,
-                            space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)
-        guard let image = ctx?.makeImage() else { return UIImage() }
-        return UIImage(cgImage: image, scale: 3, orientation: .up)
-    }()
+    var body: some View { Theme.field.allowsHitTesting(false).accessibilityHidden(true) }
 }
 
 extension View {
@@ -63,38 +33,86 @@ struct GoldRule: View {
     }
 }
 
-/// A screen's name, in blackletter with its wire.
-struct ScreenTitle: View {
-    let text: Text
-    init(_ key: LocalizedStringKey) { text = Text(key) }
-    init(verbatim: String) { text = Text(verbatim: verbatim) }
+/// A screen's bar: the name in engraved capitals between its two buttons, on the dark bar, with the gold wire and its lozenge underneath.
+struct TopBar<Leading: View, Trailing: View>: View {
+    let title: Text
+    @ViewBuilder var leading: Leading
+    @ViewBuilder var trailing: Trailing
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            text.font(Theme.display(52)).foregroundStyle(Theme.tin).accessibilityAddTraits(.isHeader)
-            GoldRule()
+        ZStack {
+            title.font(Theme.title(19)).foregroundStyle(Theme.tin).lineLimit(1).minimumScaleFactor(0.7)
+                .padding(.horizontal, 52).accessibilityAddTraits(.isHeader)
+            HStack(spacing: 0) { leading; Spacer(minLength: 0); trailing }.padding(.horizontal, 4)
         }
+        .frame(height: 46).frame(maxWidth: .infinity)
+        .background(Theme.fieldDeep.ignoresSafeArea(edges: .top))
+        .overlay(alignment: .bottom) { BarRule().offset(y: 4.5) }
+        .zIndex(1)
     }
 }
 
-/// A section's name, with an optional count on the right, and a shorter wire.
+extension TopBar where Leading == EmptyView, Trailing == EmptyView {
+    init(title: Text) { self.init(title: title) { EmptyView() } trailing: { EmptyView() } }
+}
+
+/// The wire under a bar, with a lozenge at its centre.
+struct BarRule: View {
+    var body: some View {
+        ZStack {
+            Rectangle().fill(Theme.rule).frame(height: 1)
+            Rectangle().fill(Theme.gold).frame(width: 6, height: 6).rotationEffect(.degrees(45))
+        }
+        .frame(height: 9).accessibilityHidden(true)
+    }
+}
+
+/// A bar's button: an icon in a 44 pt square.
+struct BarButton: View {
+    let systemImage: String
+    let label: LocalizedStringKey
+    let action: () -> Void
+    var body: some View {
+        Button(action: action) {
+            Image(systemName: systemImage).font(.system(size: 18, weight: .semibold)).foregroundStyle(Theme.tin).frame(width: 44, height: 44)
+        }
+        .accessibilityLabel(label)
+    }
+}
+
+extension View {
+    /// Pins a TopBar above the content and hides the system bar.
+    func topBar<L: View, T: View>(_ title: Text, @ViewBuilder leading: () -> L, @ViewBuilder trailing: () -> T) -> some View {
+        let bar = TopBar(title: title, leading: leading, trailing: trailing)
+        return safeAreaInset(edge: .top, spacing: 0) { bar }.toolbar(.hidden, for: .navigationBar)
+    }
+    func topBar(_ title: Text) -> some View { topBar(title, leading: { EmptyView() }, trailing: { EmptyView() }) }
+}
+
+/// A section's name between two fading wires, each side marked with a lozenge, and an optional count after it.
 struct SectionTitle: View {
     let text: Text
     var detail: Text?
-    var size: CGFloat = 30
-    init(_ key: LocalizedStringKey, detail: Text? = nil, size: CGFloat = 30) { text = Text(key); self.detail = detail; self.size = size }
-    init(verbatim: String, detail: Text? = nil, size: CGFloat = 30) { text = Text(verbatim: verbatim); self.detail = detail; self.size = size }
+    init(_ key: LocalizedStringKey, detail: Text? = nil, size: CGFloat = 0) { text = Text(key); self.detail = detail }
+    init(verbatim: String, detail: Text? = nil, size: CGFloat = 0) { text = Text(verbatim: verbatim); self.detail = detail }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            HStack(alignment: .firstTextBaseline) {
-                text.font(Theme.display(size)).foregroundStyle(Theme.tin).accessibilityAddTraits(.isHeader)
-                Spacer(minLength: 8)
-                detail?.font(Theme.text(15)).foregroundStyle(Theme.quiet)
+        HStack(spacing: 8) {
+            wire(LinearGradient(colors: [Theme.rule.opacity(0), Theme.rule], startPoint: .leading, endPoint: .trailing))
+            lozenge
+            HStack(spacing: 0) {
+                text.accessibilityAddTraits(.isHeader)
+                if let detail { Text(verbatim: " · ") + detail }
             }
-            GoldRule(section: true)
+            .font(Theme.title(15)).foregroundStyle(Theme.gold).lineLimit(1).minimumScaleFactor(0.8).layoutPriority(1)
+            lozenge
+            wire(LinearGradient(colors: [Theme.rule, Theme.rule.opacity(0)], startPoint: .leading, endPoint: .trailing))
         }
+        .frame(minHeight: 22)
     }
+
+    private var lozenge: some View { Rectangle().fill(Theme.gold).frame(width: 5, height: 5).rotationEffect(.degrees(45)).accessibilityHidden(true) }
+    private func wire(_ g: LinearGradient) -> some View { g.frame(height: 1).frame(maxWidth: .infinity).accessibilityHidden(true) }
 }
 
 /// Small gold capitals above a board's title: where you are and what it's about.
@@ -107,7 +125,7 @@ struct Rubric: View {
     }
 }
 
-/// The block above a board: rubric, a blackletter title that changes with the moment, and one quiet line.
+/// The block above a board: rubric, an engraved title that changes with the moment, and one quiet line.
 struct BoardHeader<Trailing: View>: View {
     var rubric: Text?
     let title: Text
@@ -119,7 +137,7 @@ struct BoardHeader<Trailing: View>: View {
         VStack(alignment: .leading, spacing: 6) {
             if let rubric { rubric.font(Theme.text(12.5, .semibold)).tracking(1.75).textCase(.uppercase).foregroundStyle(Theme.gold).lineLimit(1) }
             HStack(alignment: .firstTextBaseline) {
-                title.font(Theme.display(40)).foregroundStyle(Theme.tin).lineLimit(1).minimumScaleFactor(0.6).contentTransition(.opacity)
+                title.font(Theme.title(20)).foregroundStyle(Theme.tin).lineLimit(1).minimumScaleFactor(0.7).contentTransition(.opacity)
                 Spacer(minLength: 8)
                 trailing
             }
@@ -137,57 +155,121 @@ extension BoardHeader where Trailing == EmptyView {
     }
 }
 
-/// A tin plate with its corners cut in, like a cartouche, and a bronze wire inside the edge.
-struct Cartouche: InsettableShape {
-    var radius: CGFloat = 10
+/// A plate with its corners bevelled.
+struct Plaque: InsettableShape {
+    var cut: CGFloat = 7
     var inset: CGFloat = 0
-    func inset(by amount: CGFloat) -> Cartouche { Cartouche(radius: radius, inset: inset + amount) }
+    func inset(by amount: CGFloat) -> Plaque { Plaque(cut: cut, inset: inset + amount) }
 
     func path(in rect: CGRect) -> Path {
-        let r = rect.insetBy(dx: inset, dy: inset), k = min(radius, r.width / 2, r.height / 2)
-        var p = Path()
-        p.move(to: CGPoint(x: r.minX + k, y: r.minY))
-        p.addLine(to: CGPoint(x: r.maxX - k, y: r.minY))
-        p.addArc(center: CGPoint(x: r.maxX, y: r.minY), radius: k, startAngle: .degrees(180), endAngle: .degrees(90), clockwise: true)
-        p.addLine(to: CGPoint(x: r.maxX, y: r.maxY - k))
-        p.addArc(center: CGPoint(x: r.maxX, y: r.maxY), radius: k, startAngle: .degrees(270), endAngle: .degrees(180), clockwise: true)
-        p.addLine(to: CGPoint(x: r.minX + k, y: r.maxY))
-        p.addArc(center: CGPoint(x: r.minX, y: r.maxY), radius: k, startAngle: .degrees(0), endAngle: .degrees(-90), clockwise: true)
-        p.addLine(to: CGPoint(x: r.minX, y: r.minY + k))
-        p.addArc(center: CGPoint(x: r.minX, y: r.minY), radius: k, startAngle: .degrees(90), endAngle: .degrees(0), clockwise: true)
-        p.closeSubpath()
-        return p
+        let r = rect.insetBy(dx: inset, dy: inset), k = min(cut, r.width / 2, r.height / 2)
+        return Path { p in
+            p.addLines([CGPoint(x: r.minX + k, y: r.minY), CGPoint(x: r.maxX - k, y: r.minY), CGPoint(x: r.maxX, y: r.minY + k),
+                        CGPoint(x: r.maxX, y: r.maxY - k), CGPoint(x: r.maxX - k, y: r.maxY), CGPoint(x: r.minX + k, y: r.maxY),
+                        CGPoint(x: r.minX, y: r.maxY - k), CGPoint(x: r.minX, y: r.minY + k)])
+            p.closeSubpath()
+        }
     }
 }
 
-/// The screen's one primary action. Gold only for the answer that was right.
-struct CartoucheButtonStyle: ButtonStyle {
-    var gold = false
-    /// Sized to its label, for a toolbar row.
+/// A screen's one primary action: a flat gold plaque on a darker edge that it sinks into when pressed. Secondary actions use the dark plate.
+struct PlaqueButtonStyle: ButtonStyle {
+    var secondary = false
+    /// Sized to its label, for a tool row.
     var compact = false
     @Environment(\.isEnabled) private var enabled
 
     func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .font(Theme.text(compact ? 16 : 18, .semibold)).foregroundStyle(Theme.ink)
-            .frame(maxWidth: compact ? nil : .infinity, minHeight: compact ? 40 : 52)
+        let pressed = configuration.isPressed && enabled
+        let face = !enabled ? Theme.panel : secondary ? Theme.fieldLift : Theme.gold
+        let edge = !enabled || secondary ? Theme.shadow : Theme.goldLip
+        return configuration.label
+            .font(Theme.text(compact ? 16 : 18, .semibold))
+            .foregroundStyle(!enabled ? Theme.muted : secondary ? Theme.tin : Theme.ink)
+            .lineLimit(1).minimumScaleFactor(0.8)
+            .padding(.horizontal, compact ? 18 : 22)
+            .frame(maxWidth: compact ? nil : .infinity, minHeight: compact ? 42 : 50)
             .background {
                 ZStack {
-                    Cartouche().fill(gold ? Theme.gold : Theme.tin)
-                    Cartouche(inset: 4).stroke(Theme.copper, lineWidth: 1)
+                    Plaque(cut: compact ? 6 : 7).fill(edge).offset(y: pressed ? 1.5 : 4)
+                    Plaque(cut: compact ? 6 : 7).fill(face)
                 }
-                .shadow(color: Theme.shadow.opacity(0.35), radius: 4, y: 2)
             }
-            .contentShape(Cartouche())
-            .opacity(enabled ? (configuration.isPressed ? 0.85 : 1) : 0.4)
-            .scaleEffect(configuration.isPressed ? 0.985 : 1)
-            .animation(.easeOut(duration: 0.15), value: configuration.isPressed)
+            .contentShape(Plaque())
+            .offset(y: pressed ? 2.5 : 0)
+            .padding(.bottom, 4)
+            .animation(.easeOut(duration: 0.08), value: pressed)
     }
 }
 
-extension ButtonStyle where Self == CartoucheButtonStyle {
-    static var cartouche: CartoucheButtonStyle { CartoucheButtonStyle() }
-    static func cartouche(gold: Bool) -> CartoucheButtonStyle { CartoucheButtonStyle(gold: gold) }
+extension ButtonStyle where Self == PlaqueButtonStyle {
+    static var plaque: PlaqueButtonStyle { PlaqueButtonStyle() }
+    static func plaque(secondary: Bool = false, compact: Bool = false) -> PlaqueButtonStyle { PlaqueButtonStyle(secondary: secondary, compact: compact) }
+}
+
+/// A tool under the board: its icon over a short label.
+struct ToolButtonStyle: ButtonStyle {
+    var on = false
+    @Environment(\.isEnabled) private var enabled
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .labelStyle(ToolLabelStyle(on: on))
+            .opacity(enabled ? (configuration.isPressed ? 0.6 : 1) : 0.4)
+            .frame(minWidth: 50, minHeight: 44)
+            .contentShape(Rectangle())
+    }
+}
+
+struct ToolLabelStyle: LabelStyle {
+    var on = false
+    func makeBody(configuration: Configuration) -> some View {
+        VStack(spacing: 4) {
+            configuration.icon.font(.system(size: 19, weight: .semibold)).foregroundStyle(on ? Theme.gold : Theme.tin).frame(height: 22)
+            configuration.title.font(Theme.text(11, .semibold)).foregroundStyle(on ? Theme.tin : Theme.muted).lineLimit(1)
+        }
+    }
+}
+
+extension ButtonStyle where Self == ToolButtonStyle {
+    static var tool: ToolButtonStyle { ToolButtonStyle() }
+    static func tool(on: Bool) -> ToolButtonStyle { ToolButtonStyle(on: on) }
+}
+
+/// The row of tools under a board, on the dark bar, with the primary action on the right.
+struct Dock<Content: View>: View {
+    @ViewBuilder var content: Content
+    var body: some View {
+        HStack(alignment: .center, spacing: 4) { content }
+            .padding(.horizontal, 12).padding(.top, 10).padding(.bottom, 6)
+            .frame(maxWidth: .infinity)
+            .background(Theme.fieldDeep.ignoresSafeArea(edges: .bottom))
+    }
+}
+
+extension View {
+    /// A flat panel: solid fill, 6 pt corners and a faint gold wire round the edge.
+    func panel(_ fill: Color = Theme.panel, padding: CGFloat = 12) -> some View {
+        self.padding(padding)
+            .background(RoundedRectangle(cornerRadius: 6).fill(fill))
+            .overlay(RoundedRectangle(cornerRadius: 6).strokeBorder(Theme.gold.opacity(0.13), lineWidth: 1))
+    }
+
+    /// The board's frame: a dark bezel, a gold wire just outside the squares and a lozenge at each corner.
+    func boardFrame() -> some View {
+        self.padding(6)
+            .background(Theme.shadow.opacity(0.55))
+            .overlay {
+                GeometryReader { g in
+                    let r = CGRect(origin: .zero, size: g.size).insetBy(dx: 3, dy: 3)
+                    Rectangle().strokeBorder(Theme.gold.opacity(0.55), lineWidth: 1).frame(width: r.width, height: r.height).position(x: g.size.width / 2, y: g.size.height / 2)
+                    ForEach(0..<4, id: \.self) { i in
+                        Rectangle().fill(Theme.gold).frame(width: 6, height: 6).rotationEffect(.degrees(45))
+                            .position(x: i % 2 == 0 ? r.minX : r.maxX, y: i < 2 ? r.minY : r.maxY)
+                    }
+                }
+                .allowsHitTesting(false).accessibilityHidden(true)
+            }
+    }
 }
 
 /// A switch drawn in wire: a hollow bead when off, a tin bead in a gold track when on.
@@ -219,76 +301,64 @@ struct WireToggleStyle: ToggleStyle {
     }
 }
 
-/// A row of section names; the chosen one in tin with a gold wire and a lozenge under it.
+/// A segmented row of section names on a panel; the chosen one on a raised chip.
 struct SectionPicker<Value: Hashable>: View {
     let items: [(LocalizedStringKey, Value)]
     @Binding var selection: Value
 
     var body: some View {
-        HStack(spacing: 24) {
+        HStack(spacing: 4) {
             ForEach(items.indices, id: \.self) { i in
                 let (title, value) = items[i], on = value == selection
                 Button { withAnimation(.easeOut(duration: 0.2)) { selection = value } } label: {
-                    Text(title).font(Theme.text(17, on ? .semibold : .medium)).foregroundStyle(on ? Theme.tin : Theme.quiet)
-                        .overlay(alignment: .bottom) {
+                    Text(title).font(Theme.text(14.5, .semibold)).foregroundStyle(on ? Theme.tin : Theme.muted)
+                        .lineLimit(1).minimumScaleFactor(0.8)
+                        .frame(maxWidth: .infinity, minHeight: 34)
+                        .background {
                             if on {
-                                ZStack {
-                                    Rectangle().fill(Theme.gold).frame(height: 1)
-                                    Rectangle().fill(Theme.gold).frame(width: 5, height: 5).rotationEffect(.degrees(45))
-                                }
-                                .offset(y: 9).transition(.opacity)
+                                RoundedRectangle(cornerRadius: 6).fill(Theme.panelHigh)
+                                    .overlay(RoundedRectangle(cornerRadius: 6).strokeBorder(Theme.rule, lineWidth: 1))
                             }
                         }
-                        .frame(minHeight: 44)
                         .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
                 .accessibilityAddTraits(on ? .isSelected : [])
             }
         }
+        .padding(4)
+        .background(RoundedRectangle(cornerRadius: 9).fill(Theme.panel))
+        .frame(minHeight: 44)
     }
 }
 
-/// How far through a lesson: beads on a wire, gold where you've been, a ringed bead where you are.
+/// How far through a lesson or a set: a gold bar on a raised track.
 struct BeadProgress: View {
     let count: Int
     let current: Int
 
     var body: some View {
-        HStack(spacing: 0) {
-            ForEach(0..<max(count, 1), id: \.self) { i in
-                if i > 0 { Spacer(minLength: 2) }
-                bead(i)
+        GeometryReader { g in
+            ZStack(alignment: .leading) {
+                Capsule().fill(Theme.panelHigh)
+                Capsule().fill(Theme.gold).frame(width: g.size.width * min(1, CGFloat(current) / CGFloat(max(count, 1))))
             }
         }
-        .frame(height: 22)
-        .background(Rectangle().fill(Theme.gold.opacity(0.45)).frame(height: 1).padding(.horizontal, 4))
+        .frame(height: 8)
         .animation(.easeOut(duration: 0.25), value: current)
         .accessibilityElement().accessibilityLabel("Progrés")
         .accessibilityValue(Text("\(min(current, count)) de \(count)"))
     }
-
-    @ViewBuilder private func bead(_ i: Int) -> some View {
-        if i < current {
-            Circle().fill(Theme.gold).frame(width: 9, height: 9)
-        } else if i == current {
-            Circle().fill(Theme.field).frame(width: 15, height: 15)
-                .overlay(Circle().strokeBorder(Theme.gold, lineWidth: 1.5))
-                .overlay(Circle().fill(Theme.gold).frame(width: 7, height: 7))
-        } else {
-            Circle().fill(Theme.field).frame(width: 9, height: 9).overlay(Circle().strokeBorder(Theme.gold.opacity(0.6), lineWidth: 1.25))
-        }
-    }
 }
 
-/// A row's mark: its icon in gold inside a ringed disc.
+/// A row's mark: its icon in colour on a square tinted with the same colour.
 struct Medallion: View {
     let image: Image
+    var color = Theme.gold
     var body: some View {
-        image.renderingMode(.template).resizable().scaledToFit().frame(width: 19, height: 19).foregroundStyle(Theme.gold)
-            .frame(width: 34, height: 34)
-            .background(Circle().fill(Theme.fieldLift))
-            .overlay(Circle().strokeBorder(Theme.gold.opacity(0.75), lineWidth: 1))
+        image.renderingMode(.template).resizable().scaledToFit().frame(width: 22, height: 22).foregroundStyle(color)
+            .frame(width: 40, height: 40)
+            .background(RoundedRectangle(cornerRadius: 8).fill(color.opacity(0.18)))
             .accessibilityHidden(true)
     }
 }

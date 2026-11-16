@@ -14,7 +14,7 @@ struct CaptureView: View {
                 PositionEditor(pieces: pieces)
             } else {
                 VStack(alignment: .leading, spacing: 14) {
-                    Text(failed ? "No hi he trobat cap tauler" : "Llegint el tauler").font(Theme.display(40)).foregroundStyle(Theme.tin)
+                    Text(failed ? "No hi he trobat cap tauler" : "Llegint el tauler").font(Theme.title(24)).foregroundStyle(Theme.tin)
                     if failed {
                         Text("Prova amb una captura on el tauler es vegi sencer, o col·loca les peces a mà.").font(Theme.text(17)).foregroundStyle(Theme.quiet)
                         Button("Col·loca les peces a mà") { self.pieces = Array(repeating: nil, count: 64) }.font(Theme.text(17, .semibold))
@@ -68,7 +68,7 @@ struct PositionEditor: View {
                 }
                 .accessibilityLabel("Tanca").padding(.horizontal, 20)
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("És aquesta?").font(Theme.display(44)).foregroundStyle(Theme.tin)
+                    Text("És aquesta?").font(Theme.title(24)).foregroundStyle(Theme.tin)
                     Text("Comprova-la. Toca una peça de sota i després la casella per corregir-la.").font(Theme.text(16)).foregroundStyle(Theme.quiet)
                 }
                 .padding(.horizontal, 20)
@@ -165,7 +165,7 @@ struct PositionAnalysisView: View {
                     Image(systemName: "xmark").font(.system(size: 17, weight: .semibold)).foregroundStyle(Theme.tin).frame(width: 44, height: 44, alignment: .leading)
                 }
                 .accessibilityLabel("Tanca").padding(.horizontal, 20)
-                BoardView(board)
+                BoardView(board).boardFrame()
                 VStack(alignment: .leading, spacing: 6) {
                     ForEach(lines, id: \.multipv) { line in
                         Button { play(line) } label: {

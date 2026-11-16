@@ -14,7 +14,7 @@ struct WelcomeView: View {
                     .frame(width: 236).foregroundStyle(Theme.tin)
                     .padding(.top, 28).accessibilityLabel("Scachs")
                 Text(solved ? "Mat de dama a casa de l'altra dama." : "València, c.1475. El registre més antic que es coneix de la dama moderna acaba amb aquesta jugada.")
-                    .font(solved ? Theme.display(30) : Theme.text(18))
+                    .font(solved ? Theme.title(24) : Theme.text(18))
                     .foregroundStyle(Theme.tin).fixedSize(horizontal: false, vertical: true)
                     .padding(.top, 16).padding(.bottom, 18)
                     .frame(minHeight: 128, alignment: .topLeading)
@@ -22,7 +22,7 @@ struct WelcomeView: View {
             }
             .padding(.horizontal, 20)
             .frame(maxWidth: .infinity, alignment: .leading)
-            BoardView(board)
+            BoardView(board).boardFrame()
             VStack(alignment: .leading, spacing: 14) {
                 if solved {
                     Text("Quant jugues?").font(Theme.text(17, .medium)).foregroundStyle(Theme.tin).padding(.top, 18)
@@ -60,6 +60,6 @@ struct WelcomeView: View {
         } label: {
             Text(title).lineLimit(1).minimumScaleFactor(0.75).padding(.horizontal, 8)
         }
-        .buttonStyle(.cartouche)
+        .buttonStyle(.plaque)
     }
 }

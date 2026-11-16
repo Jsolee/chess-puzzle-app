@@ -7,7 +7,18 @@ struct ScachsApp: App {
     /// Held back until the logo is on screen: building the first screen blocks the main thread, which its animation doesn't need.
     @State private var mounted = false
 
-    init() { AutoReview.shared.registerBackgroundTask() }
+    init() {
+        AutoReview.shared.registerBackgroundTask()
+        // Sheets keep the system bar; this gives it the same dark bar, engraved title and gold wire as ours.
+        let bar = UINavigationBarAppearance()
+        bar.configureWithOpaqueBackground()
+        bar.backgroundColor = UIColor(Theme.fieldDeep)
+        bar.shadowColor = UIColor(Theme.rule)
+        bar.titleTextAttributes = [.font: UIFont(name: "MarcellusSC-Regular", size: 19) ?? .systemFont(ofSize: 19), .foregroundColor: UIColor(Theme.tin)]
+        UINavigationBar.appearance().standardAppearance = bar
+        UINavigationBar.appearance().scrollEdgeAppearance = bar
+        UINavigationBar.appearance().compactAppearance = bar
+    }
 
     var body: some Scene {
         WindowGroup {
@@ -45,16 +56,21 @@ struct RootView: View {
     @Environment(\.scenePhase) private var scenePhase
     @Bindable private var share = ShareCenter.shared
     @State private var tab = 0
+    @State private var barHidden = false
     @AppStorage("toured") private var toured = false
     var body: some View {
+        // The system bar is glass on iOS 26 and can't be made flat, so it's hidden and ours sits in its place.
         TabView(selection: $tab) {
-            Tab("Avui", image: "tab.today", value: 0) { TodayView() }
-            Tab("Puzzles", image: "tab.puzzles", value: 1) { PuzzleView() }
-            Tab("Partides", image: "tab.games", value: 2) { GamesView() }
-            Tab("Lliçons", image: "tab.lessons", value: 3) { LessonsView() }
-            Tab("Tu", image: "tab.you", value: 4) { ProfileView() }
+            Tab("Avui", image: "tab.today", value: 0) { tabContent(TodayView()) }
+            Tab("Puzzles", image: "tab.puzzles", value: 1) { tabContent(PuzzleView()) }
+            Tab("Partides", image: "tab.games", value: 2) { tabContent(GamesView()) }
+            Tab("Lliçons", image: "tab.lessons", value: 3) { tabContent(LessonsView()) }
+            Tab("Tu", image: "tab.you", value: 4) { tabContent(ProfileView()) }
         }
-        .tabBarMinimizeBehavior(.onScrollDown)
+        .overlay(alignment: .bottom) {
+            if !barHidden { ScachsTabBar(tab: $tab).transition(.move(edge: .bottom)) }
+        }
+        .onPreferenceChange(TabBarHidden.self) { hidden in withAnimation(.easeOut(duration: 0.2)) { barHidden = hidden } }
         // The board is a UIKit view, so the overlay alone doesn't keep its touches from it.
         .allowsHitTesting(toured)
         .overlay {
@@ -67,11 +83,7 @@ struct RootView: View {
             if phase == .active { InboxReader.drain() }
         }
         .fullScreenCover(item: $share.game) { game in
-            NavigationStack {
-                ReviewView(game: game).toolbar {
-                    ToolbarItem(placement: .cancellationAction) { CloseButton { share.game = nil } }
-                }
-            }
+            NavigationStack { ReviewView(game: game) }
         }
         .fullScreenCover(item: $share.picture) { CaptureView(image: $0.image) }
         .fullScreenCover(item: Binding(get: { share.fen.map(SharedPosition.init) }, set: { share.fen = $0?.fen })) { PositionEditor(pieces: $0.pieces) }
@@ -88,4 +100,54 @@ struct RootView: View {
         }
         #endif
     }
+}
+
+extension RootView {
+    /// Each tab keeps clear of our bar, which floats over the hidden system one.
+    func tabContent<V: View>(_ content: V) -> some View {
+        content.toolbarVisibility(.hidden, for: .tabBar).safeAreaPadding(.bottom, barHidden ? 0 : ScachsTabBar.height)
+    }
+}
+
+/// Set by a pushed screen that brings its own tools, like the review, to take the tab bar away while it's open.
+struct TabBarHidden: PreferenceKey {
+    static let defaultValue = false
+    static func reduce(value: inout Bool, nextValue: () -> Bool) { value = value || nextValue() }
+}
+
+/// The five tabs on the dark bar under a gold wire: the chosen icon in gold.
+private struct ScachsTabBar: View {
+    static let height: CGFloat = 55
+    @Binding var tab: Int
+    private let items: [(LocalizedStringKey, String)] = [("Avui", "tab.today"), ("Puzzles", "tab.puzzles"), ("Partides", "tab.games"), ("Lliçons", "tab.lessons"), ("Tu", "tab.you")]
+
+    var body: some View {
+        HStack(spacing: 0) {
+            ForEach(items.indices, id: \.self) { i in
+                let on = tab == i
+                Button { tab = i } label: {
+                    VStack(spacing: 4) {
+                        Image(items[i].1).renderingMode(.template).resizable().scaledToFit().frame(width: 25, height: 25)
+                            .foregroundStyle(on ? Theme.gold : Theme.muted)
+                        Text(items[i].0).font(Theme.text(10.5, .semibold)).foregroundStyle(on ? Theme.tin : Theme.muted).lineLimit(1)
+                    }
+                    .frame(maxWidth: .infinity).frame(height: 49).contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityAddTraits(on ? .isSelected : [])
+            }
+        }
+        .padding(.top, 6)
+        .background(Theme.fieldDeep.ignoresSafeArea(edges: .bottom))
+        .overlay(alignment: .top) { Rectangle().fill(Theme.rule).frame(height: 1) }
+    }
+}
+
+/// Screens that hide the system bar for their own still go back with a swipe from the edge.
+extension UINavigationController: @retroactive UIGestureRecognizerDelegate {
+    override open func viewDidLoad() {
+        super.viewDidLoad()
+        interactivePopGestureRecognizer?.delegate = self
+    }
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool { viewControllers.count > 1 }
 }

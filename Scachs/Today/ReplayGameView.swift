@@ -110,11 +110,11 @@ struct ReplayGameView: View {
                 }
                 .accessibilityLabel("Tanca").padding(.horizontal, 20)
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(title).font(Theme.display(40)).foregroundStyle(Theme.tin).contentTransition(.opacity)
+                    Text(title).font(Theme.title(22)).foregroundStyle(Theme.tin).contentTransition(.opacity)
                     Text("Contra \(model.opponent), amb el seu nivell (\(model.opponentRating)).").font(Theme.text(15)).foregroundStyle(Theme.quiet).lineLimit(2)
                 }
                 .padding(.horizontal, 20).padding(.bottom, 12)
-                BoardView(model.board)
+                BoardView(model.board).boardFrame()
                 Button { model.restart() } label: {
                     Text("Torna a començar des d'aquí").font(Theme.text(17, .semibold)).foregroundStyle(Theme.gold).frame(minHeight: 44)
                 }

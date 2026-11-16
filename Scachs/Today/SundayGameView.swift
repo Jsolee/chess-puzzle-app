@@ -133,11 +133,11 @@ struct SundayGameView: View {
                 }
                 .accessibilityLabel("Tanca").padding(.horizontal, 20)
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(verbatim: model.game.title.current).font(Theme.display(40)).foregroundStyle(Theme.tin).lineLimit(2).minimumScaleFactor(0.7)
+                    Text(verbatim: model.game.title.current).font(Theme.title(22)).foregroundStyle(Theme.tin).lineLimit(2).minimumScaleFactor(0.7)
                     Text(verbatim: "\(model.game.players) · \(model.game.place)").font(Theme.text(15)).foregroundStyle(Theme.quiet)
                 }
                 .padding(.horizontal, 20).padding(.bottom, 12)
-                BoardView(model.board)
+                BoardView(model.board).boardFrame()
                 panel.padding(.horizontal, 20).padding(.top, 16).padding(.bottom, 28)
             }
         }
@@ -168,7 +168,7 @@ struct SundayGameView: View {
             }
         case .done:
             VStack(alignment: .leading, spacing: 14) {
-                Text("\(model.found) de \(model.game.moments.count)").font(Theme.display(40)).foregroundStyle(Theme.tin)
+                Text("\(model.found) de \(model.game.moments.count)").font(Theme.text(34, .semibold)).foregroundStyle(Theme.tin)
                 body(model.game.outro.current)
                 wide("Fet") { dismiss() }
             }
@@ -183,6 +183,6 @@ struct SundayGameView: View {
         Button(action: action) {
             Text(title)
         }
-        .buttonStyle(.cartouche)
+        .buttonStyle(.plaque)
     }
 }

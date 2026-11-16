@@ -61,7 +61,7 @@ struct OpeningsView: View {
                         if isDone { WaxSeal(numeral: "✓", size: 30).offset(x: 9, y: 9) }
                     }
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(verbatim: e.meta.title).font(Theme.display(28)).foregroundStyle(Theme.tin).lineLimit(1).minimumScaleFactor(0.7)
+                    Text(verbatim: e.meta.title).font(Theme.title(20)).foregroundStyle(Theme.tin).lineLimit(1).minimumScaleFactor(0.7)
                     Text(verbatim: e.essence).font(Theme.text(15)).foregroundStyle(Theme.tin.opacity(0.85))
                         .multilineTextAlignment(.leading).fixedSize(horizontal: false, vertical: true)
                     HStack(spacing: 6) {
@@ -207,7 +207,7 @@ private struct OpeningTree: View {
                     Button { open(e.meta) } label: {
                         HStack(spacing: 7) {
                             SideMark(side: e.side)
-                            Text(verbatim: e.meta.title).font(Theme.display(20)).foregroundStyle(done.contains(e.id) ? Theme.gold : Theme.tin)
+                            Text(verbatim: e.meta.title).font(Theme.title(20)).foregroundStyle(done.contains(e.id) ? Theme.gold : Theme.tin)
                                 .lineLimit(1).minimumScaleFactor(0.6)
                         }
                         .frame(width: names, height: row, alignment: .leading).contentShape(Rectangle())

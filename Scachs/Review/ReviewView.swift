@@ -348,6 +348,7 @@ private struct ReplayStart: Identifiable { let ply: Int; var id: Int { ply } }
 
 struct ReviewView: View {
     @State private var model: ReviewModel
+    @Environment(\.dismiss) private var dismiss
     init(game: ImportedGame) { _model = State(initialValue: ReviewModel(game: game)) }
 
     var body: some View {
@@ -357,8 +358,14 @@ struct ReviewView: View {
             else { ReviewProgress(model: model) }
         }
         .fieldBackground()
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar(.hidden, for: .tabBar)
+        .topBar(Text("Revisió")) {
+            BarButton(systemImage: "chevron.left", label: "Enrere") { dismiss() }
+        } trailing: {
+            if model.walking {
+                BarButton(systemImage: "list.bullet", label: "Resum") { model.walking = false }
+            }
+        }
+        .preference(key: TabBarHidden.self, value: true)
         .fullScreenCover(item: Binding(get: { model.replayFrom.map(ReplayStart.init) }, set: { model.replayFrom = $0?.ply })) { start in
             if let replay = model.replay { ReplayGameView(game: model.game, replay: replay, ply: start.ply) }
         }
@@ -372,10 +379,10 @@ struct ReviewProgress: View {
     let model: ReviewModel
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Analitzant").font(Theme.display(52)).foregroundStyle(Theme.tin)
+            Text("Analitzant").font(Theme.title(26)).foregroundStyle(Theme.tin)
             Text(verbatim: "\(Int(model.progress * 100)) %").font(Theme.text(22, .medium)).foregroundStyle(Theme.gold).contentTransition(.numericText())
             EvalGraph(values: paddedGraph).frame(height: 92).wireFrame()
-            BoardView(model.board, showCoordinates: false).padding(.horizontal, -20).padding(.vertical, 6)
+            BoardView(model.board, showCoordinates: false).boardFrame().padding(.horizontal, -20).padding(.vertical, 6)
             if let f = model.failure {
                 Text(verbatim: f).font(Theme.text(16)).foregroundStyle(Color(hex: 0xEF7D6C))
                 Button("Torna-ho a provar") { model.retryEngine() }.font(Theme.text(17, .semibold))
@@ -401,32 +408,37 @@ struct ReviewSummary: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 22) {
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(verbatim: review.opening.map { OpeningNames.local($0.name) } ?? String(localized: "Revisió")).font(Theme.display(32)).foregroundStyle(Theme.tin)
+            VStack(alignment: .leading, spacing: 12) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(verbatim: review.opening.map { OpeningNames.local($0.name) } ?? String(localized: "Revisió")).font(Theme.title(20)).foregroundStyle(Theme.ink)
                         .lineLimit(3).minimumScaleFactor(0.7)
                     Text(verbatim: "\(model.game.white) – \(model.game.black) · \(model.game.result) · \(model.game.date.formatted(.dateTime.day().month(.abbreviated)))")
-                        .font(Theme.text(15)).foregroundStyle(Theme.quiet)
+                        .font(Theme.text(14, .medium)).foregroundStyle(Theme.ink.opacity(0.7))
                 }
-                EvalGraph(values: review.graph, marks: keyMarks).frame(height: 92).wireFrame()
+                .manuscript()
                 players
-                table
-                if !review.phases.isEmpty { phases }
+                EvalGraph(values: review.graph, marks: keyMarks).frame(height: 72).wireFrame()
+                SectionTitle("Les jugades").padding(.top, 4)
+                table.padding(.horizontal, 10).padding(.vertical, 4)
+                    .background(RoundedRectangle(cornerRadius: 6).fill(Theme.panel))
+                    .overlay(RoundedRectangle(cornerRadius: 6).strokeBorder(Theme.gold.opacity(0.13), lineWidth: 1))
+                if !review.phases.isEmpty { phases.panel(padding: 10) }
                 Button { model.beginWalk() } label: {
-                    Text("Revisa la partida")
+                    Label("Revisa la partida", systemImage: "play.fill")
                 }
-                .buttonStyle(.cartouche)
-                HStack(spacing: 18) {
+                .buttonStyle(.plaque).padding(.top, 4)
+                HStack(spacing: 22) {
                     ShareLink(item: model.game.pgn, preview: SharePreview("\(model.game.white) – \(model.game.black)")) {
                         Text("Comparteix el PGN")
                     }
                     Button("Torna-la a jugar") { model.replayFrom = review.moves.first { $0.isKey && $0.side == model.game.mySide }?.ply ?? 0 }
                 }
-                .font(Theme.text(16, .semibold)).foregroundStyle(Theme.gold)
+                .font(Theme.text(15, .semibold)).foregroundStyle(Theme.tin).underline(color: Theme.gold)
+                .frame(maxWidth: .infinity)
                 Text("Etiquetes i precisió calculades per aquesta app amb \(review.engine.name). Poden no coincidir amb les d'altres serveis.")
-                    .font(Theme.text(13)).foregroundStyle(Theme.quiet)
+                    .font(Theme.text(13)).foregroundStyle(Theme.muted)
             }
-            .padding(20)
+            .padding(14)
         }
     }
 
@@ -438,9 +450,8 @@ struct ReviewSummary: View {
     }
 
     private var players: some View {
-        HStack(alignment: .top) {
+        HStack(alignment: .top, spacing: 8) {
             playerColumn(model.game.white, review.white, .leading)
-            Spacer()
             playerColumn(model.game.black, review.black, .trailing)
         }
     }
@@ -448,20 +459,25 @@ struct ReviewSummary: View {
     private func playerColumn(_ name: String, _ p: GameReview.PlayerReview, _ a: HorizontalAlignment) -> some View {
         let white = a == .leading
         let won = model.game.result == (white ? "1-0" : "0-1")
-        return VStack(alignment: a, spacing: 2) {
+        return VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 7) {
-                if !white { Text(verbatim: name).foregroundStyle(won ? Theme.gold : Theme.quiet) }
-                Rectangle().fill(white ? Theme.tin : Theme.ink).frame(width: 9, height: 9)
-                    .overlay(Rectangle().strokeBorder(Theme.tin.opacity(white ? 0 : 0.5), lineWidth: 1))
-                if white { Text(verbatim: name).foregroundStyle(won ? Theme.gold : Theme.quiet) }
+                RoundedRectangle(cornerRadius: 2).fill(white ? Theme.tin : Theme.ink).frame(width: 12, height: 12)
+                    .overlay(RoundedRectangle(cornerRadius: 2).strokeBorder(Theme.tin.opacity(0.3), lineWidth: 1))
+                Text(verbatim: name).foregroundStyle(Theme.tin).lineLimit(1)
+                Spacer(minLength: 0)
+                if won { Image(systemName: "crown.fill").font(.system(size: 13)).foregroundStyle(Theme.gold).accessibilityLabel("Guanyador") }
             }
-            .font(Theme.text(15)).lineLimit(1)
+            .font(Theme.text(14, .semibold))
             Text(verbatim: p.accuracy.map { $0.formatted(.number.precision(.fractionLength(1))) } ?? "–")
-                .font(Theme.text(50, .medium)).foregroundStyle(Theme.tin)
+                .font(Theme.text(34, .semibold)).foregroundStyle(Theme.tin)
             if let r = p.gameRating {
-                Text("Nivell d'aquesta partida: \(r)").font(Theme.text(13)).foregroundStyle(Theme.quiet)
+                Text("Nivell d'aquesta partida: \(r)").font(Theme.text(12.5)).foregroundStyle(Theme.muted).fixedSize(horizontal: false, vertical: true)
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(11)
+        .background(RoundedRectangle(cornerRadius: 6).fill(Theme.panel))
+        .overlay(RoundedRectangle(cornerRadius: 6).strokeBorder(won ? Theme.gold : Theme.gold.opacity(0.13), lineWidth: won ? 1.5 : 1))
     }
 
     /// Each class as two bars facing each other, one per player, on the same scale. Empty classes stay out until asked for.
@@ -472,7 +488,7 @@ struct ReviewSummary: View {
         return VStack(spacing: 0) {
             ForEach(shown, id: \.c) { r in
                 HStack(spacing: 8) {
-                    Text(verbatim: "\(r.w)").font(Theme.text(17, .medium)).foregroundStyle(r.w > 0 ? r.c.fill : Theme.quiet.opacity(0.5)).frame(width: 26, alignment: .leading)
+                    Text(verbatim: "\(r.w)").font(Theme.text(17, .medium)).foregroundStyle(r.w > 0 ? r.c.fill : Theme.quiet.opacity(0.5)).fixedSize().frame(minWidth: 26, alignment: .leading)
                     bar(r.w, of: top, r.c.fill).frame(maxWidth: .infinity, alignment: .trailing)
                     HStack(spacing: 6) {
                         Text(verbatim: r.c.displayName).font(Theme.text(15)).foregroundStyle(Theme.tin.opacity(0.86))
@@ -480,14 +496,14 @@ struct ReviewSummary: View {
                     }
                     .fixedSize()
                     bar(r.b, of: top, r.c.fill).frame(maxWidth: .infinity, alignment: .leading)
-                    Text(verbatim: "\(r.b)").font(Theme.text(17, .medium)).foregroundStyle(r.b > 0 ? r.c.fill : Theme.quiet.opacity(0.5)).frame(width: 26, alignment: .trailing)
+                    Text(verbatim: "\(r.b)").font(Theme.text(17, .medium)).foregroundStyle(r.b > 0 ? r.c.fill : Theme.quiet.opacity(0.5)).fixedSize().frame(minWidth: 26, alignment: .trailing)
                 }
                 .padding(.vertical, 6)
                 .accessibilityElement(children: .combine)
             }
             if counts.contains(where: { $0.w + $0.b == 0 }) {
                 Button { withAnimation(.easeOut(duration: 0.2)) { allClasses.toggle() } } label: {
-                    Text(allClasses ? "Amaga les classes buides" : "Mostra les deu classes").font(Theme.text(15, .semibold)).foregroundStyle(Theme.gold).frame(minHeight: 44)
+                    Text(allClasses ? "Amaga les classes buides" : "Mostra les deu classes").font(Theme.text(15, .semibold)).foregroundStyle(Theme.tin).underline(color: Theme.gold).frame(minHeight: 44)
                 }
             }
         }
@@ -524,26 +540,28 @@ struct WalkthroughView: View {
     var body: some View {
         ScrollView {
         VStack(spacing: 0) {
-            coach.frame(minHeight: 118, alignment: .topLeading).padding(.horizontal, 16).padding(.bottom, 8)
+            coach.frame(minHeight: 96, alignment: .topLeading).manuscript().padding(.horizontal, 12).padding(.top, 12).padding(.bottom, 10)
             HStack(spacing: 0) {
                 EvalBar(winPercent: currentWin, label: evalLabel, flipped: model.board.orientation == .black).frame(width: 12)
                 BoardView(model.board)
             }
             .fixedSize(horizontal: false, vertical: true)
+            .boardFrame()
             if model.showLines { engineLines }
             EvalGraph(values: model.review?.graph ?? [], marks: marks, current: model.ply) { i in
                 if i != model.ply { model.go(i, sound: false); Haptics.step() }
             }
-            .frame(height: 46).padding(.horizontal, 16).padding(.top, 10)
+            .frame(height: 40).wireFrame().padding(.horizontal, 12).padding(.top, 10)
             Group { if model.branch.isEmpty { moveStrip } else { branchStrip } }.padding(.top, 8)
-            controls.padding(.horizontal, 16).padding(.vertical, 6)
             if !branchTried, model.branch.isEmpty, !model.retrying {
-                Text("Mou qualsevol peça per explorar una altra jugada.").font(Theme.text(14)).foregroundStyle(Theme.quiet)
-                    .frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal, 16).padding(.bottom, 8)
+                Text("Mou qualsevol peça per explorar una altra jugada.").font(Theme.text(14)).foregroundStyle(Theme.muted)
+                    .frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal, 16).padding(.top, 6)
             }
         }
+        .padding(.bottom, 12)
         }
         .scrollBounceBehavior(.basedOnSize)
+        .safeAreaInset(edge: .bottom, spacing: 0) { controls }
         .onChange(of: model.branch.isEmpty) { _, empty in if !empty { branchTried = true } }
     }
 
@@ -571,9 +589,9 @@ struct WalkthroughView: View {
     @ViewBuilder private var coach: some View {
         if model.retrying {
             VStack(alignment: .leading, spacing: 8) {
-                Text(retryTitle).font(Theme.display(32)).foregroundStyle(Theme.tin)
+                Text(retryTitle).font(Theme.title(20)).foregroundStyle(Theme.ink)
                 if let idea = model.retryIdea, model.retryState != .right {
-                    Text("Pensa en això: \(idea).").font(Theme.text(16)).foregroundStyle(Theme.quiet)
+                    Text("Pensa en això: \(idea).").font(Theme.text(15, .medium)).foregroundStyle(Theme.ink.opacity(0.75))
                 }
                 HStack(spacing: 18) {
                     if model.retryState == .idle || model.retryState == .wrong {
@@ -584,7 +602,7 @@ struct WalkthroughView: View {
                     }
                     Button(model.retryState == .right ? "Mira què va passar" : "Passa") { model.backToGame() }
                 }
-                .font(Theme.text(16, .semibold)).foregroundStyle(Theme.gold)
+                .font(Theme.text(15, .semibold)).foregroundStyle(Theme.ink).underline(color: Theme.copper)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         } else if !model.branch.isEmpty {
@@ -593,28 +611,24 @@ struct WalkthroughView: View {
             VStack(alignment: .leading, spacing: 6) {
                 HStack(spacing: 8) {
                     if let c = m.moveClass { MoveClassBadge(cls: c, size: 26) }
-                    SANText(san: m.san, size: 20).foregroundStyle(Theme.tin)
-                    if let c = m.moveClass { Text(verbatim: c.displayName).font(Theme.text(18, .medium)).foregroundStyle(c.fill) }
+                    SANText(san: m.san, size: 21).foregroundStyle(Theme.ink)
+                    if let c = m.moveClass { Text(verbatim: c.displayName).font(Theme.text(16, .semibold)).foregroundStyle(Theme.ink.opacity(0.7)) }
                     Spacer()
-                    if let e = m.evalAfter { Text(verbatim: e.whiteLabel(sideToMove: .white)).font(Theme.text(16, .medium)).foregroundStyle(Theme.quiet) }
+                    if let e = m.evalAfter { evalChip(e.whiteLabel(sideToMove: .white)) }
                 }
                 if let t = m.coach?.text, !t.isEmpty {
-                    ScrollView { SANText.prose(t, size: 16).font(Theme.text(16)).foregroundStyle(Theme.tin.opacity(0.92)).accessibilityLabel(t).frame(maxWidth: .infinity, alignment: .leading) }.frame(maxHeight: 66)
+                    ScrollView { SANText.prose(t, size: 15.5).font(Theme.text(15.5, .medium)).foregroundStyle(Theme.ink.opacity(0.85)).accessibilityLabel(t).frame(maxWidth: .infinity, alignment: .leading) }.frame(maxHeight: 66)
                 }
                 HStack(spacing: 18) {
                     if let s = m.coach?.show, !(m.coach?.line.isEmpty ?? true) {
                         Button(model.showingLine ? String(localized: "Amaga") : s.title) { model.showingLine ? model.hideCoachLine() : model.playCoachLine() }
                     }
-                    if m.bestMove != nil, m.moveClass != .best, m.moveClass != .book, m.moveClass != .forced { Button("La millor") { model.showBest() } }
-                    if model.canRetry {
-                        Button("Reintenta") { model.beginRetry() }
-                        Button("Torna-la a jugar") { model.replayFrom = m.ply }
-                    }
+                    if model.canRetry { Button("Torna-la a jugar") { model.replayFrom = m.ply } }
                 }
-                .font(Theme.text(15, .semibold)).foregroundStyle(Theme.gold).lineLimit(1).minimumScaleFactor(0.75)
+                .font(Theme.text(14.5, .semibold)).foregroundStyle(Theme.ink).underline(color: Theme.copper).lineLimit(1).minimumScaleFactor(0.75)
             }
         } else {
-            Text("Posició inicial").font(Theme.display(32)).foregroundStyle(Theme.tin).frame(maxWidth: .infinity, alignment: .leading)
+            Text("Posició inicial").font(Theme.title(20)).foregroundStyle(Theme.ink).frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 
@@ -623,26 +637,31 @@ struct WalkthroughView: View {
         let step = model.branch[safe: model.branchAt - 1]
         return VStack(alignment: .leading, spacing: 6) {
             HStack {
-                Rubric("Variant")
+                Label("Variant", systemImage: "arrow.triangle.branch").font(Theme.title(14)).foregroundStyle(Color(hex: 0x8A6416))
                 Spacer()
-                Button("Torna a la partida") { model.backToGame() }.font(Theme.text(15, .semibold)).foregroundStyle(Theme.gold)
+                Button("Torna a la partida") { model.backToGame() }.font(Theme.text(14.5, .semibold)).foregroundStyle(Theme.ink).underline(color: Theme.copper)
             }
             HStack(spacing: 8) {
                 if let step {
                     if let c = step.verdict?.moveClass { MoveClassBadge(cls: c, size: 26) }
-                    SANText(san: step.san, size: 20).foregroundStyle(Theme.tin)
-                    if let c = step.verdict?.moveClass { Text(verbatim: c.displayName).font(Theme.text(18, .medium)).foregroundStyle(c.fill) }
+                    SANText(san: step.san, size: 21).foregroundStyle(Theme.ink)
+                    if let c = step.verdict?.moveClass { Text(verbatim: c.displayName).font(Theme.text(16, .semibold)).foregroundStyle(Theme.ink.opacity(0.7)) }
                 }
                 Spacer()
-                if let e = model.branchEval { Text(verbatim: e.whiteLabel(sideToMove: .white)).font(Theme.text(16, .medium)).foregroundStyle(Theme.quiet) }
+                if let e = model.branchEval { evalChip(e.whiteLabel(sideToMove: .white)) }
             }
             if let t = step?.verdict?.note.text {
-                ScrollView { SANText.prose(t, size: 16).font(Theme.text(16)).foregroundStyle(Theme.tin.opacity(0.92)).accessibilityLabel(t).frame(maxWidth: .infinity, alignment: .leading) }.frame(maxHeight: 66)
+                ScrollView { SANText.prose(t, size: 15.5).font(Theme.text(15.5, .medium)).foregroundStyle(Theme.ink.opacity(0.85)).accessibilityLabel(t).frame(maxWidth: .infinity, alignment: .leading) }.frame(maxHeight: 66)
             } else {
-                Text(step == nil ? "Mou qualsevol peça per explorar una altra jugada." : "El motor pensa").font(Theme.text(16)).foregroundStyle(Theme.quiet)
+                Text(step == nil ? "Mou qualsevol peça per explorar una altra jugada." : "El motor pensa").font(Theme.text(15.5)).foregroundStyle(Theme.ink.opacity(0.6))
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private func evalChip(_ label: String) -> some View {
+        Text(verbatim: label).font(Theme.text(13.5, .semibold)).foregroundStyle(Theme.tin)
+            .padding(.horizontal, 7).padding(.vertical, 3).background(RoundedRectangle(cornerRadius: 4).fill(Theme.ink))
     }
 
     private var retryTitle: LocalizedStringKey {
@@ -721,30 +740,31 @@ struct WalkthroughView: View {
 
     private func chip(_ number: String?, _ san: String, _ cls: MoveClass?, current: Bool) -> some View {
         HStack(spacing: 3) {
-            if let number { Text(verbatim: number).font(Theme.text(13)).foregroundStyle(current ? Theme.ink.opacity(0.6) : Theme.quiet) }
-            SANText(san: san, size: 15).foregroundStyle(current ? Theme.ink : Theme.tin)
-            if let c = cls, ![.best, .excellent, .good, .book, .forced].contains(c) { MoveClassBadge(cls: c, size: 13) }
+            if let number { Text(verbatim: number).font(Theme.text(13)).foregroundStyle(Theme.muted) }
+            SANText(san: san, size: 15).foregroundStyle(Theme.tin)
+            if let c = cls, ![.best, .excellent, .good, .book, .forced].contains(c) { MoveClassBadge(cls: c, size: 14) }
         }
-        .padding(.horizontal, 6).padding(.vertical, 5)
-        .background(RoundedRectangle(cornerRadius: 4).fill(current ? Theme.tin : .clear))
+        .padding(.horizontal, 7).padding(.vertical, 5)
+        .background(RoundedRectangle(cornerRadius: 5).fill(current ? Theme.panelHigh : .clear))
+        .overlay(RoundedRectangle(cornerRadius: 5).strokeBorder(current ? Theme.rule : .clear, lineWidth: 1))
     }
 
+    /// The tools under the board: the engine, the best move, a retry, step back and forward, and the next key moment in gold.
     private var controls: some View {
-        HStack(spacing: 0) {
-            Button { model.toggleLines() } label: { Image(systemName: model.showLines ? "cpu.fill" : "cpu").frame(width: 44, height: 44) }
-                .foregroundStyle(model.showLines ? Theme.gold : Theme.tin).accessibilityLabel("Motor")
-            Button { model.walking = false } label: { Image(systemName: "list.bullet").frame(width: 44, height: 44) }
-                .foregroundStyle(Theme.tin).accessibilityLabel("Resum")
-            Spacer()
-            Button { model.previous() } label: { Image(systemName: "chevron.left").frame(width: 56, height: 44) }.foregroundStyle(Theme.tin).accessibilityLabel("Jugada anterior")
-            Button { model.next() } label: { Image(systemName: "chevron.right").frame(width: 56, height: 44) }.foregroundStyle(Theme.tin).accessibilityLabel("Jugada següent")
-            Spacer()
-            Button { model.nextKey() } label: {
-                Text("Següent clau").padding(.horizontal, 16)
-            }
-            .buttonStyle(CartoucheButtonStyle(compact: true))
+        let m = model.move
+        let cls = m?.moveClass
+        let canBest = m?.bestMove != nil && cls != .best && cls != .book && cls != .forced && model.branch.isEmpty && !model.retrying
+        return Dock {
+            Button { model.toggleLines() } label: { Label("Motor", systemImage: "cpu") }.buttonStyle(.tool(on: model.showLines))
+            Button { model.showBest() } label: { Label("La millor", systemImage: "star.fill") }.buttonStyle(.tool).disabled(!canBest)
+            Button { model.beginRetry() } label: { Label("Reintenta", systemImage: "arrow.clockwise") }.buttonStyle(.tool).disabled(!model.canRetry)
+            Spacer(minLength: 0)
+            Button { model.previous() } label: { Image(systemName: "chevron.left").font(.system(size: 18, weight: .semibold)).frame(width: 40, height: 44) }
+                .foregroundStyle(Theme.tin).accessibilityLabel("Jugada anterior")
+            Button { model.next() } label: { Image(systemName: "chevron.right").font(.system(size: 18, weight: .semibold)).frame(width: 40, height: 44) }
+                .foregroundStyle(Theme.tin).accessibilityLabel("Jugada següent")
+            Button { model.nextKey() } label: { Text("Següent clau") }.buttonStyle(.plaque(compact: true))
         }
-        .font(.system(size: 18, weight: .medium))
     }
 }
 

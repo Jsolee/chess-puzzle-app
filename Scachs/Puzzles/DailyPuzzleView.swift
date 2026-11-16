@@ -40,14 +40,14 @@ struct DailyPuzzleView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
-                CloseButton { dismiss() }.padding(.horizontal, 8)
-                header.padding(.horizontal, 20).padding(.top, 4).padding(.bottom, 14)
-                BoardView(board)
-                controls.padding(.horizontal, 20).padding(.top, 16)
+                header.padding(.horizontal, 16).padding(.top, 14).padding(.bottom, 12)
+                BoardView(board).boardFrame()
+                controls.padding(.horizontal, 14).padding(.top, 12)
             }
         }
         .scrollBounceBehavior(.basedOnSize)
         .fieldBackground()
+        .topBar(Text("Puzzle del dia")) { BarButton(systemImage: "xmark", label: "Tanca") { dismiss() } } trailing: { EmptyView() }
         .task { if run == nil { start() } }
         .onDisappear { replyTask?.cancel() }
     }
@@ -74,7 +74,7 @@ struct DailyPuzzleView: View {
     }
 
     private var header: some View {
-        BoardHeader(rubric: Text(verbatim: String(localized: "Puzzle del dia") + " · " + day.formatted(.dateTime.day().month(.wide))),
+        BoardHeader(rubric: Text(verbatim: day.formatted(.dateTime.day().month(.wide))),
                     title: Text(verbatim: title), subtitle: Text(verbatim: subtitle), warn: phase == .wrong)
             .animation(.easeOut(duration: 0.2), value: phase)
     }
@@ -84,10 +84,10 @@ struct DailyPuzzleView: View {
         case .loading:
             Color.clear.frame(height: 44)
         case .yourMove, .wrong:
-            HStack {
-                Button { hint() } label: { Text("Pista").font(Theme.text(17, .semibold)).foregroundStyle(Theme.gold).frame(minHeight: 44) }
+            HStack(spacing: 6) {
+                Button { hint() } label: { Label("Pista", systemImage: "lightbulb.fill") }.buttonStyle(.tool)
+                Button { reveal() } label: { Label("Solució", systemImage: "eye.fill") }.buttonStyle(.tool)
                 Spacer()
-                Button { reveal() } label: { Text("Solució").font(Theme.text(17, .semibold)).foregroundStyle(Theme.tin).frame(minHeight: 44) }
             }
         case .revealed:
             wideButton("Torna-hi") { start() }
@@ -104,7 +104,7 @@ struct DailyPuzzleView: View {
         Button(action: action) {
             Text(title)
         }
-        .buttonStyle(.cartouche)
+        .buttonStyle(.plaque)
     }
 
     // MARK: Flow
@@ -209,7 +209,8 @@ private struct StreakPanel: View {
         let streak = DailyStreak(days: days, today: today)
         VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .firstTextBaseline, spacing: 10) {
-                Text(verbatim: "\(streak.current)").font(Theme.display(64)).foregroundStyle(Theme.gold)
+                Image(systemName: "flame.fill").font(.system(size: 30)).foregroundStyle(Color(hex: 0xEF8A3C)).accessibilityHidden(true)
+                Text(verbatim: "\(streak.current)").font(Theme.text(44, .semibold)).foregroundStyle(Theme.tin)
                 Text(streak.current == 1 ? "dia de ratxa" : "dies de ratxa").font(Theme.text(18, .medium)).foregroundStyle(Theme.tin)
                 Spacer()
                 WeekTrack(days: days, today: today, size: 13)
@@ -219,6 +220,8 @@ private struct StreakPanel: View {
                 Text("La teva millor: \(streak.best).").font(Theme.text(15)).foregroundStyle(Theme.quiet)
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .panel(Theme.goodPanel, padding: 14)
     }
 }
 
@@ -251,9 +254,9 @@ struct DailyRow: View {
             let days = Progress.shared.dailyDays
             let streak = DailyStreak(days: days, today: today)
             Button(action: open) {
-                HStack(spacing: 13) {
+                HStack(spacing: 12) {
                     Medallion(image: Image("tab.today"))
-                    Text("Puzzle del dia").font(Theme.text(17, .medium)).foregroundStyle(days.contains(today) ? Theme.quiet : Theme.gold)
+                    Text("Puzzle del dia").font(Theme.text(16, .semibold)).foregroundStyle(days.contains(today) ? Theme.muted : Theme.tin)
                     Spacer()
                     if showStreak {
                         if streak.current > 0 {
@@ -261,9 +264,9 @@ struct DailyRow: View {
                         }
                         WeekTrack(days: days, today: today)
                     }
-                    Image(systemName: "chevron.right").font(.footnote).foregroundStyle(Theme.quiet)
+                    Image(systemName: "chevron.right").font(.footnote.weight(.semibold)).foregroundStyle(Theme.muted)
                 }
-                .frame(minHeight: 58).contentShape(Rectangle())
+                .panel(padding: 10).contentShape(Rectangle())
             }
             .buttonStyle(.plain)
             .accessibilityLabel(showStreak && streak.current > 0 ? "Puzzle del dia. Ratxa de \(streak.current)." : "Puzzle del dia")

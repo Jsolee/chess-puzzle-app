@@ -195,36 +195,36 @@ struct Crest: View {
 struct TemperamentBlock: View {
     @State private var temperament: Temperament?
 
-    /// The arms large and centred, like a blazon at the head of a page, then who that is and the two figures it rests on.
+    /// The arms beside who that is, on a panel, then the portrait and the two figures it rests on.
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(alignment: .leading, spacing: 10) {
             if let t = temperament {
-                Crest(figure: t.figure, width: 136)
-                    .background(Circle().fill(RadialGradient(colors: [Theme.lamp.opacity(0.5), Theme.lamp.opacity(0)], center: .center, startRadius: 0, endRadius: 150)).frame(width: 300, height: 300))
-                Text("El teu temperament").font(Theme.text(15)).foregroundStyle(Theme.quiet).padding(.top, 16)
-                Text(t.figure.name).font(Theme.display(48)).foregroundStyle(Theme.tin).lineLimit(1).minimumScaleFactor(0.7).padding(.top, 2)
-                Text(t.figure.blazon).font(Theme.text(16)).foregroundStyle(Theme.gold).padding(.top, 4)
-                Text(t.figure.portrait).font(Theme.text(17)).foregroundStyle(Theme.tin.opacity(0.9)).multilineTextAlignment(.center)
-                    .fixedSize(horizontal: false, vertical: true).frame(maxWidth: 330).padding(.top, 14)
-                GoldRule(centered: true).padding(.top, 22)
+                HStack(alignment: .center, spacing: 14) {
+                    Crest(figure: t.figure, width: 64)
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("El teu temperament").font(Theme.text(12, .semibold)).tracking(1).textCase(.uppercase).foregroundStyle(Theme.muted)
+                        Text(t.figure.name).font(Theme.title(23)).foregroundStyle(Theme.tin).lineLimit(1).minimumScaleFactor(0.7)
+                        Text(t.figure.blazon).font(Theme.text(14, .medium)).foregroundStyle(Theme.gold)
+                    }
+                }
+                Text(t.figure.portrait).font(Theme.text(15)).foregroundStyle(Theme.quiet).fixedSize(horizontal: false, vertical: true)
                 if t.figure == .squire {
-                    Text("\(t.counts.games) de \(Temperament.gamesNeeded) partides.").font(Theme.text(16)).foregroundStyle(Theme.quiet).padding(.top, 16)
+                    Text("\(t.counts.games) de \(Temperament.gamesNeeded) partides.").font(Theme.text(15)).foregroundStyle(Theme.muted)
                 } else {
-                    HStack(alignment: .top, spacing: 0) {
+                    HStack(alignment: .top, spacing: 16) {
                         figure("\(t.counts.families)", Text("obertures diferents en \(t.counts.games) partides"))
                         if t.counts.reviewed > 0 {
-                            Rectangle().fill(Theme.hairline).frame(width: 0.5).padding(.vertical, 4)
                             figure("\(Int(t.counts.accuracy.rounded()))", Text("de precisió mitjana a les partides analitzades"))
                         }
                     }
                     .fixedSize(horizontal: false, vertical: true)
-                    .padding(.top, 18)
                 }
             } else {
-                Color.clear.frame(height: 160)
+                Color.clear.frame(height: 120)
             }
         }
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .panel(padding: 14)
         .accessibilityElement(children: .combine)
         .task {
             let games = GameLibrary.shared.games
@@ -234,9 +234,9 @@ struct TemperamentBlock: View {
     }
 
     private func figure(_ number: String, _ label: Text) -> some View {
-        VStack(spacing: 2) {
-            Text(verbatim: number).font(Theme.text(42)).foregroundStyle(Theme.tin)
-            label.font(Theme.text(14)).foregroundStyle(Theme.quiet).multilineTextAlignment(.center).frame(maxWidth: 150)
+        VStack(alignment: .leading, spacing: 2) {
+            Text(verbatim: number).font(Theme.text(24, .semibold)).foregroundStyle(Theme.tin)
+            label.font(Theme.text(13)).foregroundStyle(Theme.muted).frame(maxWidth: .infinity, alignment: .leading)
         }
         .frame(maxWidth: .infinity)
     }

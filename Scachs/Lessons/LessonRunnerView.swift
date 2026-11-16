@@ -445,29 +445,35 @@ struct LessonRunnerView: View {
 
     private func content(_ r: LessonRun) -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            HStack(spacing: 12) {
-                CloseButton { dismiss() }
-                BeadProgress(count: r.order.count, current: max(r.cursor, 0)).padding(.trailing, 12)
+            HStack(spacing: 8) {
+                BarButton(systemImage: "xmark", label: "Tanca") { dismiss() }
+                BeadProgress(count: r.order.count, current: max(r.cursor, 0))
+                Text(verbatim: "\(min(max(r.cursor, 0), r.order.count)) / \(r.order.count)").font(Theme.text(13, .semibold)).foregroundStyle(Theme.muted)
+                    .frame(minWidth: 40).accessibilityHidden(true)
             }
-            .padding(.horizontal, 8)
+            .padding(.horizontal, 4).frame(height: 46)
+            .background(Theme.fieldDeep.ignoresSafeArea(edges: .top))
+            .overlay(alignment: .bottom) { BarRule().offset(y: 4.5) }
+            .zIndex(1)
             ScrollView {
-                VStack(alignment: .leading, spacing: 8) {
-                    if r.isRetry { Text("Un altre cop").font(Theme.text(15, .semibold)).foregroundStyle(Theme.gold) }
-                    if let t = r.title { Text(verbatim: t).font(Theme.display(40)).foregroundStyle(Theme.tin).fixedSize(horizontal: false, vertical: true) }
+                VStack(alignment: .leading, spacing: 6) {
+                    if r.index >= 0 { Text(verbatim: r.lesson.title.text).font(Theme.text(12, .semibold)).tracking(1).textCase(.uppercase).foregroundStyle(Theme.muted) }
+                    if r.isRetry { Text("Un altre cop").font(Theme.text(14, .semibold)).foregroundStyle(Theme.gold) }
+                    if let t = r.title { Text(verbatim: t).font(Theme.title(22)).foregroundStyle(Theme.tin).fixedSize(horizontal: false, vertical: true) }
                     if r.index < 0 {
-                        Text("\(meta.minutes) minuts").font(Theme.text(17)).foregroundStyle(Theme.quiet)
+                        Text("\(meta.minutes) minuts").font(Theme.text(16)).foregroundStyle(Theme.muted)
                     }
                     if let m = r.message {
-                        SANText.prose(m, size: 19).font(Theme.text(19)).foregroundStyle(r.messageIsBad ? Color(hex: 0xEF7D6C) : Theme.tin).accessibilityLabel(m)
+                        SANText.prose(m, size: 17).font(Theme.text(17)).foregroundStyle(r.messageIsBad ? Theme.warn : Theme.quiet).accessibilityLabel(m)
                             .fixedSize(horizontal: false, vertical: true).contentTransition(.opacity)
                     }
                 }
-                .frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal, 20).padding(.top, 6)
+                .frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal, 16).padding(.top, 14)
             }
-            .frame(height: 138)
+            .frame(height: 150)
             .animation(.easeOut(duration: 0.2), value: r.message)
-            BoardView(r.board)
-            bottom(r).padding(.horizontal, 20).padding(.top, 14)
+            BoardView(r.board).boardFrame()
+            bottom(r).padding(.horizontal, 14).padding(.top, 14)
             Spacer(minLength: 0)
         }
         .overlay(alignment: .bottom) {
@@ -484,7 +490,7 @@ struct LessonRunnerView: View {
             VStack(spacing: 8) {
                 primary("Comença") { r.next() }
                 if r.lesson.steps.contains(where: { $0.t == .test }) {
-                    Button("Ja ho sé: vés a la prova") { r.skipToTest() }.font(Theme.text(17, .semibold)).foregroundStyle(Theme.gold).frame(minHeight: 44)
+                    Button("Ja ho sé: vés a la prova") { r.skipToTest() }.font(Theme.text(16, .semibold)).foregroundStyle(Theme.tin).underline(color: Theme.gold).frame(minHeight: 44)
                 }
             }
         } else if r.feedback != nil {
@@ -493,10 +499,11 @@ struct LessonRunnerView: View {
             VStack(spacing: 10) {
                 ForEach(options.indices, id: \.self) { i in
                     Button { r.choose(i) } label: {
-                        Text(verbatim: options[i].text).font(Theme.text(17)).foregroundStyle(Theme.tin).multilineTextAlignment(.leading)
-                            .frame(maxWidth: .infinity, minHeight: 48, alignment: .leading).padding(.horizontal, 16)
-                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Theme.tin.opacity(0.28), lineWidth: 1))
-                            .contentShape(RoundedRectangle(cornerRadius: 12))
+                        Text(verbatim: options[i].text).font(Theme.text(17, .medium)).foregroundStyle(Theme.tin).multilineTextAlignment(.leading)
+                            .frame(maxWidth: .infinity, minHeight: 48, alignment: .leading).padding(.horizontal, 14)
+                            .background(RoundedRectangle(cornerRadius: 6).fill(Theme.panel))
+                            .overlay(RoundedRectangle(cornerRadius: 6).strokeBorder(Theme.gold.opacity(0.13), lineWidth: 1))
+                            .contentShape(RoundedRectangle(cornerRadius: 6))
                     }
                     .buttonStyle(.plain)
                 }
@@ -504,7 +511,10 @@ struct LessonRunnerView: View {
         } else if r.canContinue {
             primary(r.cursor >= r.order.count - 1 ? "Acaba" : "Continua") { r.next() }
         } else if r.hasHint {
-            Button("Pista") { r.hint() }.font(Theme.text(17, .semibold)).foregroundStyle(Theme.gold).frame(minHeight: 44)
+            HStack {
+                Button { r.hint() } label: { Label("Pista", systemImage: "lightbulb.fill") }.buttonStyle(.tool)
+                Spacer()
+            }
         }
     }
 
@@ -515,7 +525,7 @@ struct LessonRunnerView: View {
             Spacer()
             WaxSeal(numeral: Roman.numeral(r.number), size: 176)
                 .scaleEffect(stamped ? 1 : 1.35).opacity(stamped ? 1 : 0)
-            Text("Lliçó apresa").font(Theme.display(46)).foregroundStyle(Theme.tin).padding(.top, 30)
+            Text("Lliçó apresa").font(Theme.title(30)).foregroundStyle(Theme.tin).padding(.top, 30)
             Text(verbatim: r.lesson.title.text).font(Theme.text(19)).foregroundStyle(Theme.quiet).multilineTextAlignment(.center).padding(.top, 2)
             if r.answered > 0 {
                 Text("\(r.firstTry) de \(r.answered) a la primera, en \(minutes) min.").font(Theme.text(17)).foregroundStyle(Theme.gold).padding(.top, 18)
@@ -534,7 +544,7 @@ struct LessonRunnerView: View {
         Button(action: action) {
             Text(title)
         }
-        .buttonStyle(.cartouche)
+        .buttonStyle(.plaque)
     }
 }
 
@@ -546,7 +556,7 @@ private struct FeedbackPanel: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(feedback.good ? (feedback.firstTry ? "Això mateix" : "Ara sí") : "No ben bé")
-                .font(Theme.display(30)).foregroundStyle(feedback.good ? Theme.gold : Color(hex: 0xEF7D6C))
+                .font(Theme.title(22)).foregroundStyle(feedback.good ? Theme.good : Theme.warn)
             if let answer = feedback.answer {
                 Text("La bona: \(answer)").font(Theme.text(17, .semibold)).foregroundStyle(Theme.tin).fixedSize(horizontal: false, vertical: true)
             }
@@ -555,13 +565,13 @@ private struct FeedbackPanel: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
             Button(action: next) { Text("Continua") }
-                .buttonStyle(.cartouche(gold: feedback.good))
+                .buttonStyle(.plaque)
             .padding(.top, 8)
         }
         .padding(.horizontal, 20).padding(.top, 20).padding(.bottom, 12)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Theme.fieldDeep.ignoresSafeArea(edges: .bottom))
-        .overlay(alignment: .top) { Rectangle().fill(Theme.hairline).frame(height: 0.5) }
+        .background((feedback.good ? Theme.goodPanel : Theme.fieldDeep).ignoresSafeArea(edges: .bottom))
+        .overlay(alignment: .top) { Rectangle().fill(feedback.good ? Theme.good.opacity(0.5) : Theme.rule).frame(height: 1) }
         .accessibilityElement(children: .contain)
     }
 }

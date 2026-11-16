@@ -75,23 +75,19 @@ struct AtlasView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
-                Button { dismiss() } label: {
-                    Image(systemName: "xmark").font(.system(size: 17, weight: .semibold)).foregroundStyle(Theme.tin).frame(width: 44, height: 44, alignment: .leading)
-                }
-                .accessibilityLabel("Tanca").padding(.horizontal, 20)
                 HStack(alignment: .firstTextBaseline) {
-                    ScreenTitle("L'Atles")
                     Spacer()
                     sideButton("Blanques", .white)
                     sideButton("Negres", .black)
                 }
-                .padding(.horizontal, 20).padding(.bottom, 6)
+                .padding(.horizontal, 20).padding(.top, 6).padding(.bottom, 6)
                 sheet
                 detail.padding(.horizontal, 20).padding(.top, 16).padding(.bottom, 28)
             }
         }
         .scrollBounceBehavior(.basedOnSize)
         .fieldBackground()
+        .topBar(Text("L'Atles")) { BarButton(systemImage: "xmark", label: "Tanca") { dismiss() } } trailing: { EmptyView() }
         .task(id: "\(side == .white)\(Int(sheetSize.width))") { await paint() }
     }
 
@@ -212,7 +208,7 @@ struct AtlasView: View {
         let titles: [(Land, LocalizedStringKey)] = [(.kingPawn, "Peó de rei"), (.queenPawn, "Peó de dama"), (.flank, "Flancs")]
         for (land, title) in titles {
             guard let at = chart.titles[land] else { continue }
-            context.draw(Text(title).font(Theme.display(28)).foregroundColor(Self.ink.opacity(0.5)), at: at)
+            context.draw(Text(title).font(Theme.title(28)).foregroundColor(Self.ink.opacity(0.5)), at: at)
         }
     }
 
@@ -387,7 +383,7 @@ struct AtlasView: View {
         let played = regions.filter { $0.games > 0 }.count
         if let region = selected {
             VStack(alignment: .leading, spacing: 4) {
-                Text(verbatim: region.name).font(Theme.display(30)).foregroundStyle(Theme.tin).lineLimit(2).minimumScaleFactor(0.7)
+                Text(verbatim: region.name).font(Theme.title(22)).foregroundStyle(Theme.tin).lineLimit(2).minimumScaleFactor(0.7)
                 if region.games == 0 {
                     Text("Aquí encara no hi has estat.").font(Theme.text(16)).foregroundStyle(Theme.quiet)
                 } else {

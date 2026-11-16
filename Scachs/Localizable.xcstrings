@@ -803,6 +803,23 @@
         }
       }
     },
+    "%lld de %lld terres": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld of %lld lands"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld de %lld tierras"
+          }
+        }
+      }
+    },
     "%lld de %lld terres dominades": {
       "extractionState": "manual",
       "localizations": {
@@ -4016,6 +4033,23 @@
         }
       }
     },
+    "Enrere": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Back"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atrás"
+          }
+        }
+      }
+    },
     "Enroc": {
       "extractionState": "manual",
       "localizations": {
@@ -4917,6 +4951,40 @@
         }
       }
     },
+    "Guanyades": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Won"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ganadas"
+          }
+        }
+      }
+    },
+    "Guanyador": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Winner"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ganador"
+          }
+        }
+      }
+    },
     "Guanyes %@.": {
       "extractionState": "manual",
       "localizations": {
@@ -5682,6 +5750,23 @@
         }
       }
     },
+    "La carta dels temes: %lld de %lld terres": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The chart of themes: %lld of %lld lands"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El mapa de los temas: %lld de %lld tierras"
+          }
+        }
+      }
+    },
     "La fallada del rival et donava una oportunitat que no has aprofitat.": {
       "extractionState": "manual",
       "localizations": {
@@ -5916,6 +6001,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "La valoración cae mucho con esta jugada."
+          }
+        }
+      }
+    },
+    "Les jugades": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The moves"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Las jugadas"
           }
         }
       }
@@ -6991,19 +7093,19 @@
         }
       }
     },
-    "Motor: Stockfish 19 i els seus autors (GPLv3), xarxa nn-1a298aa575a0 (CC0). Puzzles i noms d'obertures: Lichess (CC0). Lletres: Grenze Gotisch i Ysabeau Office (SIL OFL). Peces, tauler, logotip i lliçons: Scachs.": {
+    "Motor: Stockfish 19 i els seus autors (GPLv3), xarxa nn-1a298aa575a0 (CC0). Puzzles i noms d'obertures: Lichess (CC0). Lletres: Grenze Gotisch, Marcellus SC i Ysabeau Office (SIL OFL). Peces, tauler, logotip i lliçons: Scachs.": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Engine: Stockfish 19 and its authors (GPLv3), network nn-1a298aa575a0 (CC0). Puzzles and opening names: Lichess (CC0). Typefaces: Grenze Gotisch and Ysabeau Office (SIL OFL). Pieces, board, logo and lessons: Scachs."
+            "value": "Engine: Stockfish 19 and its authors (GPLv3), network nn-1a298aa575a0 (CC0). Puzzles and opening names: Lichess (CC0). Typefaces: Grenze Gotisch, Marcellus SC and Ysabeau Office (SIL OFL). Pieces, board, logo and lessons: Scachs."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Motor: Stockfish 19 y sus autores (GPLv3), red nn-1a298aa575a0 (CC0). Puzzles y nombres de aperturas: Lichess (CC0). Tipografías: Grenze Gotisch e Ysabeau Office (SIL OFL). Piezas, tablero, logotipo y lecciones: Scachs."
+            "value": "Motor: Stockfish 19 y sus autores (GPLv3), red nn-1a298aa575a0 (CC0). Puzzles y nombres de aperturas: Lichess (CC0). Tipografías: Grenze Gotisch, Marcellus SC e Ysabeau Office (SIL OFL). Piezas, tablero, logotipo y lecciones: Scachs."
           }
         }
       }
@@ -7722,6 +7824,23 @@
         }
       }
     },
+    "Per avui": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "For today"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Para hoy"
+          }
+        }
+      }
+    },
     "Per explorar": {
       "extractionState": "manual",
       "localizations": {
@@ -7820,6 +7939,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Perdida"
+          }
+        }
+      }
+    },
+    "Perdudes": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lost"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Perdidas"
           }
         }
       }
@@ -8385,6 +8521,23 @@
         }
       }
     },
+    "Puntuació de puzzles: %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Puzzle rating: %lld"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Puntuación de puzzles: %lld"
+          }
+        }
+      }
+    },
     "Puzzle": {
       "extractionState": "manual",
       "localizations": {
@@ -8466,6 +8619,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Puzzles"
+          }
+        }
+      }
+    },
+    "Puzzles resolts": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Puzzles solved"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Puzzles resueltos"
           }
         }
       }
@@ -8636,6 +8806,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "¿Qué jugarías con negras?"
+          }
+        }
+      }
+    },
+    "Ratxa (la millor: %lld)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Streak (best: %lld)"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Racha (la mejor: %lld)"
+          }
+        }
+      }
+    },
+    "Ratxa de %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Streak of %lld"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Racha de %lld"
           }
         }
       }

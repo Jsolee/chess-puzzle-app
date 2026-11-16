@@ -81,7 +81,7 @@ targets:
         ITSAppUsesNonExemptEncryption: false
         CADisableMinimumFrameDurationOnPhone: true
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
-        UIAppFonts: [GrenzeGotisch-Medium.ttf, YsabeauOffice-Regular.ttf, YsabeauOffice-Medium.ttf, YsabeauOffice-SemiBold.ttf]
+        UIAppFonts: [GrenzeGotisch-Medium.ttf, MarcellusSC-Regular.ttf, YsabeauOffice-Regular.ttf, YsabeauOffice-Medium.ttf, YsabeauOffice-SemiBold.ttf]
         UTExportedTypeDeclarations: []
         NSSupportsLiveActivities: true
         BGTaskSchedulerPermittedIdentifiers: [com.jsolee.scachs.review]

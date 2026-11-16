@@ -33,29 +33,27 @@ struct PuzzleView: View {
         GeometryReader { geo in
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
-                    if focus != nil {
-                        CloseButton { dismiss() }.padding(.horizontal, 8)
-                    } else {
-                        HStack {
-                            Spacer()
-                            Button { showChart = true } label: {
-                                Label { Text("La carta") } icon: { Image("icon.rose").renderingMode(.template).resizable().frame(width: 18, height: 18) }
-                                    .font(Theme.text(16, .semibold)).foregroundStyle(Theme.gold).frame(minHeight: 44)
-                            }
-                        }
-                        .padding(.horizontal, 20)
-                    }
-                    header.padding(.horizontal, 20).padding(.top, 4).padding(.bottom, 14)
-                    BoardView(board)
-                    controls.padding(.horizontal, 20).padding(.top, 16)
-                    if over { sessionEnd.padding(.horizontal, 20).padding(.top, 22) }
+                    header.padding(.horizontal, 16).padding(.top, 14).padding(.bottom, 12)
+                    BoardView(board).boardFrame()
+                    if over { sessionEnd.padding(.horizontal, 14).padding(.top, 18) }
                     Spacer(minLength: 24)
                 }
                 .frame(minHeight: geo.size.height)
             }
             .scrollBounceBehavior(.basedOnSize)
         }
+        .safeAreaInset(edge: .bottom, spacing: 0) { if !over { dock } }
         .fieldBackground()
+        .topBar(Text(verbatim: barTitle)) {
+            if focus != nil { BarButton(systemImage: "xmark", label: "Tanca") { dismiss() } }
+        } trailing: {
+            if focus == nil {
+                Button { showChart = true } label: {
+                    Image("icon.rose").renderingMode(.template).resizable().frame(width: 22, height: 22).foregroundStyle(Theme.gold).frame(width: 44, height: 44)
+                }
+                .accessibilityLabel("La carta")
+            }
+        }
         .sheet(item: $openLesson) { l in LessonRunnerView(meta: l) }
         .fullScreenCover(isPresented: $showChart) { ChartView() }
         .task { if run == nil && !over { load() } }
@@ -71,10 +69,9 @@ struct PuzzleView: View {
         }
     }
 
-    /// "Puzzles · 1.520", or the theme when it's a themed set.
-    private var rubric: String {
-        let name = focus.flatMap { $0.count == 1 ? $0.first.map(ThemeNames.name) : nil } ?? String(localized: "Puzzles")
-        return progress.isProvisional ? name : name + " · " + Int(progress.rating.rounded()).formatted()
+    /// "Puzzles", or the theme when it's a themed set.
+    private var barTitle: String {
+        focus.flatMap { $0.count == 1 ? $0.first.map(ThemeNames.name) : nil } ?? String(localized: "Puzzles")
     }
 
     private var motif: String {
@@ -95,50 +92,54 @@ struct PuzzleView: View {
         }
     }
 
+    /// Whose move or how it went, the rating on the right, and how far through the set.
     private var header: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack(alignment: .center) {
-                Rubric(verbatim: rubric)
-                Spacer(minLength: 8)
-                SessionTrack(results: session.results, current: session.current)
+        VStack(alignment: .leading, spacing: 8) {
+            BoardHeader(title: Text(verbatim: title), subtitle: Text(verbatim: subtitle), warn: phase == .wrong) {
+                if !progress.isProvisional {
+                    HStack(spacing: 4) {
+                        Image(systemName: "crown.fill").foregroundStyle(Theme.gold)
+                        Text(verbatim: Int(progress.rating.rounded()).formatted())
+                    }
+                    .font(Theme.text(16, .semibold)).foregroundStyle(Theme.tin)
+                    .accessibilityElement(children: .ignore).accessibilityLabel(Text("Puntuació de puzzles: \(Int(progress.rating.rounded()))"))
+                }
             }
-            BoardHeader(title: Text(verbatim: title), subtitle: Text(verbatim: subtitle), warn: phase == .wrong)
+            SessionTrack(results: session.results, current: session.current)
         }
         .animation(.easeOut(duration: 0.2), value: phase)
     }
 
-    private var controls: some View {
-        HStack {
-            switch phase {
-            case .yourMove, .wrong:
-                Button { hint() } label: { Text("Pista").font(Theme.text(17, .semibold)).foregroundStyle(Theme.gold).frame(minHeight: 44) }
-                Spacer()
-                Button { reveal() } label: { Text("Solució").font(Theme.text(17, .semibold)).foregroundStyle(Theme.tin).frame(minHeight: 44) }
-            case .solved, .revealed:
-                if !over {
-                    Button { load() } label: {
-                        Text("Següent")
-                    }
-                    .buttonStyle(.cartouche)
-                }
-            case .loading:
-                Color.clear.frame(height: 44)
-            }
+    /// The tools under the board, and the next puzzle as the one gold action once this one is done.
+    private var dock: some View {
+        Dock {
+            Button { hint() } label: { Label("Pista", systemImage: "lightbulb.fill") }.buttonStyle(.tool)
+                .disabled(phase != .yourMove && phase != .wrong)
+            Button { reveal() } label: { Label("Solució", systemImage: "eye.fill") }.buttonStyle(.tool)
+                .disabled(phase != .yourMove && phase != .wrong)
+            Spacer()
+            Button { load() } label: { Text("Següent") }.buttonStyle(.plaque(compact: true))
+                .disabled(phase != .solved && phase != .revealed)
         }
     }
 
     private var sessionEnd: some View {
         let solved = session.results.compactMap { $0 }.filter { $0 }.count
-        return VStack(alignment: .leading, spacing: 16) {
-            Text("\(solved) de \(session.results.count)").font(Theme.display(40)).foregroundStyle(Theme.tin)
+        return VStack(alignment: .leading, spacing: 12) {
+            Text("\(solved) de \(session.results.count)").font(Theme.text(34, .semibold)).foregroundStyle(Theme.tin)
             if let r = recommended {
                 Button { openLesson = r.lesson } label: {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(r.weak ? "Aquí se t'escapen" : "Següent al teu camí").font(Theme.text(15)).foregroundStyle(Theme.quiet)
-                        Text(verbatim: r.lesson.title).font(Theme.display(32)).foregroundStyle(Theme.gold).multilineTextAlignment(.leading)
-                        Text("\(r.lesson.minutes) minuts").font(Theme.text(15)).foregroundStyle(Theme.quiet)
+                    HStack(spacing: 12) {
+                        Medallion(image: Image("tab.lessons"), color: Theme.warn)
+                        VStack(alignment: .leading, spacing: 3) {
+                            Text(r.weak ? "Aquí se t'escapen" : "Següent al teu camí").font(Theme.text(12, .semibold)).tracking(1).textCase(.uppercase).foregroundStyle(Theme.muted)
+                            Text(verbatim: r.lesson.title).font(Theme.title(18)).foregroundStyle(Theme.tin).multilineTextAlignment(.leading)
+                            Text("\(r.lesson.minutes) minuts").font(Theme.text(14)).foregroundStyle(Theme.muted)
+                        }
+                        Spacer(minLength: 4)
+                        Image(systemName: "chevron.right").font(.footnote.weight(.semibold)).foregroundStyle(Theme.muted)
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading).contentShape(Rectangle())
+                    .panel().contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
             }
@@ -148,7 +149,7 @@ struct PuzzleView: View {
             } label: {
                 Text(focus == nil ? "Deu més" : "Tres més")
             }
-            .buttonStyle(.cartouche)
+            .buttonStyle(.plaque)
         }
     }
 
@@ -259,11 +260,11 @@ struct SessionTrack: View {
     let results: [Bool?]
     let current: Int
     var body: some View {
-        HStack(spacing: 3) {
+        HStack(spacing: 4) {
             ForEach(results.indices, id: \.self) { i in
-                Rectangle()
-                    .fill(results[i] == true ? Theme.gold : results[i] == false ? Color(hex: 0xEF7D6C).opacity(0.75) : (i == current ? Theme.tin.opacity(0.55) : Theme.tin.opacity(0.14)))
-                    .frame(width: 9, height: 9)
+                Capsule()
+                    .fill(results[i] == true ? Theme.good : results[i] == false ? Theme.warn : (i == current ? Theme.gold : Theme.panelHigh))
+                    .frame(height: 6)
             }
         }
         .accessibilityElement().accessibilityLabel("Puzzle \(current + 1) de \(results.count)")

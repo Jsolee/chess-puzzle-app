@@ -28,11 +28,6 @@ struct GoldenRulesView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
-                Button { dismiss() } label: {
-                    Image(systemName: "xmark").font(.system(size: 17, weight: .semibold)).foregroundStyle(Theme.tin).frame(width: 44, height: 44, alignment: .leading)
-                }
-                .accessibilityLabel("Tanca")
-                ScreenTitle("Les regles d'or").padding(.top, 4)
                 Text("Deu idees que serveixen a tota la partida. Si només te n'has d'endur una, que sigui la quarta.")
                     .font(Theme.text(17)).foregroundStyle(Theme.quiet).fixedSize(horizontal: false, vertical: true).padding(.top, 6)
                 ForEach(Array(Self.groups.enumerated()), id: \.offset) { g, group in
@@ -63,6 +58,7 @@ struct GoldenRulesView: View {
             .padding(.horizontal, 20).padding(.bottom, 40)
         }
         .fieldBackground()
+        .topBar(Text("Les regles d'or")) { BarButton(systemImage: "xmark", label: "Tanca") { dismiss() } } trailing: { EmptyView() }
         .fullScreenCover(item: $open) { LessonRunnerView(meta: $0) }
     }
 }

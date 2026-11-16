@@ -21,11 +21,8 @@ struct LessonsView: View {
         NavigationStack {
             ScrollViewReader { scroller in
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 28) {
-                        VStack(alignment: .leading, spacing: 6) {
-                            ScreenTitle("Lliçons")
-                            SectionPicker(items: [("Camí", Mode.path), ("Obertures", .openings), ("Exercicis", .exercises)], selection: $mode)
-                        }
+                    VStack(alignment: .leading, spacing: 14) {
+                        SectionPicker(items: [("Camí", Mode.path), ("Obertures", .openings), ("Exercicis", .exercises)], selection: $mode)
                         switch mode {
                         case .openings:
                             OpeningsView(entries: entries, done: progress.completedLessons) { open = $0 }
@@ -37,7 +34,7 @@ struct LessonsView: View {
                             ForEach(LessonLibrary.sections.filter { $0.id != "openings" }) { section in unit(section, next: next) }
                         }
                     }
-                    .padding(.horizontal, 20).padding(.top, 10).padding(.bottom, 40)
+                    .padding(.horizontal, 14).padding(.top, 12).padding(.bottom, 40)
                 }
                 .onAppear {
                     #if DEBUG
@@ -51,6 +48,7 @@ struct LessonsView: View {
                 .task { if entries.isEmpty { entries = OpeningEntry.all } }
             }
             .fieldBackground()
+            .topBar(Text("Lliçons"))
             .fullScreenCover(item: $open) { LessonRunnerView(meta: $0) }
             .fullScreenCover(item: $review) { d in
                 if let m = library.metas.first(where: { $0.id == d.lessonID }) { LessonRunnerView(meta: m, reexposure: d) }
@@ -60,32 +58,32 @@ struct LessonsView: View {
     }
 
     private func hero(_ p: Recommender.Pick) -> some View {
-        Button { open = p.lesson } label: {
-            HStack(alignment: .center, spacing: 12) {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(p.weak ? "Aquí se t'escapen" : "Següent al teu camí").font(Theme.text(14)).foregroundStyle(Theme.quiet)
-                    Text(verbatim: p.lesson.title).font(Theme.text(19, .semibold)).foregroundStyle(Theme.gold).multilineTextAlignment(.leading)
-                }
-                Spacer(minLength: 8)
-                Text("\(p.lesson.minutes) min").font(Theme.text(15)).foregroundStyle(Theme.quiet)
-                Image(systemName: "chevron.right").font(.footnote).foregroundStyle(Theme.quiet)
+        HStack(alignment: .center, spacing: 12) {
+            Medallion(image: Image("tab.lessons"), color: Theme.warn)
+            VStack(alignment: .leading, spacing: 3) {
+                Text(p.weak ? "Aquí se t'escapen" : "Següent al teu camí").font(Theme.text(12, .semibold)).tracking(1).textCase(.uppercase).foregroundStyle(Theme.muted)
+                Text(verbatim: p.lesson.title).font(Theme.title(18)).foregroundStyle(Theme.tin).multilineTextAlignment(.leading).fixedSize(horizontal: false, vertical: true)
+                Text("\(p.lesson.minutes) min").font(Theme.text(14)).foregroundStyle(Theme.muted)
             }
-            .frame(minHeight: 58).contentShape(Rectangle())
+            Spacer(minLength: 8)
+            Button { open = p.lesson } label: { Text("Comença") }.buttonStyle(.plaque(compact: true))
         }
-        .buttonStyle(.plain)
-        .overlay(alignment: .bottom) { Rectangle().fill(Theme.hairline).frame(height: 0.5) }
+        .panel()
     }
 
     private func dueRow(_ m: LessonMeta, _ d: LessonReviews.Due) -> some View {
         Button { review = d } label: {
-            HStack {
+            HStack(spacing: 12) {
+                Medallion(image: Image(systemName: "arrow.clockwise"), color: Color(hex: 0x6FA8DC))
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Per recordar-ho").font(Theme.text(14)).foregroundStyle(Theme.quiet)
-                    Text(verbatim: m.title).font(Theme.text(18, .medium)).foregroundStyle(Theme.tin)
+                    Text("Per recordar-ho").font(Theme.text(13)).foregroundStyle(Theme.muted)
+                    Text(verbatim: m.title).font(Theme.text(16, .semibold)).foregroundStyle(Theme.tin)
                 }
                 Spacer()
-                Text("2 puzzles").font(Theme.text(15)).foregroundStyle(Theme.gold)
+                Text("2 puzzles").font(Theme.text(14, .semibold)).foregroundStyle(Theme.gold)
+                Image(systemName: "chevron.right").font(.footnote.weight(.semibold)).foregroundStyle(Theme.muted)
             }
+            .panel(padding: 10)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
@@ -99,7 +97,8 @@ struct LessonsView: View {
             SectionTitle(verbatim: section.name.text, detail: Text("\(done) de \(metas.count)"))
             if section.id == "rules" {
                 Button { showRules = true } label: {
-                    Text("Llegeix-les").font(Theme.text(17, .semibold)).foregroundStyle(Theme.gold).frame(minHeight: 44)
+                    Text("Llegeix-les").font(Theme.text(16, .semibold)).foregroundStyle(Theme.tin)
+                        .underline(color: Theme.gold).frame(minHeight: 44)
                 }
             }
             Trail(metas: metas, first: first, done: progress.completedLessons, next: next) { open = $0 }
@@ -162,13 +161,13 @@ private struct Trail: View {
                 if isDone {
                     WaxSeal(numeral: numeral, size: node)
                 } else if isNext {
-                    Circle().stroke(Theme.gold.opacity(0.3), lineWidth: 1).frame(width: node + 12, height: node + 12)
-                    Circle().fill(Theme.fieldDeep.opacity(0.85)).frame(width: node * 0.84, height: node * 0.84)
-                    Circle().stroke(Theme.gold, lineWidth: 1.5).frame(width: node * 0.84, height: node * 0.84)
-                    Text(verbatim: numeral).font(Theme.text(numeral.count > 3 ? 15 : 19, .semibold)).foregroundStyle(Theme.gold)
+                    Circle().stroke(Theme.gold.opacity(0.35), lineWidth: 1).frame(width: node + 10, height: node + 10)
+                    Circle().fill(Theme.gold).frame(width: node * 0.84, height: node * 0.84)
+                    Circle().fill(Theme.goldLip).frame(width: node * 0.84, height: node * 0.84).offset(y: 3).zIndex(-1)
+                    Text(verbatim: numeral).font(Theme.text(numeral.count > 3 ? 15 : 19, .semibold)).foregroundStyle(Theme.ink)
                 } else {
-                    Circle().fill(Theme.fieldDeep.opacity(0.65)).frame(width: node * 0.84, height: node * 0.84)
-                    Circle().stroke(Theme.tin.opacity(0.38), lineWidth: 1.1).frame(width: node * 0.84, height: node * 0.84)
+                    Circle().fill(Theme.panel).frame(width: node * 0.84, height: node * 0.84)
+                    Circle().stroke(Theme.tin.opacity(0.3), style: StrokeStyle(lineWidth: 1.25, dash: [3, 3])).frame(width: node * 0.84, height: node * 0.84)
                     Text(verbatim: numeral).font(Theme.text(numeral.count > 3 ? 15 : 19, .semibold)).foregroundStyle(Theme.tin.opacity(0.55))
                 }
             }

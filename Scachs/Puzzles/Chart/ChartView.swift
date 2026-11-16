@@ -26,18 +26,14 @@ struct ChartView: View {
         GeometryReader { geo in
             let unit = (geo.size.width * 1.55 / SeaChart.size.width).rounded(toPlaces: 3)
             VStack(alignment: .leading, spacing: 0) {
-                CloseButton { dismiss() }.padding(.horizontal, 8)
-                VStack(alignment: .leading, spacing: 6) {
-                    Rubric(verbatim: String(localized: "\(String(localized: SeaChart.ranks[rank].name)) · \(held.count) de \(SeaChart.themes.count) terres dominades"))
-                    ScreenTitle("La carta")
-                }
-                .padding(.horizontal, 20).padding(.bottom, 10)
+                Rubric(verbatim: String(localized: "\(String(localized: SeaChart.ranks[rank].name)) · \(held.count) de \(SeaChart.themes.count) terres dominades"))
+                    .padding(.horizontal, 20).padding(.top, 14).padding(.bottom, 10)
                 map(unit: unit, states: states, target: target)
                     .mask(TornEdge())
                     .overlay(alignment: .bottom) {
                         if let target {
                             Button { focus = Focus(theme: target.id) } label: { Text("Cap a: \(target.name) · tres puzzles").lineLimit(1).minimumScaleFactor(0.8).padding(.horizontal, 12) }
-                                .buttonStyle(.cartouche).padding(.horizontal, 20).padding(.bottom, 12)
+                                .buttonStyle(.plaque).padding(.horizontal, 20).padding(.bottom, 12)
                         }
                     }
             }
@@ -53,6 +49,7 @@ struct ChartView: View {
         }
         .ignoresSafeArea(edges: .bottom)
         .fieldBackground()
+        .topBar(Text("La carta")) { BarButton(systemImage: "xmark", label: "Tanca") { dismiss() } } trailing: { EmptyView() }
         .sheet(item: $selected) { t in
             TerritorySheet(territory: t, state: states[t.id] ?? .fog, standing: standings[t.id] ?? SeaChart.Standing()) { selected = nil; focus = Focus(theme: t.id) }
         }
@@ -140,7 +137,7 @@ private struct TerritorySheet: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Rubric(verbatim: "\(String(localized: territory.realmName)) · \(String(localized: stateName))")
-            Text(verbatim: territory.name).font(Theme.display(40)).foregroundStyle(Theme.tin).lineLimit(2).minimumScaleFactor(0.7).padding(.top, 8)
+            Text(verbatim: territory.name).font(Theme.title(24)).foregroundStyle(Theme.tin).lineLimit(2).minimumScaleFactor(0.7).padding(.top, 8)
             GoldRule().padding(.top, 4)
             Text(text).font(Theme.text(17)).foregroundStyle(Theme.tin.opacity(0.9)).fixedSize(horizontal: false, vertical: true).padding(.top, 14)
             if state != .held {
@@ -149,7 +146,7 @@ private struct TerritorySheet: View {
                     .font(Theme.text(14)).foregroundStyle(Theme.quiet).padding(.top, 4)
             }
             Spacer(minLength: 18)
-            Button(action: explore) { Text(state == .fog ? "Explora: tres puzzles" : "Tres puzzles més") }.buttonStyle(.cartouche)
+            Button(action: explore) { Text(state == .fog ? "Explora: tres puzzles" : "Tres puzzles més") }.buttonStyle(.plaque)
         }
         .padding(.horizontal, 22).padding(.top, 26).padding(.bottom, 12)
         .fieldBackground()
@@ -206,7 +203,7 @@ private struct RankUp: View {
             Spacer()
             RankEmblem(rank: rank, size: 180).scaleEffect(shown ? 1 : 1.3).opacity(shown ? 1 : 0)
             Text("Ara ets").font(Theme.text(17)).foregroundStyle(Theme.quiet).padding(.top, 26)
-            Text(SeaChart.ranks[rank].name).font(Theme.display(60)).foregroundStyle(Theme.tin)
+            Text(SeaChart.ranks[rank].name).font(Theme.title(36)).foregroundStyle(Theme.tin)
             Group {
                 if rank + 1 < SeaChart.ranks.count {
                     Text("Domines \(held) terres de la carta. El rang següent, \(String(localized: SeaChart.ranks[rank + 1].name)), arriba a les \(SeaChart.ranks[rank + 1].at).")
@@ -216,7 +213,7 @@ private struct RankUp: View {
             }
             .font(Theme.text(17)).foregroundStyle(Theme.tin.opacity(0.88)).multilineTextAlignment(.center).padding(.top, 12)
             Spacer()
-            Button(action: done) { Text("Continua") }.buttonStyle(.cartouche).padding(.bottom, 12)
+            Button(action: done) { Text("Continua") }.buttonStyle(.plaque).padding(.bottom, 12)
         }
         .padding(.horizontal, 28)
         .frame(maxWidth: .infinity, maxHeight: .infinity)

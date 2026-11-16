@@ -9,42 +9,59 @@ struct ProfileView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: 30) {
+                VStack(alignment: .leading, spacing: 12) {
                     TemperamentBlock()
                     ratingBlock
-                    if ratingHistory.count > 3 { chart }
-                    skills
+                    tallies
+                    skills.padding(.top, 6)
                 }
-                .padding(.horizontal, 20).padding(.top, 4).padding(.bottom, 40)
+                .padding(.horizontal, 14).padding(.top, 14).padding(.bottom, 40)
             }
             .fieldBackground()
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button { showSettings = true } label: { Image(systemName: "gearshape") }.accessibilityLabel("Ajustos")
-                }
+            .topBar(Text("Tu")) { EmptyView() } trailing: {
+                BarButton(systemImage: "gearshape.fill", label: "Ajustos") { showSettings = true }
             }
             .sheet(isPresented: $showSettings) { SettingsView() }
         }
     }
 
+    /// The rating and how it has moved, on one panel.
     private var ratingBlock: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: 8) {
             if progress.isProvisional {
-                SectionTitle("Encara et conec poc").padding(.bottom, 6)
+                Text("Encara et conec poc").font(Theme.title(19)).foregroundStyle(Theme.tin)
+                Text("La puntuació surt després d'uns quants puzzles.").font(Theme.text(15)).foregroundStyle(Theme.muted)
             } else {
-                Text(verbatim: "\(Int(progress.rating.rounded()))").font(Theme.display(72)).foregroundStyle(Theme.tin)
-                GoldRule(section: true).padding(.bottom, 6)
-            }
-            Text(progress.isProvisional ? "La puntuació surt després d'uns quants puzzles." : "Puntuació de puzzles. No és la teva puntuació en partides.")
-                .font(Theme.text(16)).foregroundStyle(Theme.quiet)
-            Text("Puzzles resolts: \(solvedCount) · Lliçons: \(progress.completedLessons.count)")
-                .font(Theme.text(16)).foregroundStyle(Theme.quiet).padding(.top, 2)
-            let streak = DailyStreak(days: progress.dailyDays, today: PuzzleStore.dayNumber(Date()))
-            if showStreak && streak.best > 0 {
-                Text("Ratxa del puzzle del dia: \(streak.current). La millor: \(streak.best).")
-                    .font(Theme.text(16)).foregroundStyle(Theme.quiet)
+                HStack(alignment: .firstTextBaseline, spacing: 8) {
+                    Text(verbatim: "\(Int(progress.rating.rounded()))").font(Theme.text(34, .semibold)).foregroundStyle(Theme.tin)
+                    Text("Puntuació de puzzles. No és la teva puntuació en partides.").font(Theme.text(13)).foregroundStyle(Theme.muted)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                if ratingHistory.count > 3 { chart }
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .panel()
+    }
+
+    /// Three counts side by side: puzzles solved, lessons learnt, the daily streak.
+    private var tallies: some View {
+        let streak = DailyStreak(days: progress.dailyDays, today: PuzzleStore.dayNumber(Date()))
+        return HStack(spacing: 8) {
+            tally("\(solvedCount)", Text("Puzzles resolts"))
+            tally("\(progress.completedLessons.count)", Text("Lliçons"))
+            if showStreak && streak.best > 0 { tally("\(streak.current)", Text("Ratxa (la millor: \(streak.best))")) }
+        }
+    }
+
+    private func tally(_ number: String, _ label: Text) -> some View {
+        VStack(alignment: .leading, spacing: 3) {
+            Text(verbatim: number).font(Theme.text(20, .semibold)).foregroundStyle(Theme.tin)
+            label.font(Theme.text(12.5)).foregroundStyle(Theme.muted).lineLimit(2).fixedSize(horizontal: false, vertical: true)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .panel(padding: 10)
+        .accessibilityElement(children: .combine)
     }
 
     private var solvedCount: Int { progress.attempts.filter(\.solved).count }
@@ -64,7 +81,7 @@ struct ProfileView: View {
             AxisValueLabel().font(Theme.text(12)).foregroundStyle(Theme.quiet)
         } }
         .chartYScale(domain: .automatic(includesZero: false))
-        .frame(height: 130)
+        .frame(height: 96)
         .accessibilityLabel("Evolució de la puntuació")
     }
 
@@ -91,16 +108,21 @@ struct ProfileView: View {
             if rows.isEmpty {
                 Text("Quan hagis resolt més puzzles, aquí veuràs on et va millor i on se t'escapen.").font(Theme.text(16)).foregroundStyle(Theme.quiet)
             } else {
-                ForEach(rows.prefix(12), id: \.0) { r in
-                    HStack {
-                        Text(verbatim: r.0).font(Theme.text(16)).foregroundStyle(Theme.tin)
-                        Spacer()
-                        Text(r.1 > 0.05 ? "millor del previst" : r.1 < -0.05 ? "se t'escapa" : "al teu nivell")
-                            .font(Theme.text(14)).foregroundStyle(r.1 > 0.05 ? Theme.gold : r.1 < -0.05 ? Color(hex: 0xEF7D6C) : Theme.quiet)
+                VStack(spacing: 0) {
+                    ForEach(Array(rows.prefix(12).enumerated()), id: \.element.0) { i, r in
+                        if i > 0 { Rectangle().fill(Theme.hairline).frame(height: 1) }
+                        HStack {
+                            Text(verbatim: r.0).font(Theme.text(16, .semibold)).foregroundStyle(Theme.tin)
+                            Spacer()
+                            Text(r.1 > 0.05 ? "millor del previst" : r.1 < -0.05 ? "se t'escapa" : "al teu nivell")
+                                .font(Theme.text(14, .semibold)).foregroundStyle(r.1 > 0.05 ? Theme.good : r.1 < -0.05 ? Theme.warn : Theme.muted)
+                        }
+                        .padding(.vertical, 10)
                     }
-                    .padding(.vertical, 6)
-                    Rectangle().fill(Theme.hairline).frame(height: 0.5)
                 }
+                .padding(.horizontal, 12)
+                .background(RoundedRectangle(cornerRadius: 6).fill(Theme.panel))
+                .overlay(RoundedRectangle(cornerRadius: 6).strokeBorder(Theme.gold.opacity(0.13), lineWidth: 1))
             }
         }
     }
@@ -119,13 +141,10 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: 0) {
-                    ScreenTitle("Ajustos").padding(.bottom, 12)
-                    settings
-                }
-                .padding(.horizontal, 20).padding(.top, 4)
+                settings.padding(.horizontal, 20).padding(.top, 8)
             }
             .fieldBackground()
+            .navigationTitle("Ajustos").navigationBarTitleDisplayMode(.inline)
             .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Fet") { dismiss() } } }
             .sheet(isPresented: $showAbout) { AboutView() }
         }
@@ -171,7 +190,7 @@ struct AboutView: View {
                     Image("Wordmark").renderingMode(.template).resizable().aspectRatio(contentMode: .fit).frame(width: 150).foregroundStyle(Theme.tin)
                     Text("«Scachs» és la paraula del poema *Scachs d'amor* (València, c.1475), el registre més antic que es coneix de la dama i l'alfil moderns. Es pronuncia «skaks». El manuscrit conegut era una còpia, i avui se'n desconeix el parador.")
                         .font(Theme.text(17)).foregroundStyle(Theme.tin)
-                    Text("Per Dama pres Bellea.").font(Theme.display(30)).foregroundStyle(Theme.gold)
+                    Text("Per Dama pres Bellea.").font(Theme.title(30)).foregroundStyle(Theme.gold)
                     Divider().overlay(Theme.hairline)
                     Text("Programari lliure").font(Theme.text(17, .semibold)).foregroundStyle(Theme.tin)
                     Text("Scachs es distribueix sota la llicència GNU GPL versió 3 o posterior, sense cap garantia. Pots veure'n el text aquí i obtenir el codi font complet d'aquesta versió.").font(Theme.text(16)).foregroundStyle(Theme.quiet)
@@ -179,7 +198,7 @@ struct AboutView: View {
                     NavigationLink("Llegeix la llicència") { LicenceView() }.font(Theme.text(17, .semibold))
                     Divider().overlay(Theme.hairline)
                     Text("Crèdits").font(Theme.text(17, .semibold)).foregroundStyle(Theme.tin)
-                    Text("Motor: Stockfish 19 i els seus autors (GPLv3), xarxa nn-1a298aa575a0 (CC0). Puzzles i noms d'obertures: Lichess (CC0). Lletres: Grenze Gotisch i Ysabeau Office (SIL OFL). Peces, tauler, logotip i lliçons: Scachs.").font(Theme.text(16)).foregroundStyle(Theme.quiet)
+                    Text("Motor: Stockfish 19 i els seus autors (GPLv3), xarxa nn-1a298aa575a0 (CC0). Puzzles i noms d'obertures: Lichess (CC0). Lletres: Grenze Gotisch, Marcellus SC i Ysabeau Office (SIL OFL). Peces, tauler, logotip i lliçons: Scachs.").font(Theme.text(16)).foregroundStyle(Theme.quiet)
                     Text("Scachs no està afiliada a chess.com ni a Lichess. Les etiquetes de les jugades les calcula aquesta app amb un model propi i poden no coincidir amb les d'altres serveis.").font(Theme.text(16)).foregroundStyle(Theme.quiet)
                 }
                 .padding(20)

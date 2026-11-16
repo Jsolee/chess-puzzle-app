@@ -39,6 +39,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>GrenzeGotisch-Medium.ttf</string>
+		<string>MarcellusSC-Regular.ttf</string>
 		<string>YsabeauOffice-Regular.ttf</string>
 		<string>YsabeauOffice-Medium.ttf</string>
 		<string>YsabeauOffice-SemiBold.ttf</string>

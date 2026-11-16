@@ -12,7 +12,7 @@ Scachs is free software: you can redistribute it and/or modify it under the term
 | Net `nn-1a298aa575a0.nnue` | `Scachs/Resources/`, fetched by `scripts/setup.sh` | CC0-1.0 |
 | Lichess puzzles (`puzzles.bin`) | `Scachs/Resources/` | CC0-1.0 |
 | lichess-org/chess-openings (`openings.tsv`) | `Scachs/Resources/` | CC0-1.0 |
-| Grenze Gotisch, Ysabeau Office | `Scachs/Resources/Fonts/` | SIL OFL 1.1, texts next to the fonts |
+| Grenze Gotisch, Marcellus SC, Ysabeau Office | `Scachs/Resources/Fonts/` | SIL OFL 1.1, texts next to the fonts |
 
 Stockfish's nets are trained on data from the Leela Chess Zero project, made available under the Open Database License (ODbL).
 

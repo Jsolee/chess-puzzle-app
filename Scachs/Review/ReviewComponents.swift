@@ -7,7 +7,7 @@ struct MoveClassBadge: View {
     var body: some View {
         ZStack {
             Circle().fill(cls.fill)
-            Circle().strokeBorder(Theme.ink.opacity(0.22), lineWidth: max(0.5, size * 0.03))
+            Circle().strokeBorder(Theme.gold, lineWidth: max(1, size * 0.07))
             glyph
         }
         .frame(width: size, height: size)
@@ -100,12 +100,20 @@ struct EvalGraph: View {
 }
 
 extension View {
-    /// An instrument's bezel: a gold wire round the face, and a fainter one outside it.
+    /// An instrument's face with a gold wire round it.
     func wireFrame() -> some View {
-        clipShape(RoundedRectangle(cornerRadius: 3))
-            .overlay(RoundedRectangle(cornerRadius: 3).strokeBorder(Theme.gold, lineWidth: 1))
-            .padding(3)
-            .overlay(RoundedRectangle(cornerRadius: 5).strokeBorder(Theme.gold.opacity(0.5), lineWidth: 0.75))
+        clipShape(RoundedRectangle(cornerRadius: 4))
+            .overlay(RoundedRectangle(cornerRadius: 4).strokeBorder(Theme.rule, lineWidth: 1))
+    }
+
+    /// The coach's page: cream, with a brown rule inside the edge like a manuscript's frame.
+    func manuscript() -> some View {
+        padding(.horizontal, 13).padding(.vertical, 11)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(RoundedRectangle(cornerRadius: 3).fill(Theme.tin))
+            .overlay(RoundedRectangle(cornerRadius: 2).inset(by: 3).strokeBorder(Color(hex: 0x7A5C2E).opacity(0.5), lineWidth: 1))
+            .background(RoundedRectangle(cornerRadius: 3).fill(Theme.shadow.opacity(0.45)).offset(y: 3))
+            .environment(\.colorScheme, .light)
     }
 }
 
