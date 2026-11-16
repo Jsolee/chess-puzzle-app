@@ -6,7 +6,7 @@
 @font-face { font-family: Grenze; src: url(../Scachs/Resources/Fonts/GrenzeGotisch-Medium.ttf); }
 @font-face { font-family: Ysabeau; src: url(../Scachs/Resources/Fonts/YsabeauOffice-Regular.ttf); }
 @font-face { font-family: Ysabeau; font-weight: 600; src: url(../Scachs/Resources/Fonts/YsabeauOffice-SemiBold.ttf); }
-html, body { margin: 0; width: 1320px; height: 2868px; overflow: hidden; background: #0F3A33; }
+html, body { margin: 0; width: 1320px; height: 2868px; overflow: hidden; background: #13201D; }
 #stage { position: absolute; top: 0; width: 11880px; height: 2868px; }
 svg { position: absolute; left: 0; top: 0; }
 .cap { position: absolute; top: 150px; width: 1320px; text-align: center; }
@@ -24,7 +24,7 @@ const q = new URLSearchParams(location.search);
 const LANG = q.get('lang') || 'ca', SLIDE = +(q.get('slide') || 0);
 const RAW = 'file://' + (q.get('raw') || ''), ASSETS = 'file://' + (q.get('assets') || '');
 const W = 1320, H = 2868, SEA = 2470;
-const GOLD = '#E7B96C', TIN = '#F6F1E6', FIELD = '#0F3A33', RED = '#A42C1C', GREEN = '#2C6F5E', IVORY = '#EBE3CF', INK = '#16121C';
+const GOLD = '#E7B96C', TIN = '#F6F1E6', FIELD = '#13201D', RED = '#A42C1C', GREEN = '#2C6F5E', IVORY = '#EBE3CF', INK = '#16121C';
 
 const TEXT = {
   ca: [['Els escacs, per plaer.', 'Puzzles, lliçons i les teves partides, en el tauler més bonic.'],

@@ -10,7 +10,7 @@ Tot el que va dins del codi ja està fet. Aquesta guia és la part que es fa a A
 3. **Provar-la en un iPhone real** des de TestFlight: anàlisi, calor, memòria i el mode a cegues amb el mòbil bloquejat.
 
 ## 1. Build
-`scripts/testflight.sh` arxiva, signa i puja. La versió és 1.0 i la build, la data i l'hora. A App Store Connect, a la versió 1.0, tria aquesta build.
+`scripts/testflight.sh` arxiva, signa i puja. La versió surt de `MARKETING_VERSION` a `project.yml` (ara 1.2) i la build és la data i l'hora. A App Store Connect, a la versió que toqui, tria aquesta build. Les novetats de cada versió són a `metadata.md`.
 
 ## 2. Informació de l'app
 | Camp | Valor |

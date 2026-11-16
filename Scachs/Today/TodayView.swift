@@ -100,7 +100,7 @@ struct TodayView: View {
                 }
             }
             .fieldBackground()
-            .topBar(Text(verbatim: "")) {
+            .topBar(Text("Avui").foregroundColor(.clear)) {
                 Image("Wordmark").renderingMode(.template).resizable().scaledToFit().frame(height: 26).foregroundStyle(Theme.tin)
                     .padding(.leading, 12).accessibilityLabel("Scachs")
             } trailing: {

@@ -41,7 +41,7 @@ struct LessonsView: View {
                     if ScreenshotScene.is("openings") { mode = .openings }
                     if ScreenshotScene.is("exercises") { mode = .exercises }
                     if ScreenshotScene.is("lesson") { open = library.metas.first { $0.id == "L06" } }
-                    if ScreenshotScene.is("path") { scroller.scrollTo("R02", anchor: .center); return }
+                    if ScreenshotScene.is("path") { return }
                     #endif
                     if let next, mode == .path { scroller.scrollTo(next, anchor: .center) }
                 }

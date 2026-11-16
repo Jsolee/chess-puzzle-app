@@ -134,7 +134,9 @@ private struct ScachsTabBar: View {
                     .frame(maxWidth: .infinity).frame(height: 49).contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
-                .accessibilityAddTraits(on ? .isSelected : [])
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel(Text(items[i].0))
+                .accessibilityAddTraits(on ? [.isButton, .isSelected] : .isButton)
             }
         }
         .padding(.top, 6)

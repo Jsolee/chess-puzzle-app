@@ -19,6 +19,13 @@ Textos per copiar a App Store Connect. Límits entre parèntesis. Nom, subtítol
 
 **Text promocional (170):** Puzzles que s'adapten a tu, les teves partides analitzades jugada a jugada i lliçons curtes que surten dels teus errors. Tot al teu iPhone, sense comptes.
 
+**Novetats de la 1.2 (4000):**
+- Un aspecte nou, més net: barres compactes, panells plans, el tauler emmarcat i títols gravats.
+- La revisió fa de taulell d'anàlisi: mou qualsevol peça i Stockfish et diu per què la jugada és bona o dolenta.
+- Les notes de l'entrenador surten en l'idioma de l'app.
+- A Avui, la carta dels temes és un mapa que s'il·lumina a mesura que l'explores.
+- Pots filtrar les partides per guanyades i perdudes.
+
 **Paraules clau (100):** chess,tàctica,final,mat,tauler,partida,motor,entrenador,estratègia,principiant,problema,exercici
 
 **Descripció (4000):**
@@ -65,6 +72,13 @@ Sobretot: com se sent. Resol uns quants puzzles amb el so activat i inclina el t
 
 **Texto promocional (170):** Puzzles que se adaptan a ti, tus partidas analizadas jugada a jugada y lecciones cortas que nacen de tus errores. Todo en tu iPhone, sin cuentas.
 
+**Novedades de la 1.2 (4000):**
+- Un aspecto nuevo, más limpio: barras compactas, paneles planos, el tablero enmarcado y títulos grabados.
+- La revisión es un tablero de análisis: mueve cualquier pieza y Stockfish te dice por qué la jugada es buena o mala.
+- Las notas del entrenador salen en el idioma de la app.
+- En Hoy, el mapa de los temas se ilumina a medida que lo exploras.
+- Puedes filtrar las partidas por ganadas y perdidas.
+
 **Palabras clave (100):** chess,táctica,final,mate,tablero,partida,motor,entrenador,estrategia,principiante,problema,ejercicio
 
 **Descripción (4000):**
@@ -107,6 +121,13 @@ Software libre: el código es público bajo GPLv3 en https://github.com/Jsolee/c
 **Subtitle (30):** Lessons, Openings & Tactics
 
 **Promotional text (170):** Puzzles that adapt to you, your games reviewed move by move, and short lessons drawn from your own mistakes. All on your iPhone, no accounts.
+
+**What's new in 1.2 (4000):**
+- A cleaner new look: compact bars, flat panels, a framed board and engraved titles.
+- The review is an analysis board: move any piece and Stockfish tells you why the move is good or bad.
+- Coach notes follow the app's language.
+- On Today, the chart of themes lights up as you explore it.
+- Filter your games by won and lost.
 
 **Keywords (100):** endgame,checkmate,trainer,analysis,engine,coach,strategy,beginner,learn,board,study,training,daily
 
