@@ -19,6 +19,11 @@ Textos per copiar a App Store Connect. Límits entre parèntesis. Nom, subtítol
 
 **Text promocional (170):** Puzzles que s'adapten a tu, les teves partides analitzades jugada a jugada i lliçons curtes que surten dels teus errors. Tot al teu iPhone, sense comptes.
 
+**Novetats de la 1.3 (4000):**
+- Un aspecte nou, com d'un manuscrit: títols en lletra gòtica, rúbriques i caixes de línia fina, en tinta d'or.
+- Avui s'obre amb el nom de l'app en gran, i la ratxa i la puntuació a dalt.
+- Totes les funcions continuen on eren.
+
 **Novetats de la 1.2 (4000):**
 - Un aspecte nou, més net: barres compactes, panells plans, el tauler emmarcat i títols gravats.
 - La revisió fa de taulell d'anàlisi: mou qualsevol peça i Stockfish et diu per què la jugada és bona o dolenta.
@@ -72,6 +77,11 @@ Sobretot: com se sent. Resol uns quants puzzles amb el so activat i inclina el t
 
 **Texto promocional (170):** Puzzles que se adaptan a ti, tus partidas analizadas jugada a jugada y lecciones cortas que nacen de tus errores. Todo en tu iPhone, sin cuentas.
 
+**Novedades de la 1.3 (4000):**
+- Un aspecto nuevo, de manuscrito: títulos en letra gótica, rúbricas y cajas de línea fina, en tinta de oro.
+- Hoy se abre con el nombre de la app en grande, y la racha y la puntuación arriba.
+- Todas las funciones siguen donde estaban.
+
 **Novedades de la 1.2 (4000):**
 - Un aspecto nuevo, más limpio: barras compactas, paneles planos, el tablero enmarcado y títulos grabados.
 - La revisión es un tablero de análisis: mueve cualquier pieza y Stockfish te dice por qué la jugada es buena o mala.
@@ -121,6 +131,11 @@ Software libre: el código es público bajo GPLv3 en https://github.com/Jsolee/c
 **Subtitle (30):** Lessons, Openings & Tactics
 
 **Promotional text (170):** Puzzles that adapt to you, your games reviewed move by move, and short lessons drawn from your own mistakes. All on your iPhone, no accounts.
+
+**What's new in 1.3 (4000):**
+- A new look, like a manuscript: blackletter titles, rubrics and fine ruled boxes, in gold ink.
+- Today opens with the app's name set large, with your streak and rating at the top.
+- Everything you could do before is still where it was.
 
 **What's new in 1.2 (4000):**
 - A cleaner new look: compact bars, flat panels, a framed board and engraved titles.
