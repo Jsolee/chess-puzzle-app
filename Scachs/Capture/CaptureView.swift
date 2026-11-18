@@ -81,9 +81,9 @@ struct PositionEditor: View {
                 }
                 .font(Theme.text(16, .semibold)).foregroundStyle(Theme.gold).padding(.horizontal, 20)
                 Button { analysing = position } label: {
-                    Text(position == nil ? "Falta un rei a cada bàndol" : "Analitza").font(Theme.text(18, .semibold)).foregroundStyle(Theme.ink)
-                        .frame(maxWidth: .infinity, minHeight: 50).background(Capsule().fill(Theme.tin.opacity(position == nil ? 0.4 : 1)))
+                    Text(position == nil ? "Falta un rei a cada bàndol" : "Analitza")
                 }
+                .buttonStyle(.plaque)
                 .disabled(position == nil).padding(.horizontal, 20).padding(.bottom, 24)
             }
         }
@@ -127,14 +127,14 @@ struct PositionEditor: View {
                         let piece = Piece(kind: kind, side: side)
                         Button { brush = piece; erasing = false } label: {
                             PieceImage(piece: piece).frame(width: 42, height: 42)
-                                .background(RoundedRectangle(cornerRadius: 6).fill(brush == piece && !erasing ? Theme.gold.opacity(0.5) : Theme.fieldLift))
+                                .background(Rectangle().fill(brush == piece && !erasing ? Theme.gold.opacity(0.5) : Theme.fieldLift))
                         }
                         .accessibilityLabel(pieceName(piece))
                     }
                     if side == .white {
                         Button { erasing = true; brush = nil } label: {
                             Image(systemName: "eraser").frame(width: 42, height: 42)
-                                .background(RoundedRectangle(cornerRadius: 6).fill(erasing ? Theme.gold.opacity(0.5) : Theme.fieldLift))
+                                .background(Rectangle().fill(erasing ? Theme.gold.opacity(0.5) : Theme.fieldLift))
                         }
                         .foregroundStyle(Theme.tin).accessibilityLabel("Esborra")
                     }

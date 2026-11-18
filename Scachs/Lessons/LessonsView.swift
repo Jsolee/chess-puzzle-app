@@ -48,7 +48,7 @@ struct LessonsView: View {
                 .task { if entries.isEmpty { entries = OpeningEntry.all } }
             }
             .fieldBackground()
-            .topBar(Text("Lliçons"))
+            .headlineBar("Lliçons")
             .fullScreenCover(item: $open) { LessonRunnerView(meta: $0) }
             .fullScreenCover(item: $review) { d in
                 if let m = library.metas.first(where: { $0.id == d.lessonID }) { LessonRunnerView(meta: m, reexposure: d) }
@@ -81,7 +81,7 @@ struct LessonsView: View {
                 }
                 Spacer()
                 Text("2 puzzles").font(Theme.text(14, .semibold)).foregroundStyle(Theme.gold)
-                Image(systemName: "chevron.right").font(.footnote.weight(.semibold)).foregroundStyle(Theme.muted)
+                Manicule()
             }
             .panel(padding: 10)
             .contentShape(Rectangle())

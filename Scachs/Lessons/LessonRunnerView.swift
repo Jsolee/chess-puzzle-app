@@ -501,9 +501,9 @@ struct LessonRunnerView: View {
                     Button { r.choose(i) } label: {
                         Text(verbatim: options[i].text).font(Theme.text(17, .medium)).foregroundStyle(Theme.tin).multilineTextAlignment(.leading)
                             .frame(maxWidth: .infinity, minHeight: 48, alignment: .leading).padding(.horizontal, 14)
-                            .background(RoundedRectangle(cornerRadius: 6).fill(Theme.panel))
-                            .overlay(RoundedRectangle(cornerRadius: 6).strokeBorder(Theme.gold.opacity(0.13), lineWidth: 1))
-                            .contentShape(RoundedRectangle(cornerRadius: 6))
+                            .background(Rectangle().fill(Theme.panel))
+                            .overlay(Rectangle().strokeBorder(Theme.hairline, lineWidth: 1))
+                            .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
                 }

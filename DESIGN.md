@@ -1,17 +1,18 @@
 # Scachs design system
 
-Tokens: `brand/tokens.json`. Implementation: `Scachs/Design/Theme.swift` and `Scachs/Design/Components.swift`. Brand rules: `brand/BRAND.md`. The 1.2 direction and its mock: Dev-Brain ADR 280.
+Tokens: `brand/tokens.json`. Implementation: `Scachs/Design/Theme.swift` and `Scachs/Design/Components.swift`. Brand rules: `brand/BRAND.md`. Directions: Dev-Brain ADR 280 (1.2) and 281 (1.3).
 
-- **Direction (1.2):** Chess.com's structure with Scachs' identity and one small dose of the medieval: compact dark bars, flat panels, the board framed, one gold action per screen, engraved capitals for titles, gold wire and lozenges as the only ornament.
-- **Colour strategy:** restrained. Flat field `#13201D`, bars `#0E1816`, panels `#1B2A27`, raised `#24372F` and `#2F463F`. Gold `#E7B96C` is for what you press and for the wire; good `#6DBE7E`, warn `#EF7D6C`. No gradients on surfaces, no grain, no lamp.
-- **Scene:** someone on a sofa at 11 pm with ten minutes, holding the phone low in lamplight. That forces a deep, low-luminance field with bright objects on it.
-- **Type:** `Theme.title` (Marcellus SC) for screen, card and section titles, never numbers or notation. `Theme.text` (Ysabeau Office) for everything else, tabular digits. Grenze Gotisch only lives in the wordmark (and the widgets).
-- **Bars:** `TopBar` / `.topBar(_:leading:trailing:)`: 46 pt, title centred, a gold wire with a lozenge at its centre underneath. Sheets keep the system bar, styled the same through `UINavigationBarAppearance`. The tab bar is ours (`ScachsTabBar`, the system one is glass and can't go flat); a pushed screen with its own tools hides it with `TabBarHidden`.
-- **Sections:** `SectionTitle` is a fleuron rule: fading wire, lozenge, name in gold capitals, lozenge, wire, with an optional count.
-- **Surfaces:** `.panel()`: solid fill, 6 pt corners, a gold wire at 13 %. Rows are panels with a `Medallion` (icon on a square tinted with its colour), title, detail and chevron.
-- **Buttons:** the one primary action per screen is a gold plaque (`.buttonStyle(.plaque)`): bevelled corners, flat, a 4 pt darker edge that it sinks into when pressed; `.plaque(secondary: true)` is the dark plate. Tools under a board are icon over label (`.buttonStyle(.tool)`) in a `Dock` with the plaque on the right. Text actions are tin with a gold underline. Labels in sentence case. Hit areas 44 pt minimum.
-- **Board:** full width inside `.boardFrame()`: a dark bezel, a gold wire just outside the squares and a lozenge at each corner. Only pieces cast shadows.
-- **The coach's page:** `.manuscript()`: cream with a brown rule inside the edge; move, class and evaluation chip on top, the note below, in ink.
+- **Direction (1.3):** chess.rodeo's grammar written as a manuscript, in gold ink. Ink ground, hairline boxes with square corners, one gold, textura for headlines, spaced rubric capitals with a gold pilcrow for labels, and the manicule ☞ for what leads somewhere. No feature was dropped from 1.2; only the look changed. Dev-Brain ADR 281.
+- **Colour strategy:** restrained. Ground `#0D1311` (bars too), boxes `#141C19`, raised `#1B2622`, hairline `#26322D`. Text `#F1ECE0`, muted `#8FA39C`. Gold `#E7B96C` is the one accent: the primary slab, the pilcrow, a headline's first letter, what's on. Good `#6DBE7E`, warn `#EF7D6C`.
+- **Scene:** someone on a sofa at 11 pm with ten minutes, holding the phone low in lamplight. That forces a deep, low-luminance ground with bright objects on it.
+- **Type:** `Theme.title` is Grenze Gotisch Black (textura) for headlines and big moments, 18 pt and up, never numbers or notation. `Theme.label` is Marcellus SC for rubric labels, in spaced capitals (`RubricLabel`: "¶ PUZZLES"). `Theme.text` is Ysabeau Office for everything else.
+- **Headlines:** `BigTitle` sets a name in textura with its first letter in gold, like a rubricated initial. Avui opens with "Scachs" at 88 pt; Lliçons, Partides and Tu put their name in the bar with `.headlineBar`.
+- **Bars:** `TopBar` / `.topBar`: buttons either side, the name as a rubric label, a hairline under it, on the ground colour. The tab bar is ours (`ScachsTabBar`), with names in rubric capitals and the chosen icon in gold; a pushed screen with its own tools hides it with `TabBarHidden`. Sheets keep the system bar, styled the same.
+- **Sections:** `SectionTitle` is a rubric label with an optional count on the right.
+- **Surfaces:** `.panel()`: solid fill, square corners, a hairline round it. Rows are panels with a `Medallion` (icon in a hairline square), title, detail and a manicule.
+- **Buttons:** the one primary action is a flat gold slab with its label in textura and the manicule at the end (`.buttonStyle(.plaque)`). Secondary and disabled actions are a hairline box with the label in rubric capitals. Tools under a board are hairline boxes with an icon over a rubric label (`.buttonStyle(.tool)`), gold-edged when on, in a `Dock` under a hairline. Text actions are tin with a gold underline. Hit areas 44 pt minimum.
+- **Board:** full width in a hairline box (`.boardFrame()`). Only pieces cast shadows.
+- **The coach's box:** `.manuscript()` is a box on the ground: the move in large figurine notation, its class in rubric capitals in the class colour, the evaluation in a hairline chip, then the note.
 - **Move-class badge:** an enamel disc in a gold wire, like the pieces (`MoveClassBadge`). Classes are told apart by glyph, then colour.
 - **Numbers:** accuracy and rating read like instruments: the eval graph sits in a gold wire (`.wireFrame()`), a review's classes are bars facing each other, empty ones hidden until asked.
 - **Energy:** the streak and the puzzle rating sit in Avui's bar; a set shows as a row of segments; solved is a green panel. Nothing about what wasn't done.

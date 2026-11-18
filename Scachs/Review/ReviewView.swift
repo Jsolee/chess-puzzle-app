@@ -410,18 +410,18 @@ struct ReviewSummary: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 12) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(verbatim: review.opening.map { OpeningNames.local($0.name) } ?? String(localized: "Revisió")).font(Theme.title(20)).foregroundStyle(Theme.ink)
+                    Text(verbatim: review.opening.map { OpeningNames.local($0.name) } ?? String(localized: "Revisió")).font(Theme.title(30)).foregroundStyle(Theme.tin)
                         .lineLimit(3).minimumScaleFactor(0.7)
                     Text(verbatim: "\(model.game.white) – \(model.game.black) · \(model.game.result) · \(model.game.date.formatted(.dateTime.day().month(.abbreviated)))")
-                        .font(Theme.text(14, .medium)).foregroundStyle(Theme.ink.opacity(0.7))
+                        .font(Theme.text(14, .medium)).foregroundStyle(Theme.muted)
                 }
                 .manuscript()
                 players
                 EvalGraph(values: review.graph, marks: keyMarks).frame(height: 72).wireFrame()
                 SectionTitle("Les jugades").padding(.top, 4)
                 table.padding(.horizontal, 10).padding(.vertical, 4)
-                    .background(RoundedRectangle(cornerRadius: 6).fill(Theme.panel))
-                    .overlay(RoundedRectangle(cornerRadius: 6).strokeBorder(Theme.gold.opacity(0.13), lineWidth: 1))
+                    .background(Rectangle().fill(Theme.panel))
+                    .overlay(Rectangle().strokeBorder(Theme.hairline, lineWidth: 1))
                 if !review.phases.isEmpty { phases.panel(padding: 10) }
                 Button { model.beginWalk() } label: {
                     Label("Revisa la partida", systemImage: "play.fill")
@@ -461,8 +461,8 @@ struct ReviewSummary: View {
         let won = model.game.result == (white ? "1-0" : "0-1")
         return VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 7) {
-                RoundedRectangle(cornerRadius: 2).fill(white ? Theme.tin : Theme.ink).frame(width: 12, height: 12)
-                    .overlay(RoundedRectangle(cornerRadius: 2).strokeBorder(Theme.tin.opacity(0.3), lineWidth: 1))
+                Rectangle().fill(white ? Theme.tin : Theme.ink).frame(width: 12, height: 12)
+                    .overlay(Rectangle().strokeBorder(Theme.tin.opacity(0.3), lineWidth: 1))
                 Text(verbatim: name).foregroundStyle(Theme.tin).lineLimit(1)
                 Spacer(minLength: 0)
                 if won { Image(systemName: "crown.fill").font(.system(size: 13)).foregroundStyle(Theme.gold).accessibilityLabel("Guanyador") }
@@ -476,8 +476,8 @@ struct ReviewSummary: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(11)
-        .background(RoundedRectangle(cornerRadius: 6).fill(Theme.panel))
-        .overlay(RoundedRectangle(cornerRadius: 6).strokeBorder(won ? Theme.gold : Theme.gold.opacity(0.13), lineWidth: won ? 1.5 : 1))
+        .background(Rectangle().fill(Theme.panel))
+        .overlay(Rectangle().strokeBorder(won ? Theme.gold : Theme.hairline, lineWidth: 1))
     }
 
     /// Each class as two bars facing each other, one per player, on the same scale. Empty classes stay out until asked for.
@@ -589,9 +589,9 @@ struct WalkthroughView: View {
     @ViewBuilder private var coach: some View {
         if model.retrying {
             VStack(alignment: .leading, spacing: 8) {
-                Text(retryTitle).font(Theme.title(20)).foregroundStyle(Theme.ink)
+                Text(retryTitle).font(Theme.title(20)).foregroundStyle(Theme.tin)
                 if let idea = model.retryIdea, model.retryState != .right {
-                    Text("Pensa en això: \(idea).").font(Theme.text(15, .medium)).foregroundStyle(Theme.ink.opacity(0.75))
+                    Text("Pensa en això: \(idea).").font(Theme.text(15, .medium)).foregroundStyle(Theme.quiet)
                 }
                 HStack(spacing: 18) {
                     if model.retryState == .idle || model.retryState == .wrong {
@@ -602,7 +602,7 @@ struct WalkthroughView: View {
                     }
                     Button(model.retryState == .right ? "Mira què va passar" : "Passa") { model.backToGame() }
                 }
-                .font(Theme.text(15, .semibold)).foregroundStyle(Theme.ink).underline(color: Theme.copper)
+                .font(Theme.text(15, .semibold)).foregroundStyle(Theme.tin).underline(color: Theme.gold)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         } else if !model.branch.isEmpty {
@@ -611,13 +611,13 @@ struct WalkthroughView: View {
             VStack(alignment: .leading, spacing: 6) {
                 HStack(spacing: 8) {
                     if let c = m.moveClass { MoveClassBadge(cls: c, size: 26) }
-                    SANText(san: m.san, size: 21).foregroundStyle(Theme.ink)
-                    if let c = m.moveClass { Text(verbatim: c.displayName).font(Theme.text(16, .semibold)).foregroundStyle(Theme.ink.opacity(0.7)) }
+                    SANText(san: m.san, size: 26).foregroundStyle(Theme.tin)
+                    if let c = m.moveClass { Text(verbatim: c.displayName).font(Theme.label(11)).tracking(2).textCase(.uppercase).foregroundStyle(c.fill) }
                     Spacer()
                     if let e = m.evalAfter { evalChip(e.whiteLabel(sideToMove: .white)) }
                 }
                 if let t = m.coach?.text, !t.isEmpty {
-                    ScrollView { SANText.prose(t, size: 15.5).font(Theme.text(15.5, .medium)).foregroundStyle(Theme.ink.opacity(0.85)).accessibilityLabel(t).frame(maxWidth: .infinity, alignment: .leading) }.frame(maxHeight: 66)
+                    ScrollView { SANText.prose(t, size: 15.5).font(Theme.text(15.5, .medium)).foregroundStyle(Theme.quiet).accessibilityLabel(t).frame(maxWidth: .infinity, alignment: .leading) }.frame(maxHeight: 66)
                 }
                 HStack(spacing: 18) {
                     if let s = m.coach?.show, !(m.coach?.line.isEmpty ?? true) {
@@ -625,10 +625,10 @@ struct WalkthroughView: View {
                     }
                     if model.canRetry { Button("Torna-la a jugar") { model.replayFrom = m.ply } }
                 }
-                .font(Theme.text(14.5, .semibold)).foregroundStyle(Theme.ink).underline(color: Theme.copper).lineLimit(1).minimumScaleFactor(0.75)
+                .font(Theme.text(14.5, .semibold)).foregroundStyle(Theme.tin).underline(color: Theme.gold).lineLimit(1).minimumScaleFactor(0.75)
             }
         } else {
-            Text("Posició inicial").font(Theme.title(20)).foregroundStyle(Theme.ink).frame(maxWidth: .infinity, alignment: .leading)
+            Text("Posició inicial").font(Theme.title(20)).foregroundStyle(Theme.tin).frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 
@@ -637,23 +637,23 @@ struct WalkthroughView: View {
         let step = model.branch[safe: model.branchAt - 1]
         return VStack(alignment: .leading, spacing: 6) {
             HStack {
-                Label("Variant", systemImage: "arrow.triangle.branch").font(Theme.title(14)).foregroundStyle(Color(hex: 0x8A6416))
+                Label("Variant", systemImage: "arrow.triangle.branch").font(Theme.title(14)).foregroundStyle(Theme.gold)
                 Spacer()
-                Button("Torna a la partida") { model.backToGame() }.font(Theme.text(14.5, .semibold)).foregroundStyle(Theme.ink).underline(color: Theme.copper)
+                Button("Torna a la partida") { model.backToGame() }.font(Theme.text(14.5, .semibold)).foregroundStyle(Theme.tin).underline(color: Theme.gold)
             }
             HStack(spacing: 8) {
                 if let step {
                     if let c = step.verdict?.moveClass { MoveClassBadge(cls: c, size: 26) }
-                    SANText(san: step.san, size: 21).foregroundStyle(Theme.ink)
-                    if let c = step.verdict?.moveClass { Text(verbatim: c.displayName).font(Theme.text(16, .semibold)).foregroundStyle(Theme.ink.opacity(0.7)) }
+                    SANText(san: step.san, size: 26).foregroundStyle(Theme.tin)
+                    if let c = step.verdict?.moveClass { Text(verbatim: c.displayName).font(Theme.label(11)).tracking(2).textCase(.uppercase).foregroundStyle(c.fill) }
                 }
                 Spacer()
                 if let e = model.branchEval { evalChip(e.whiteLabel(sideToMove: .white)) }
             }
             if let t = step?.verdict?.note.text {
-                ScrollView { SANText.prose(t, size: 15.5).font(Theme.text(15.5, .medium)).foregroundStyle(Theme.ink.opacity(0.85)).accessibilityLabel(t).frame(maxWidth: .infinity, alignment: .leading) }.frame(maxHeight: 66)
+                ScrollView { SANText.prose(t, size: 15.5).font(Theme.text(15.5, .medium)).foregroundStyle(Theme.quiet).accessibilityLabel(t).frame(maxWidth: .infinity, alignment: .leading) }.frame(maxHeight: 66)
             } else {
-                Text(step == nil ? "Mou qualsevol peça per explorar una altra jugada." : "El motor pensa").font(Theme.text(15.5)).foregroundStyle(Theme.ink.opacity(0.6))
+                Text(step == nil ? "Mou qualsevol peça per explorar una altra jugada." : "El motor pensa").font(Theme.text(15.5)).foregroundStyle(Theme.muted)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -661,7 +661,7 @@ struct WalkthroughView: View {
 
     private func evalChip(_ label: String) -> some View {
         Text(verbatim: label).font(Theme.text(13.5, .semibold)).foregroundStyle(Theme.tin)
-            .padding(.horizontal, 7).padding(.vertical, 3).background(RoundedRectangle(cornerRadius: 4).fill(Theme.ink))
+            .padding(.horizontal, 7).padding(.vertical, 3).overlay(Rectangle().strokeBorder(Theme.hairline, lineWidth: 1))
     }
 
     private var retryTitle: LocalizedStringKey {
@@ -745,8 +745,8 @@ struct WalkthroughView: View {
             if let c = cls, ![.best, .excellent, .good, .book, .forced].contains(c) { MoveClassBadge(cls: c, size: 14) }
         }
         .padding(.horizontal, 7).padding(.vertical, 5)
-        .background(RoundedRectangle(cornerRadius: 5).fill(current ? Theme.panelHigh : .clear))
-        .overlay(RoundedRectangle(cornerRadius: 5).strokeBorder(current ? Theme.rule : .clear, lineWidth: 1))
+        .background(Rectangle().fill(current ? Theme.panelHigh : .clear))
+        .overlay(Rectangle().strokeBorder(current ? Theme.rule : .clear, lineWidth: 1))
     }
 
     /// The tools under the board: the engine, the best move, a retry, step back and forward, and the next key moment in gold.

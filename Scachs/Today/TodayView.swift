@@ -95,17 +95,19 @@ struct TodayView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
+                    BigTitle(verbatim: "Scachs", size: 88).padding(.horizontal, 12).padding(.top, 4)
                     hero
                     rows.padding(.horizontal, 14).padding(.top, 22).padding(.bottom, 28)
                 }
             }
             .fieldBackground()
-            .topBar(Text("Avui").foregroundColor(.clear)) {
-                Image("Wordmark").renderingMode(.template).resizable().scaledToFit().frame(height: 26).foregroundStyle(Theme.tin)
-                    .padding(.leading, 12).accessibilityLabel("Scachs")
-            } trailing: {
-                hud.padding(.trailing, 14)
+            // The day as a rubric and the streak and rating on one slim line; the name of the app is the headline.
+            .safeAreaInset(edge: .top, spacing: 0) {
+                HStack { RubricLabel(text: rubric); Spacer(minLength: 8); hud }
+                    .padding(.horizontal, 16).frame(height: 40)
+                    .background(Theme.field.ignoresSafeArea(edges: .top))
             }
+            .toolbar(.hidden, for: .navigationBar)
             .sheet(item: $openLesson) { LessonRunnerView(meta: $0) }
             .fullScreenCover(item: $focus) { PuzzleView(focus: $0.themes) }
             .fullScreenCover(item: $cover) { cover in
@@ -175,7 +177,7 @@ struct TodayView: View {
 
     private func moment(_ card: MistakeCard) -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            BoardHeader(rubric: rubric, title: Text(momentTitle), subtitle: Text(verbatim: momentSubtitle(card)), warn: model.phase == .wrong)
+            BoardHeader(rubric: Text("De la teva partida"), title: Text(momentTitle), subtitle: Text(verbatim: momentSubtitle(card)), warn: model.phase == .wrong)
                 .padding(.horizontal, 16).padding(.top, 14).padding(.bottom, 12)
             .animation(.easeOut(duration: 0.2), value: model.phase)
             BoardView(model.board).boardFrame()
@@ -228,7 +230,7 @@ struct TodayView: View {
         let solved = Progress.shared.dailyDays.contains(PuzzleStore.dayNumber(Date()))
         return VStack(alignment: .leading, spacing: 0) {
             VStack(alignment: .leading, spacing: 6) {
-                BoardHeader(rubric: rubric, title: Text("Puzzle del dia"), subtitle: Text(solved ? "Resolt." : "Toca el tauler per començar."))
+                BoardHeader(title: Text("Puzzle del dia"), subtitle: Text(solved ? "Resolt." : "Toca el tauler per començar."))
                 if let game = auto.current {
                     Text("Analitzant la partida contra \(game.mySide == .white ? game.black : game.white). \(Int(auto.progress * 100)) %")
                         .font(Theme.text(14)).foregroundStyle(Theme.quiet).lineLimit(1).contentTransition(.numericText())
@@ -289,7 +291,7 @@ struct TodayView: View {
                     Text("La carta dels temes").font(Theme.title(17)).foregroundStyle(Theme.tin)
                     Text("\(explored) de \(total) terres").font(Theme.text(13, .semibold)).foregroundStyle(Theme.muted)
                     Spacer(minLength: 4)
-                    Image(systemName: "chevron.right").font(.footnote.weight(.semibold)).foregroundStyle(Theme.muted)
+                    Manicule()
                 }
                 InkChart(lit: CGFloat(explored) / CGFloat(max(total, 1)))
             }
@@ -311,7 +313,7 @@ struct TodayView: View {
                     if let detail { Text(verbatim: detail).font(Theme.text(14)).foregroundStyle(Theme.muted).lineLimit(1) }
                 }
                 Spacer()
-                Image(systemName: "chevron.right").font(.footnote.weight(.semibold)).foregroundStyle(Theme.muted)
+                Manicule()
             }
             .panel(padding: 10)
             .contentShape(Rectangle())

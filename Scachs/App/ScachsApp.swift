@@ -12,9 +12,9 @@ struct ScachsApp: App {
         // Sheets keep the system bar; this gives it the same dark bar, engraved title and gold wire as ours.
         let bar = UINavigationBarAppearance()
         bar.configureWithOpaqueBackground()
-        bar.backgroundColor = UIColor(Theme.fieldDeep)
-        bar.shadowColor = UIColor(Theme.rule)
-        bar.titleTextAttributes = [.font: UIFont(name: "MarcellusSC-Regular", size: 19) ?? .systemFont(ofSize: 19), .foregroundColor: UIColor(Theme.tin)]
+        bar.backgroundColor = UIColor(Theme.field)
+        bar.shadowColor = UIColor(Theme.hairline)
+        bar.titleTextAttributes = [.font: UIFont(name: "MarcellusSC-Regular", size: 15) ?? .systemFont(ofSize: 15), .kern: 2.4, .foregroundColor: UIColor(Theme.tin)]
         UINavigationBar.appearance().standardAppearance = bar
         UINavigationBar.appearance().scrollEdgeAppearance = bar
         UINavigationBar.appearance().compactAppearance = bar
@@ -115,7 +115,7 @@ struct TabBarHidden: PreferenceKey {
     static func reduce(value: inout Bool, nextValue: () -> Bool) { value = value || nextValue() }
 }
 
-/// The five tabs on the dark bar under a gold wire: the chosen icon in gold.
+/// The five tabs under a hairline: the chosen icon in gold, the names in rubric capitals.
 private struct ScachsTabBar: View {
     static let height: CGFloat = 55
     @Binding var tab: Int
@@ -127,9 +127,9 @@ private struct ScachsTabBar: View {
                 let on = tab == i
                 Button { tab = i } label: {
                     VStack(spacing: 4) {
-                        Image(items[i].1).renderingMode(.template).resizable().scaledToFit().frame(width: 25, height: 25)
+                        Image(items[i].1).renderingMode(.template).resizable().scaledToFit().frame(width: 23, height: 23)
                             .foregroundStyle(on ? Theme.gold : Theme.muted)
-                        Text(items[i].0).font(Theme.text(10.5, .semibold)).foregroundStyle(on ? Theme.tin : Theme.muted).lineLimit(1)
+                        Text(items[i].0).font(Theme.label(9.5)).tracking(1.3).textCase(.uppercase).foregroundStyle(on ? Theme.tin : Theme.muted).lineLimit(1)
                     }
                     .frame(maxWidth: .infinity).frame(height: 49).contentShape(Rectangle())
                 }
@@ -140,8 +140,8 @@ private struct ScachsTabBar: View {
             }
         }
         .padding(.top, 6)
-        .background(Theme.fieldDeep.ignoresSafeArea(edges: .bottom))
-        .overlay(alignment: .top) { Rectangle().fill(Theme.rule).frame(height: 1) }
+        .background(Theme.field.ignoresSafeArea(edges: .bottom))
+        .overlay(alignment: .top) { Rectangle().fill(Theme.hairline).frame(height: 1) }
     }
 }
 

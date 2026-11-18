@@ -16,7 +16,7 @@ struct GamesView: View {
                 if library.games.isEmpty && !started { emptyState } else { list }
             }
             .fieldBackground()
-            .topBar(Text("Partides")) {
+            .headlineBar("Partides") {
                 BarButton(systemImage: "person.2", label: "Comptes") { showAccounts = true }
             } trailing: {
                 BarButton(systemImage: "plus", label: "Afegeix una partida") { showAdd = true }
@@ -74,7 +74,7 @@ struct GamesView: View {
             }
             ForEach(library.games.filter { filter == .all || GameRow.won($0) == (filter == .won) }) { game in
                 NavigationLink(value: game) { GameRow(game: game) }
-                    .listRowBackground(RoundedRectangle(cornerRadius: 6).fill(Theme.panel).padding(.vertical, 4).padding(.horizontal, 14))
+                    .listRowBackground(Rectangle().fill(Theme.panel).overlay(Rectangle().strokeBorder(Theme.hairline, lineWidth: 1)).padding(.vertical, 4).padding(.horizontal, 14))
                     .listRowSeparator(.hidden)
                     .listRowInsets(.init(top: 4, leading: 24, bottom: 4, trailing: 24))
                     .swipeActions { Button("Esborra", role: .destructive) { library.delete(game) } }
@@ -160,7 +160,7 @@ struct GameRow: View {
                 HStack(spacing: 7) {
                     Text(outcome.label).font(Theme.text(13, .semibold)).foregroundStyle(outcome.color)
                         .padding(.horizontal, 6).padding(.vertical, 2)
-                        .background(RoundedRectangle(cornerRadius: 4).fill(outcome.color.opacity(0.2)))
+                        .background(Rectangle().fill(outcome.color.opacity(0.2)))
                     Group {
                         if let opening = glance?.opening { Text(verbatim: opening) } else { Text(game.timeClass.displayName) }
                     }

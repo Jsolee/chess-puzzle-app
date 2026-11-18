@@ -100,20 +100,18 @@ struct EvalGraph: View {
 }
 
 extension View {
-    /// An instrument's face with a gold wire round it.
+    /// An instrument's face in a hairline box.
     func wireFrame() -> some View {
-        clipShape(RoundedRectangle(cornerRadius: 4))
-            .overlay(RoundedRectangle(cornerRadius: 4).strokeBorder(Theme.rule, lineWidth: 1))
+        clipShape(Rectangle())
+            .overlay(Rectangle().strokeBorder(Theme.hairline, lineWidth: 1))
     }
 
-    /// The coach's page: cream, with a brown rule inside the edge like a manuscript's frame.
+    /// The coach's box: the move, its class and the evaluation on top, the note below, on the page's dark ground.
     func manuscript() -> some View {
         padding(.horizontal, 13).padding(.vertical, 11)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(RoundedRectangle(cornerRadius: 3).fill(Theme.tin))
-            .overlay(RoundedRectangle(cornerRadius: 2).inset(by: 3).strokeBorder(Color(hex: 0x7A5C2E).opacity(0.5), lineWidth: 1))
-            .background(RoundedRectangle(cornerRadius: 3).fill(Theme.shadow.opacity(0.45)).offset(y: 3))
-            .environment(\.colorScheme, .light)
+            .background(Rectangle().fill(Theme.panel))
+            .overlay(Rectangle().strokeBorder(Theme.hairline, lineWidth: 1))
     }
 }
 

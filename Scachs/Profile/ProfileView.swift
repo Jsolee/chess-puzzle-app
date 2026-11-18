@@ -18,7 +18,7 @@ struct ProfileView: View {
                 .padding(.horizontal, 14).padding(.top, 14).padding(.bottom, 40)
             }
             .fieldBackground()
-            .topBar(Text("Tu")) { EmptyView() } trailing: {
+            .headlineBar("Tu") { EmptyView() } trailing: {
                 BarButton(systemImage: "gearshape.fill", label: "Ajustos") { showSettings = true }
             }
             .sheet(isPresented: $showSettings) { SettingsView() }
@@ -121,8 +121,8 @@ struct ProfileView: View {
                     }
                 }
                 .padding(.horizontal, 12)
-                .background(RoundedRectangle(cornerRadius: 6).fill(Theme.panel))
-                .overlay(RoundedRectangle(cornerRadius: 6).strokeBorder(Theme.gold.opacity(0.13), lineWidth: 1))
+                .background(Rectangle().fill(Theme.panel))
+                .overlay(Rectangle().strokeBorder(Theme.hairline, lineWidth: 1))
             }
         }
     }

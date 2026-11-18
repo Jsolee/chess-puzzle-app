@@ -3251,6 +3251,23 @@
         }
       }
     },
+    "De la teva partida": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "From your game"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "De tu partida"
+          }
+        }
+      }
+    },
     "De porpra, un alfil d'or.": {
       "extractionState": "manual",
       "localizations": {

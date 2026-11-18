@@ -264,7 +264,7 @@ struct DailyRow: View {
                         }
                         WeekTrack(days: days, today: today)
                     }
-                    Image(systemName: "chevron.right").font(.footnote.weight(.semibold)).foregroundStyle(Theme.muted)
+                    Manicule()
                 }
                 .panel(padding: 10).contentShape(Rectangle())
             }

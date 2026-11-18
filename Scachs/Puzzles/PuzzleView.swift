@@ -137,7 +137,7 @@ struct PuzzleView: View {
                             Text("\(r.lesson.minutes) minuts").font(Theme.text(14)).foregroundStyle(Theme.muted)
                         }
                         Spacer(minLength: 4)
-                        Image(systemName: "chevron.right").font(.footnote.weight(.semibold)).foregroundStyle(Theme.muted)
+                        Manicule()
                     }
                     .panel().contentShape(Rectangle())
                 }
@@ -262,9 +262,9 @@ struct SessionTrack: View {
     var body: some View {
         HStack(spacing: 4) {
             ForEach(results.indices, id: \.self) { i in
-                Capsule()
-                    .fill(results[i] == true ? Theme.good : results[i] == false ? Theme.warn : (i == current ? Theme.gold : Theme.panelHigh))
-                    .frame(height: 6)
+                Rectangle()
+                    .fill(results[i] == true ? Theme.good : results[i] == false ? Theme.warn : (i == current ? Theme.gold : Theme.hairline))
+                    .frame(height: 4)
             }
         }
         .accessibilityElement().accessibilityLabel("Puzzle \(current + 1) de \(results.count)")
